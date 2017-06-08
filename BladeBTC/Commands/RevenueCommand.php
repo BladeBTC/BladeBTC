@@ -17,19 +17,19 @@ class RevenueCommand extends Command
     /**
      * @var string Command Description
      */
-    protected $description = "Invest BTC to your account";
+    protected $description = "Load BTC menu";
 
     /**
      * @inheritdoc
      */
     public function handle($arguments)
     {
+
         //Keyboard
         $keyboard = [
-            ["BTC 0.0000000000"],
-            ["Option 1", "Option 2"],
-            ["Option 4", "Option 4"],
-            ["Back"],
+            ["A \xF0\x9F\x93\x88"],
+            ["B \xF0\x9F\x8C\x8F"],
+            ["C \xF0\x9F\x92\xAC"],
         ];
         $telegram = new Api('384533803:AAE1pyxwEVQVZ_ayHc3glmoWZ4_GwtJCZK4');
         $reply_markup = $telegram->replyKeyboardMarkup([
@@ -43,7 +43,7 @@ class RevenueCommand extends Command
 
         //Welcome message.
         $this->replyWithMessage([
-            //  'text' => "Nice to see you <b>" . $this->getUpdate()->getMessage()->getFrom()->getFirstName() . "</b>\nTo explore me use controls below.",
+            'text' => "Revenue menu!",
             'reply_markup' => $reply_markup,
             'parse_mode' => 'HTML'
         ]);
