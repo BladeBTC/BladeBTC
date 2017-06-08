@@ -25,16 +25,6 @@ class StartCommand extends Command
     {
 
         /**
-         * Display DEBUG Info
-         */
-        if (\getenv('DEBUG') == true) {
-            $this->replyWithMessage([
-                'text' => $this->getUpdate()->getMessage()
-            ]);
-        }
-
-
-        /**
          * Keyboard
          */
         $keyboard = [
@@ -55,6 +45,15 @@ class StartCommand extends Command
          */
         $this->replyWithChatAction(['action' => Actions::TYPING]);
 
+
+        /**
+         * Response
+         */
+        $this->replyWithMessage([
+            'text' => "Nice to see you <b>" . $this->getUpdate()->getMessage()->getFrom()->getFirstName() . "</b>\nTo explore me use controls below.",
+            'reply_markup' => $reply_markup,
+            'parse_mode' => 'HTML'
+        ]);
 
         /**
          * Response
