@@ -28,9 +28,11 @@ class RevenueCommand extends Command
          * Keyboard
          */
         $keyboard = [
-            ["My balance 0.0000000"],
-            ["Invest", "Newbie"],
-            ["Reinvest", "My team"],
+            ["My balance \xF0\x9F\x92\xB0"],
+            ["Invest \xF0\x9F\x92\xB5", "Withdraw \xE2\x8C\x9B"],
+            ["Reinvest \xE2\x86\xA9", "My team \xF0\x9F\x91\xA8"],
+            ["\xE2\xAC\x85 Back to main menu"],
+
         ];
 
         $reply_markup = $this->telegram->replyKeyboardMarkup([
