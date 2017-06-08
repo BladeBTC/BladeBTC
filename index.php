@@ -11,7 +11,7 @@ use Telegram\Bot\Api;
 /**
  * Connect Telegram API
  */
-$telegram = new Api('384533803:AAE1pyxwEVQVZ_ayHc3glmoWZ4_GwtJCZK4');
+$telegram = new Api(getenv('API_KEY'));
 
 
 /**
