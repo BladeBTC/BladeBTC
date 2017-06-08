@@ -46,7 +46,7 @@ class BalanceCommand extends Command
         $reply_markup = $this->telegram->replyKeyboardMarkup([
             'keyboard' => $keyboard,
             'resize_keyboard' => true,
-            'one_time_keyboard' => true
+            'one_time_keyboard' => false
         ]);
 
 
