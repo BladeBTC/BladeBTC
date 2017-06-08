@@ -24,7 +24,19 @@ class StartCommand extends Command
     public function handle($arguments)
     {
 
-        //Keyboard
+        /**
+         * Display DEBUG Info
+         */
+        if (getenv('DEBUG')) {
+            $this->replyWithMessage([
+                'text' => $this->getUpdate()->getMessage()
+            ]);
+        }
+
+
+        /**
+         * Keyboard
+         */
         $keyboard = [
             ["REVENUE \xF0\x9F\x93\x88"],
             ["COMMUNITY \xF0\x9F\x8C\x8F"],
@@ -37,10 +49,16 @@ class StartCommand extends Command
             'one_time_keyboard' => true
         ]);
 
-        // This will update the chat status to typing...
+
+        /**
+         * Display Typing...
+         */
         $this->replyWithChatAction(['action' => Actions::TYPING]);
 
-        //Welcome message.
+
+        /**
+         * Response
+         */
         $this->replyWithMessage([
             'text' => "Nice to see you <b>" . $this->getUpdate()->getMessage()->getFrom()->getFirstName() . "</b>\nTo explore me use controls below.",
             'reply_markup' => $reply_markup,

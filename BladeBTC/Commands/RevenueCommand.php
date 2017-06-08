@@ -24,7 +24,19 @@ class RevenueCommand extends Command
     public function handle($arguments)
     {
 
-        //Keyboard
+        /**
+         * Display DEBUG Info
+         */
+        if (getenv('DEBUG')) {
+            $this->replyWithMessage([
+                'text' => $this->getUpdate()->getMessage()
+            ]);
+        }
+
+
+        /**
+         * Keyboard
+         */
         $keyboard = [
             ["My balance 0.0000000"],
             ["Invest", "Newbie"],
@@ -37,10 +49,16 @@ class RevenueCommand extends Command
             'one_time_keyboard' => true
         ]);
 
-        // This will update the chat status to typing...
+
+        /**
+         * Display Typing...
+         */
         $this->replyWithChatAction(['action' => Actions::TYPING]);
 
-        //Welcome message.
+
+        /**
+         * Response
+         */
         $this->replyWithMessage([
             'text' => "Revenue menu!",
             'reply_markup' => $reply_markup,
