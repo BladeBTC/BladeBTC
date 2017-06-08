@@ -16,7 +16,7 @@ class RevenueCommand extends Command
     /**
      * @var string Command Description
      */
-    protected $description = "Load main menu";
+    protected $description = "Load BTC menu";
 
     /**
      * @inheritdoc
