@@ -7,6 +7,11 @@ use BladeBTC\Helpers\WebHook;
 use BladeBTC\WebHookHandler;
 use Telegram\Bot\Api;
 
+/**
+ * Load .env file
+ */
+$dotenv = new Dotenv\Dotenv(__DIR__);
+$dotenv->load();
 
 /**
  * Connect Telegram API
