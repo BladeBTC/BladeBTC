@@ -4,7 +4,6 @@
 namespace BladeBTC\Commands;
 
 use Telegram\Bot\Actions;
-use Telegram\Bot\Api;
 use Telegram\Bot\Commands\Command;
 
 class StartCommand extends Command
@@ -31,8 +30,8 @@ class StartCommand extends Command
             ["COMMUNITY \xF0\x9F\x8C\x8F"],
             ["SUPPORT \xF0\x9F\x92\xAC"],
         ];
-        $telegram = new Api('384533803:AAE1pyxwEVQVZ_ayHc3glmoWZ4_GwtJCZK4');
-        $reply_markup = $telegram->replyKeyboardMarkup([
+
+        $reply_markup = $this->telegram->replyKeyboardMarkup([
             'keyboard' => $keyboard,
             'resize_keyboard' => true,
             'one_time_keyboard' => true

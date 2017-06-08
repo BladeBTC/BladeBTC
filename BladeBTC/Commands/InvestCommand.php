@@ -4,7 +4,6 @@
 namespace BladeBTC\Commands;
 
 use Telegram\Bot\Actions;
-use Telegram\Bot\Api;
 use Telegram\Bot\Commands\Command;
 
 class InvestCommand extends Command
@@ -31,8 +30,8 @@ class InvestCommand extends Command
             ["Invest", "Withdraw"],
             ["Reinvest", "My team"],
         ];
-        $telegram = new Api('384533803:AAE1pyxwEVQVZ_ayHc3glmoWZ4_GwtJCZK4');
-        $reply_markup = $telegram->replyKeyboardMarkup([
+
+        $reply_markup = $this->telegram->replyKeyboardMarkup([
             'keyboard' => $keyboard,
             'resize_keyboard' => true,
             'one_time_keyboard' => true
