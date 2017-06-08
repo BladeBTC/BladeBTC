@@ -25,6 +25,16 @@ class StartCommand extends Command
     {
 
         /**
+         * Display DEBUG Info
+         */
+        if (getenv('DEBUG') == true) {
+            $this->replyWithMessage([
+                'text' => $this->getUpdate()->getMessage()
+            ]);
+        }
+
+
+        /**
          * Keyboard
          */
         $keyboard = [
