@@ -31,3 +31,13 @@ if (isset($_GET['setWebHookUrl']) && !empty($_GET['setWebHookUrl'])) {
  * WebHookHandler
  */
 $webHook = new WebHookHandler($telegram);
+
+
+/**
+ * Display DEBUG Info
+ */
+if (getenv('DEBUG')) {
+    $telegram->sendMessage([
+        'test' => $telegram->getWebhookUpdates()->getMessage()
+    ]);
+}
