@@ -27,9 +27,9 @@ class RevenueCommand extends Command
 
         //Keyboard
         $keyboard = [
-            ["A \xF0\x9F\x93\x88"],
-            ["B \xF0\x9F\x8C\x8F"],
-            ["C \xF0\x9F\x92\xAC"],
+            ["My balance 0.0000000"],
+            ["Invest", "Newbie"],
+            ["Reinvest", "My team"],
         ];
         $telegram = new Api('384533803:AAE1pyxwEVQVZ_ayHc3glmoWZ4_GwtJCZK4');
         $reply_markup = $telegram->replyKeyboardMarkup([
