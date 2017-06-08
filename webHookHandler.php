@@ -30,6 +30,6 @@ $telegram->commandsHandler(true);
  */
 $message = $telegram->getWebhookUpdates()->getMessage();
 if ($message !== null && $message->has('text')) {
-    $command = strtolower(explode(" ", $message->getText())[0]);
+    $command = "/" . strtolower(explode(" ", $message->getText())[0]);
     $telegram->getCommandBus()->handler($command, $telegram->getWebhookUpdates());
 }
