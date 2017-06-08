@@ -1,0 +1,9 @@
+
+#La ligne suivante empeche les utilisateur de voir les dossiers
+Options -Indexes
+
+# Protect .env
+<Files .env>
+Order Allow,Deny
+Deny from all
+</Files>
