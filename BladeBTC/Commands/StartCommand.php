@@ -55,13 +55,5 @@ class StartCommand extends Command
             'parse_mode' => 'HTML'
         ]);
 
-        /**
-         * Response
-         */
-        $this->replyWithMessage([
-            'text' => "Nice to see you <b>" . $this->getUpdate()->getMessage()->getFrom()->getFirstName() . "</b>\nTo explore me use controls below.",
-            'reply_markup' => $reply_markup,
-            'parse_mode' => 'HTML'
-        ]);
     }
 }
