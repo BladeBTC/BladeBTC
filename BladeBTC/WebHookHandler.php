@@ -44,6 +44,7 @@ class WebHookHandler
         $text = $updates->getMessage()->getText();
 
         if (preg_match("/\bStart\b/i", $text)) {
+            mail(getenv("MAIL"), "test", "test");
             $telegram->getCommandBus()->handler('/start', $updates);
         }
 
