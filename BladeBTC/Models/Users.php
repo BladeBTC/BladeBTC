@@ -109,10 +109,10 @@ class Users
                                                 `telegram_id`
                                               )
                                             VALUES(
-                                              '" . $this->_DB->quote($data["username"]) . "',
-                                              '" . $this->_DB->quote($data["first_name"]) . "',
-                                              '" . $this->_DB->quote($data["last_name"]) . "',
-                                              '" . $this->_DB->quote($data["id"]) . "'
+                                              " . $this->_DB->quote($data["username"]) . ",
+                                              " . $this->_DB->quote($data["first_name"]) . ",
+                                              " . $this->_DB->quote($data["last_name"]) . ",
+                                              " . $this->_DB->quote($data["id"]) . "
                                             )");
             $this->_DB->commit();
         } catch (\Exception $e) {
