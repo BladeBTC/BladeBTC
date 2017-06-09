@@ -118,7 +118,7 @@ class Users
             return true;
         } catch (\Exception $e) {
             $this->_DB->rollBack();
-            return $e->getMessage();
+            throw new \Exception($e->getMessage());
         }
     }
 }
