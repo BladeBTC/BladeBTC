@@ -28,7 +28,7 @@ class Wallet
         /**
          * Request URL
          */
-        $json_url = "http://localhost:3000/merchant/$wallet/new_address?password=$main_password&label=$label";
+        $json_url = "http://127.0.0.1:3000/merchant/$wallet/new_address?password=$main_password&label=$label";
 
         /**
          * Request

@@ -101,3 +101,11 @@ To start the Wallet API service on port 3000:
 ```sh
 $ blockchain-wallet-service start --port 3000
 ```
+
+##Deployment
+
+If you want to use blockchain-wallet-service in your UNIX production server, you just have to run:
+
+```sh
+$ nohup blockchain-wallet-service start --port 3000 &
+```
