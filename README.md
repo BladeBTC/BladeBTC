@@ -1,7 +1,12 @@
 # BladeBTC
-Telegram Bot
+This application is a Bot for telegram. The goal of this Bot is to create a Bitcoin exchange platform. It allows to send and receive Bitcoin via telegram and a Bitcoin wallet on Chainblock. It guarantees a profit on investments. Users can invest and withdraw their Bitcoin at any time via the telegram interface.
 
 ## Installation
+
+This application require `Blockchain Wallet API V2` tosend and receive Bitcoin.
+Yous must install this service first.
+
+## Blockchain Wallet API V2
 
 [`nodejs`](https://nodejs.org) and [`npm`](https://npmjs.com) are required to install and use this API service. Installation:
 
