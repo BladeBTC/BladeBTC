@@ -6,12 +6,12 @@ namespace BladeBTC\Commands;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
-class BalanceCommand extends Command
+class ReinvestCommand extends Command
 {
     /**
      * @var string Command Name
      */
-    protected $name = "balance";
+    protected $name = "reinvest";
 
     /**
      * @var string Command Description
@@ -28,8 +28,8 @@ class BalanceCommand extends Command
          * Keyboard
          */
         $keyboard = [
-            ["My balance 0.0000000"],
-            ["Invest", "Newbie"],
+            ["My balance"],
+            ["Invest", "Withdraw"],
             ["Reinvest", "My team"],
         ];
 
