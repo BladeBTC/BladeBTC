@@ -68,26 +68,36 @@ class InvestCommand extends Command
              */
             $payment_address = Wallet::generateAddress($user->getTelegramId());
 
+
             /**
-             * Response
+             * Validate payment address and reply
              */
-            $this->replyWithMessage([
-                'text' => "Here is your personal BTC address for your investments:",
-                'reply_markup' => $reply_markup,
-                'parse_mode' => 'HTML'
-            ]);
+            if (!empty($payment_address)) {
 
-            $this->replyWithMessage([
-                'text' => "$payment_address",
-                'reply_markup' => $reply_markup,
-                'parse_mode' => 'HTML'
-            ]);
+                $this->replyWithMessage([
+                    'text' => "Here is your personal BTC address for your investments:",
+                    'reply_markup' => $reply_markup,
+                    'parse_mode' => 'HTML'
+                ]);
 
-            $this->replyWithMessage([
-                'text' => "You may invest at anytime and as much as you want (minimum 0.02 BTC). After correct transfer, your funds will be added to your account during an hour. Have fun and enjoy your daily profit!",
-                'reply_markup' => $reply_markup,
-                'parse_mode' => 'HTML'
-            ]);
+                $this->replyWithMessage([
+                    'text' => "$payment_address",
+                    'reply_markup' => $reply_markup,
+                    'parse_mode' => 'HTML'
+                ]);
+
+                $this->replyWithMessage([
+                    'text' => "You may invest at anytime and as much as you want (minimum 0.02 BTC). After correct transfer, your funds will be added to your account during an hour. Have fun and enjoy your daily profit!",
+                    'reply_markup' => $reply_markup,
+                    'parse_mode' => 'HTML'
+                ]);
+            } else {
+                $this->replyWithMessage([
+                    'text' => "An error occurred while generating your payment address.\nPlease contact support.",
+                    'reply_markup' => $reply_markup,
+                    'parse_mode' => 'HTML'
+                ]);
+            }
         }
     }
 }
