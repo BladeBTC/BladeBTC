@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 error_reporting(E_ALL);
@@ -10,27 +11,33 @@ use BladeBTC\Helpers\WebHook;
 use BladeBTC\WebHookHandler;
 use Telegram\Bot\Api;
 
-/**
- * Load .env file
- */
-$dotenv = new Dotenv\Dotenv(__DIR__);
-$dotenv->load();
+try {
 
-/**
- * Connect Telegram API
- */
-$telegram = new Api(getenv('APP_ID'));
+    /**
+     * Load .env file
+     */
+    $dotenv = new Dotenv\Dotenv(__DIR__);
+    $dotenv->load();
+
+    /**
+     * Connect Telegram API
+     */
+    $telegram = new Api(getenv('APP_ID'));
 
 
-/**
- * Set WebHookURL
- */
-if (isset($_GET['setWebHookUrl']) && !empty($_GET['setWebHookUrl'])) {
-    WebHook::set($telegram, $_GET['setWebHookUrl']);
+    /**
+     * Set WebHookURL
+     */
+    if (isset($_GET['setWebHookUrl']) && !empty($_GET['setWebHookUrl'])) {
+        WebHook::set($telegram, $_GET['setWebHookUrl']);
+    }
+
+
+    /**
+     * WebHookHandler
+     */
+    $webHook = new WebHookHandler($telegram);
+} catch (Exception $e) {
+    mail("ylafontaine@addison-electronique.com", "BOT - Erreur", $e->getMessage());
 }
 
-
-/**
- * WebHookHandler
- */
-$webHook = new WebHookHandler($telegram);
