@@ -81,7 +81,7 @@ class InvestCommand extends Command
                 ]);
 
                 $this->replyWithMessage([
-                    'text' => "$payment_address",
+                    'text' => "<b>$payment_address</b>",
                     'reply_markup' => $reply_markup,
                     'parse_mode' => 'HTML'
                 ]);
