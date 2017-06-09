@@ -93,7 +93,7 @@ class InvestCommand extends Command
                 ]);
             } else {
                 $this->replyWithMessage([
-                    'text' => "An error occurred while generating your payment address.\nPlease contact support.",
+                    'text' => "An error occurred while generating your payment address.\nPlease contact support. \xF0\x9F\x98\x96",
                     'reply_markup' => $reply_markup,
                     'parse_mode' => 'HTML'
                 ]);

@@ -2,8 +2,19 @@
 
 namespace BladeBTC\Helpers;
 
+/**
+ * Class Wallet
+ * @package BladeBTC\Helpers
+ * @see https://blockchain.info/api/blockchain_wallet_api
+ */
 class Wallet
 {
+    /**
+     * Generate payment address
+     *
+     * @param $telegram_user_id - ID of the current user requesting address
+     * @return string - Payment address
+     */
     public static function generateAddress($telegram_user_id)
     {
 
