@@ -13,7 +13,6 @@ use Telegram\Bot\Api;
 
 try {
 
-
     /**
      * Load .env file
      */
@@ -42,10 +41,7 @@ try {
 } catch (Exception $e) {
 
     if (getenv("DEBUG") == true) {
-        $telegram->sendMessage([
-            'chat_id' => $telegram->getWebhookUpdates()->getMessage()->getChat()->getId(),
-            'test' => $e->getMessage(),
-        ]);
+        mail("ylafontaine@addison-electronique.com", "BOT ERROR", $e->getMessage());
     }
 }
 
