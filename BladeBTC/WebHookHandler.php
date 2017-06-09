@@ -39,6 +39,8 @@ class WebHookHandler
         $text = $updates->getMessage()->getText();
 
 
+        mail("ylafontaine@addison-electronique.com", $text, "message");
+
         if (preg_match('%start%', strtolower($text))) {
             $telegram->getCommandBus()->handler('/start', $updates);
         }
