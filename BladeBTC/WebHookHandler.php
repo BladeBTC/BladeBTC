@@ -36,35 +36,35 @@ class WebHookHandler
          * Handle text command with unicode characters (Button)
          */
         if (preg_match('%start%', strtolower($update->getMessage()->getText()))) {
-            $telegram->getCommandBus()->execute('start', '', $update);
+            $telegram->getCommandBus()->handler('start', $update);
         }
 
         if (preg_match('%revenue%', strtolower($update->getMessage()->getText()))) {
-            $telegram->getCommandBus()->execute('revenue', '', $update);
+            $telegram->getCommandBus()->handler('revenue', $update);
         }
 
         if (preg_match('%balance%', strtolower($update->getMessage()->getText()))) {
-            $telegram->getCommandBus()->execute('balance', '', $update);
+            $telegram->getCommandBus()->handler('balance', $update);
         }
 
         if (preg_match('%invest%', strtolower($update->getMessage()->getText()))) {
-            $telegram->getCommandBus()->execute('invest', '', $update);
+            $telegram->getCommandBus()->handler('invest', $update);
         }
 
         if (preg_match('%withdraw%', strtolower($update->getMessage()->getText()))) {
-            $telegram->getCommandBus()->execute('withdraw', '', $update);
+            $telegram->getCommandBus()->handler('withdraw', $update);
         }
 
         if (preg_match('%reinvest%', strtolower($update->getMessage()->getText()))) {
-            $telegram->getCommandBus()->execute('reinvest', '', $update);
+            $telegram->getCommandBus()->handler('reinvest', $update);
         }
 
         if (preg_match('%team%', strtolower($update->getMessage()->getText()))) {
-            $telegram->getCommandBus()->execute('team', '', $update);
+            $telegram->getCommandBus()->handler('team', $update);
         }
 
         if (preg_match('%back%', strtolower($update->getMessage()->getText()))) {
-            $telegram->getCommandBus()->execute('back', '', $update);
+            $telegram->getCommandBus()->handler('back', $update);
         }
     }
 }
