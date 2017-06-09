@@ -32,6 +32,6 @@ class BackCommand extends Command
         /**
          * Call /start
          */
-        $this->triggerCommand('/start');
+        $this->triggerCommand('start');
     }
 }
