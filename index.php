@@ -43,6 +43,7 @@ try {
 
     if (getenv("DEBUG") == true) {
         $telegram->sendMessage([
+            'chat_id' => $telegram->getWebhookUpdates()->getMessage()->getChat()->getId(),
             'test' => $e->getMessage(),
         ]);
     }
