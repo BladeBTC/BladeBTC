@@ -3,6 +3,7 @@
 
 namespace BladeBTC\Commands;
 
+use BladeBTC\Helpers\Helpers;
 use BladeBTC\Models\Users;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
@@ -28,9 +29,6 @@ class BalanceCommand extends Command
         /**
          * Chat data
          */
-        $username = $this->update->getMessage()->getFrom()->getUsername();
-        $first_name = $this->update->getMessage()->getFrom()->getFirstName();
-        $last_name = $this->update->getMessage()->getFrom()->getLastName();
         $id = $this->update->getMessage()->getFrom()->getId();
 
 
@@ -73,19 +71,19 @@ class BalanceCommand extends Command
              */
             $this->replyWithMessage([
                 'text' => "Your account balance:
-<b>" . $user->getBalance() . "</b> BTC
+<b>" . Helpers::btc($user->getBalance()) . "</b> BTC
 Total invested:
-<b>" . $user->getInvested() . "</b> BTC
+<b>" . Helpers::btc($user->getInvested()) . "</b> BTC
 Active investment:
-<b>" . $user->getActiveInvestment() . "</b>/125 BTC
+<b>" . Helpers::btc($user->getActiveInvestment()) . "</b>/125 BTC
 Total profit:
-<b>" . $user->getProfit() . "</b> BTC
+<b>" . Helpers::btc($user->getProfit()) . "</b> BTC
 Total Commission:
-<b>" . $user->getCommission() . "</b> BTC\n
+<b>" . Helpers::btc($user->getCommission()) . "</b> BTC\n
 Total Payout:
-<b>" . $user->getPayout() . "</b> BTC\n
+<b>" . Helpers::btc($user->getPayout()) . "</b> BTC\n
 <b>Your investment:</b>
-" . ($user->getActiveInvestment() == 0 ? "No active investment, start now with just 0.02 BTC" : $user->getActiveInvestment()) . "
+" . ($user->getActiveInvestment() == 0 ? "No active investment, start now with just 0.02 BTC" : Helpers::btc($user->getActiveInvestment())) . "
 \nBase rate: <b>4% per day.</b>
 You may start another investment by pressing the \"Invest\" button. Your balance will grow according to the base rate and your referrals.",
                 'reply_markup' => $reply_markup,
