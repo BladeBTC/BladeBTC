@@ -3,6 +3,7 @@
 
 namespace BladeBTC\Commands;
 
+use BladeBTC\Models\Users;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
@@ -23,6 +24,15 @@ class BalanceCommand extends Command
      */
     public function handle($arguments)
     {
+
+        /**
+         * Chat data
+         */
+        $username = $this->update->getMessage()->getFrom()->getUsername();
+        $first_name = $this->update->getMessage()->getFrom()->getFirstName();
+        $last_name = $this->update->getMessage()->getFrom()->getLastName();
+        $id = $this->update->getMessage()->getFrom()->getId();
+
 
         /**
          * Keyboard
@@ -49,27 +59,38 @@ class BalanceCommand extends Command
 
 
         /**
-         * Response
+         * Verify user
          */
-        $this->replyWithMessage([
-            'text' => "Your account balance:
-<b>0.00000000</b> BTC
+        $user = new Users($id);
+        if ($user->exist() == false) {
+
+            $this->triggerCommand('start');
+
+        } else {
+
+            /**
+             * Response
+             */
+            $this->replyWithMessage([
+                'text' => "Your account balance:
+<b>" . $user->getBalance() . "</b> BTC
 Total invested:
-<b>0.00000000</b> BTC
+<b>" . $user->getInvested() . "</b> BTC
 Active investment:
-<b>0.00000000</b>/125 BTC
+<b>" . $user->getActiveInvestment() . "</b>/125 BTC
 Total profit:
-<b>0.00000000</b> BTC
+<b>" . $user->getProfit() . "</b> BTC
 Total Commission:
-<b>0.00000000</b> BTC\n
+<b>" . $user->getCommission() . "</b> BTC\n
 Total Payout:
-<b>0.00000000</b> BTC\n
+<b>" . $user->getPayout() . "</b> BTC\n
 <b>Your investment:</b>
-No active investment, start now with just 0.02 BTC\n
-Base rate: <b>4% per day.</b>
+" . ($user->getActiveInvestment() == 0 ? "No active investment, start now with just 0.02 BTC" : $user->getActiveInvestment()) . "
+\nBase rate: <b>4% per day.</b>
 You may start another investment by pressing the \"Invest\" button. Your balance will grow according to the base rate and your referrals.",
-            'reply_markup' => $reply_markup,
-            'parse_mode' => 'HTML'
-        ]);
+                'reply_markup' => $reply_markup,
+                'parse_mode' => 'HTML'
+            ]);
+        }
     }
 }

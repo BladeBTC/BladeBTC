@@ -73,7 +73,7 @@ class StartCommand extends Command
              * Response
              */
             $this->replyWithMessage([
-                'text' => "Welcome <b>" . $this->getUpdate()->getMessage()->getFrom()->getFirstName() . "</b>\nTo explore me use controls below. \xF0\x9F\x98\x84",
+                'text' => "Welcome <b>" . $first_name . "</b>\nTo explore me use controls below. \xF0\x9F\x98\x84",
                 'reply_markup' => $reply_markup,
                 'parse_mode' => 'HTML'
             ]);
@@ -84,7 +84,7 @@ class StartCommand extends Command
              * Response
              */
             $this->replyWithMessage([
-                'text' => "Nice to see you again <b>" . $this->getUpdate()->getMessage()->getFrom()->getFirstName() . "</b>\nTo explore me use controls below. \xF0\x9F\x98\x84",
+                'text' => "Nice to see you again <b>" . $first_name . "</b>\nTo explore me use controls below. \xF0\x9F\x98\x84",
                 'reply_markup' => $reply_markup,
                 'parse_mode' => 'HTML'
             ]);
