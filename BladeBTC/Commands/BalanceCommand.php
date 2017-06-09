@@ -56,6 +56,5 @@ class BalanceCommand extends Command
             'reply_markup' => $reply_markup,
             'parse_mode' => 'HTML'
         ]);
-
     }
 }

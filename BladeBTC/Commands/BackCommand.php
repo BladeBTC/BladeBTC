@@ -16,7 +16,7 @@ class BackCommand extends Command
     /**
      * @var string Command Description
      */
-    protected $description = "Load main menu";
+    protected $description = "Go to start";
 
     /**
      * @inheritdoc
