@@ -4,8 +4,44 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b7ceb4accde0710dc671464e3a528220",
+    "content-hash": "a9f2e00fd384c3e3e401f930d4d78d17",
     "packages": [
+        {
+            "name": "blockchain/blockchain",
+            "version": "v1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/blockchain/api-v1-client-php.git",
+                "reference": "f143b8f6b631721a6a607a83af784fe8d2f5c75d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/blockchain/api-v1-client-php/zipball/f143b8f6b631721a6a607a83af784fe8d2f5c75d",
+                "reference": "f143b8f6b631721a6a607a83af784fe8d2f5c75d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Blockchain\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Blockchain API client library",
+            "homepage": "https://github.com/blockchain/api-v1-client-php",
+            "keywords": [
+                "bitcoin",
+                "blockchain"
+            ],
+            "time": "2016-08-19T17:01:49+00:00"
+        },
         {
             "name": "doctrine/inflector",
             "version": "v1.1.0",
