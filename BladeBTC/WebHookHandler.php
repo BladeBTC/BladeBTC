@@ -29,42 +29,46 @@ class WebHookHandler
         /**
          * Handle commands
          */
-        $update = $telegram->commandsHandler(true);
+        $telegram->commandsHandler(true);
 
 
         /**
          * Handle text command with unicode characters (Button)
          */
-        if (preg_match('%start%', strtolower($update->getMessage()->getText()))) {
-            $telegram->getCommandBus()->handler('start', $update);
+        $updates = $telegram->getWebhookUpdates();
+        $text = $updates->getMessage()->getText();
+
+
+        if (preg_match('%start%', strtolower($text))) {
+            $telegram->getCommandBus()->handler('start', $updates);
         }
 
-        if (preg_match('%revenue%', strtolower($update->getMessage()->getText()))) {
-            $telegram->getCommandBus()->handler('revenue', $update);
+        if (preg_match('%revenue%', strtolower($text))) {
+            $telegram->getCommandBus()->handler('revenue', $updates);
         }
 
-        if (preg_match('%balance%', strtolower($update->getMessage()->getText()))) {
-            $telegram->getCommandBus()->handler('balance', $update);
+        if (preg_match('%balance%', strtolower($text))) {
+            $telegram->getCommandBus()->handler('balance', $updates);
         }
 
-        if (preg_match('%invest%', strtolower($update->getMessage()->getText()))) {
-            $telegram->getCommandBus()->handler('invest', $update);
+        if (preg_match('%invest%', strtolower($text))) {
+            $telegram->getCommandBus()->handler('invest', $updates);
         }
 
-        if (preg_match('%withdraw%', strtolower($update->getMessage()->getText()))) {
-            $telegram->getCommandBus()->handler('withdraw', $update);
+        if (preg_match('%withdraw%', strtolower($text))) {
+            $telegram->getCommandBus()->handler('withdraw', $updates);
         }
 
-        if (preg_match('%reinvest%', strtolower($update->getMessage()->getText()))) {
-            $telegram->getCommandBus()->handler('reinvest', $update);
+        if (preg_match('%reinvest%', strtolower($text))) {
+            $telegram->getCommandBus()->handler('reinvest', $updates);
         }
 
-        if (preg_match('%team%', strtolower($update->getMessage()->getText()))) {
-            $telegram->getCommandBus()->handler('team', $update);
+        if (preg_match('%team%', strtolower($text))) {
+            $telegram->getCommandBus()->handler('team', $updates);
         }
 
-        if (preg_match('%back%', strtolower($update->getMessage()->getText()))) {
-            $telegram->getCommandBus()->handler('back', $update);
+        if (preg_match('%back%', strtolower($text))) {
+            $telegram->getCommandBus()->handler('back', $updates);
         }
     }
 }
