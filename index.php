@@ -37,7 +37,10 @@ try {
      * WebHookHandler
      */
     $webHook = new WebHookHandler($telegram);
+
 } catch (Exception $e) {
+
     mail("ylafontaine@addison-electronique.com", "BOT - Erreur", $e->getMessage());
+
 }
 
