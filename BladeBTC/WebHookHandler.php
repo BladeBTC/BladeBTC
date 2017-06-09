@@ -36,16 +36,11 @@ class WebHookHandler
          */
         $telegram->commandsHandler(true);
 
-
         /**
          * Handle text command (button)
          */
         $updates = $telegram->getWebhookUpdates();
         $text = $updates->getMessage()->getText();
-
-        if (preg_match("/\bStart\b/i", $text)) {
-            $telegram->getCommandBus()->handler('/start', $updates);
-        }
 
         if (preg_match("/\bRevenue\b/i", $text)) {
             $telegram->getCommandBus()->handler('/revenue', $updates);

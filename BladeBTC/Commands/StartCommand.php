@@ -24,8 +24,6 @@ class StartCommand extends Command
      */
     public function handle($arguments)
     {
-        mail(getenv("MAIL"), "test", "test");
-
 
         /**
          * Chat data
