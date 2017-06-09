@@ -44,35 +44,35 @@ class WebHookHandler
         $updates = $telegram->getWebhookUpdates();
         $text = $updates->getMessage()->getText();
 
-        if (preg_match('start%', strtolower($text))) {
+        if (preg_match("\bstart\b/i", $text)) {
             $telegram->getCommandBus()->handler('/start', $updates);
         }
 
-        if (preg_match('revenue%', strtolower($text))) {
+        if (preg_match('\brevenue\b/i', $text)) {
             $telegram->getCommandBus()->handler('/revenue', $updates);
         }
 
-        if (preg_match('balance%', strtolower($text))) {
+        if (preg_match('\bbalance\b/i', $text)) {
             $telegram->getCommandBus()->handler('/balance', $updates);
         }
 
-        if (preg_match('invest%', strtolower($text))) {
+        if (preg_match('\binvest\b/i', $text)) {
             $telegram->getCommandBus()->handler('/invest', $updates);
         }
 
-        if (preg_match('withdraw%', strtolower($text))) {
+        if (preg_match('\bwithdraw\b/i', $text)) {
             $telegram->getCommandBus()->handler('/withdraw', $updates);
         }
 
-        if (preg_match('reinvest%', strtolower($text))) {
+        if (preg_match('\breinvest\b/i', $text)) {
             $telegram->getCommandBus()->handler('/reinvest', $updates);
         }
 
-        if (preg_match('team%', strtolower($text))) {
+        if (preg_match('\bteam\b/i', $text)) {
             $telegram->getCommandBus()->handler('/team', $updates);
         }
 
-        if (preg_match('back%', strtolower($text))) {
+        if (preg_match('\bback\b/i', $text)) {
             $telegram->getCommandBus()->handler('/back', $updates);
         }
     }
