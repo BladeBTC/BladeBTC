@@ -30,6 +30,8 @@ class BackCommand extends Command
         $this->replyWithChatAction(['action' => Actions::TYPING]);
 
 
+        mail("ylafontaine@addison-electronique.com", "test", "twsewewest");
+
         /**
          * Call /start
          */
