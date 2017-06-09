@@ -24,6 +24,8 @@ class BalanceCommand extends Command
     public function handle($arguments)
     {
 
+        mail("ylafontaine@addison-electronique.com", "allo", "test1");
+
         /**
          * Keyboard
          */
@@ -35,11 +37,17 @@ class BalanceCommand extends Command
 
         ];
 
+
+        mail("ylafontaine@addison-electronique.com", "allo", "test2");
+
+
         $reply_markup = $this->telegram->replyKeyboardMarkup([
             'keyboard' => $keyboard,
             'resize_keyboard' => true,
             'one_time_keyboard' => false
         ]);
+
+        mail("ylafontaine@addison-electronique.com", "allo", "test3");
 
 
         /**
@@ -47,6 +55,8 @@ class BalanceCommand extends Command
          */
         $this->replyWithChatAction(['action' => Actions::TYPING]);
 
+
+        mail("ylafontaine@addison-electronique.com", "allo", "test4");
 
         /**
          * Response
@@ -56,5 +66,9 @@ class BalanceCommand extends Command
             'reply_markup' => $reply_markup,
             'parse_mode' => 'HTML'
         ]);
+
+
+        mail("ylafontaine@addison-electronique.com", "allo", "test5");
+
     }
 }
