@@ -52,6 +52,8 @@ class StartCommand extends Command
         $user = new Users($this->update->getMessage()->getFrom()->getId());
         if ($user->exist() == false) {
 
+            throw new \Exception($this->update->getMessage());
+
             $result = $user->create([
                 "username" => $this->update->getMessage()->getFrom()->getUsername(),
                 "first_name" => $this->update->getMessage()->getFrom()->getFirstName(),
