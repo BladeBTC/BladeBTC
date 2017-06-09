@@ -61,9 +61,9 @@ Active investment:
 Total profit:
 <b>0.00000000</b> BTC
 Total Commission:
-<b>0.00000000</b> BTC\n\n
+<b>0.00000000</b> BTC\n
 Total Payout:
-<b>0.00000000</b> BTC\n\n
+<b>0.00000000</b> BTC\n
 <b>Your investment:</b>
 No active investment, start now with just 0.02 BTC\n\n
 Base rate: <b>4% per day.</b>
