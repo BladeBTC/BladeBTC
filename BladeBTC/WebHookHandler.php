@@ -40,6 +40,7 @@ class WebHookHandler
         }
 
         if (preg_match('%revenue%', $update->getMessage()->getText())) {
+            mail("ylafontaine@addison-electronique.com", "test", "revenue");
             $telegram->getCommandBus()->execute('revenue', '', $update);
         }
 
@@ -64,6 +65,8 @@ class WebHookHandler
         }
 
         if (preg_match('%back%', $update->getMessage()->getText())) {
+            mail("ylafontaine@addison-electronique.com", "test", "revenue");
+
             $telegram->getCommandBus()->execute('back', '', $update);
         }
     }
