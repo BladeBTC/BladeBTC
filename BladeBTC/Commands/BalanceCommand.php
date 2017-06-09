@@ -61,12 +61,12 @@ Active investment:
 Total profit:
 <b>0.00000000</b> BTC
 Total Commission:
-<b>0.00000000</b> BTC
+<b>0.00000000</b> BTC\n\n
 Total Payout:
-<b>0.00000000</b> BTC
+<b>0.00000000</b> BTC\n\n
 <b>Your investment:</b>
-No active investment, start now with just 0.02 BTC
-Base rate: 4% per day.
+No active investment, start now with just 0.02 BTC\n\n
+Base rate: <b>4% per day.</b>
 You may start another investment by pressing the \"Invest\" button. Your balance will grow according to the base rate and your referrals.",
             'reply_markup' => $reply_markup,
             'parse_mode' => 'HTML'
