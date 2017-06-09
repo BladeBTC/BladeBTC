@@ -3,6 +3,7 @@
 
 namespace BladeBTC\Commands;
 
+use BladeBTC\Models\Users;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
@@ -23,8 +24,6 @@ class StartCommand extends Command
      */
     public function handle($arguments)
     {
-
-
         /**
          * Keyboard
          */
@@ -42,21 +41,54 @@ class StartCommand extends Command
             'one_time_keyboard' => false
         ]);
 
-
         /**
          * Display Typing...
          */
         $this->replyWithChatAction(['action' => Actions::TYPING]);
 
-
         /**
-         * Response
+         * Add user to our database
          */
-        $this->replyWithMessage([
-            'text' => "Nice to see you <b>" . $this->getUpdate()->getMessage()->getFrom()->getFirstName() . "</b>\nTo explore me use controls below.",
-            'reply_markup' => $reply_markup,
-            'parse_mode' => 'HTML'
-        ]);
+        $user = new Users($this->update->getMessage()->getFrom()->getId());
+        if ($user->exist() == false) {
 
+            $result = $user->create([
+                "username" => $this->update->getMessage()->getFrom()->getUsername(),
+                "first_name" => $this->update->getMessage()->getFrom()->getFirstName(),
+                "last_name" => $this->update->getMessage()->getFrom()->getLastName(),
+                "id" => $this->update->getMessage()->getFrom()->getId(),
+            ]);
+
+            if ($result == true) {
+
+                /**
+                 * Response
+                 */
+                $this->replyWithMessage([
+                    'text' => "Welcome <b>" . $this->getUpdate()->getMessage()->getFrom()->getFirstName() . "</b>\nTo explore me use controls below. \xF0\x9F\x98\x84",
+                    'reply_markup' => $reply_markup,
+                    'parse_mode' => 'HTML'
+                ]);
+            } //User creation error
+            else {
+
+                /**
+                 * Response
+                 */
+                $this->replyWithMessage([
+                    'text' => "An error occured while creating your account.\nWe're sorry about this situation. \xF0\x9F\x98\x96",
+                ]);
+            }
+        } else {
+
+            /**
+             * Response
+             */
+            $this->replyWithMessage([
+                'text' => "Nice to see you again <b>" . $this->getUpdate()->getMessage()->getFrom()->getFirstName() . "</b>\nTo explore me use controls below. \xF0\x9F\x98\x84",
+                'reply_markup' => $reply_markup,
+                'parse_mode' => 'HTML'
+            ]);
+        }
     }
 }

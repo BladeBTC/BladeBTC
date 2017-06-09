@@ -65,7 +65,7 @@ Total Commission:
 Total Payout:
 <b>0.00000000</b> BTC\n
 <b>Your investment:</b>
-No active investment, start now with just 0.02 BTC\n\n
+No active investment, start now with just 0.02 BTC\n
 Base rate: <b>4% per day.</b>
 You may start another investment by pressing the \"Invest\" button. Your balance will grow according to the base rate and your referrals.",
             'reply_markup' => $reply_markup,
