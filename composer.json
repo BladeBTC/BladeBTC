@@ -9,7 +9,6 @@
     },
     "require": {
         "irazasyed/telegram-bot-sdk": "^2.0",
-        "vlucas/phpdotenv": "^2.4",
-        "blockchain/blockchain": "v1.3"
+        "vlucas/phpdotenv": "^2.4"
     }
 }

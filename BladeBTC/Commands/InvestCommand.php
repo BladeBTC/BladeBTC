@@ -3,6 +3,8 @@
 
 namespace BladeBTC\Commands;
 
+use BladeBTC\Helpers\Wallet;
+use BladeBTC\Models\Users;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
@@ -23,6 +25,11 @@ class InvestCommand extends Command
      */
     public function handle($arguments)
     {
+
+        /**
+         * Chat data
+         */
+        $id = $this->update->getMessage()->getFrom()->getId();
 
         /**
          * Keyboard
@@ -47,12 +54,40 @@ class InvestCommand extends Command
 
 
         /**
-         * Response
+         * Verify user
          */
-        $this->replyWithMessage([
-            'text' => "Invest menu!",
-            'reply_markup' => $reply_markup,
-            'parse_mode' => 'HTML'
-        ]);
+        $user = new Users($id);
+        if ($user->exist() == false) {
+
+            $this->triggerCommand('start');
+
+        } else {
+
+            /**
+             * Generate payment address
+             */
+            $payment_address = Wallet::generateAddress($user->getTelegramId());
+
+            /**
+             * Response
+             */
+            $this->replyWithMessage([
+                'text' => "Here is your personal BTC address for your investments:",
+                'reply_markup' => $reply_markup,
+                'parse_mode' => 'HTML'
+            ]);
+
+            $this->replyWithMessage([
+                'text' => "$payment_address",
+                'reply_markup' => $reply_markup,
+                'parse_mode' => 'HTML'
+            ]);
+
+            $this->replyWithMessage([
+                'text' => "You may invest at anytime and as much as you want (minimum 0.02 BTC). After correct transfer, your funds will be added to your account during an hour. Have fun and enjoy your daily profit!",
+                'reply_markup' => $reply_markup,
+                'parse_mode' => 'HTML'
+            ]);
+        }
     }
 }

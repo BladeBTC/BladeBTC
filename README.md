@@ -3,12 +3,23 @@ This application is a Bot for telegram. The goal of this Bot is to create a Bitc
 
 ## Installation
 
-This application require `Blockchain Wallet API V2` tosend and receive Bitcoin.
+This application require `Blockchain Wallet API V2` to send and receive Bitcoin.
 Yous must install this service first.
 
 ## Blockchain Wallet API V2
 
 [`nodejs`](https://nodejs.org) and [`npm`](https://npmjs.com) are required to install and use this API service. Installation:
+
+#### node.js / npm
+
+```sh
+$ curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+$ sudo apt-get install -y nodejs
+$ sudo npm install -g npm
+$ sudo apt-get install -y build-essential
+```
+
+#### Wallet
 
 ```sh
 $ npm install -g blockchain-wallet-service
@@ -82,24 +93,6 @@ Command options:
   * `-h, --help` - output usage information
   * `-p, --port` - port number to run the server on (defaults to `3000`)
   * `-b, --bind` - bind to a specific ip (defaults to `127.0.0.1`, note that binding to an ip other than this can lead to security vulnerabilities)
-  * `--ssl-key` - the path to your ssl key (optional)
-  * `--ssl-cert` - the path to your ssl certificate (optional)
-
-To open the service to all incoming connections, bind to `0.0.0.0`.
-
-#### start-rpc
-
-Usage: `blockchain-wallet-service start-rpc [options]`
-
-This command will start the JSON RPC server.
-
-Options:
-
-  * `-k, --key` - api code to use for server requests (required option)
-  * `-p, --rpcport` - rpc server port (default: 8000)
-  * `-b, --bind` - bind to a specific ip (defaults to `127.0.0.1`, note that binding to an ip other than this can lead to security vulnerabilities)
-
-Get an API code [here](https://blockchain.info/api/api_create_code).
 
 ### Examples
 
