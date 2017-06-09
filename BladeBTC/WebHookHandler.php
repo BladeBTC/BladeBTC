@@ -35,38 +35,35 @@ class WebHookHandler
         /**
          * Handle text command with unicode characters (Button)
          */
-        if (preg_match('%start%', $update->getMessage()->getText())) {
+        if (preg_match('%start%', strtolower($update->getMessage()->getText()))) {
             $telegram->getCommandBus()->execute('start', '', $update);
         }
 
-        if (preg_match('%revenue%', $update->getMessage()->getText())) {
-            mail("ylafontaine@addison-electronique.com", "test", "revenue");
+        if (preg_match('%revenue%', strtolower($update->getMessage()->getText()))) {
             $telegram->getCommandBus()->execute('revenue', '', $update);
         }
 
-        if (preg_match('%balance%', $update->getMessage()->getText())) {
+        if (preg_match('%balance%', strtolower($update->getMessage()->getText()))) {
             $telegram->getCommandBus()->execute('balance', '', $update);
         }
 
-        if (preg_match('%invest%', $update->getMessage()->getText())) {
+        if (preg_match('%invest%', strtolower($update->getMessage()->getText()))) {
             $telegram->getCommandBus()->execute('invest', '', $update);
         }
 
-        if (preg_match('%withdraw%', $update->getMessage()->getText())) {
+        if (preg_match('%withdraw%', strtolower($update->getMessage()->getText()))) {
             $telegram->getCommandBus()->execute('withdraw', '', $update);
         }
 
-        if (preg_match('%reinvest%', $update->getMessage()->getText())) {
+        if (preg_match('%reinvest%', strtolower($update->getMessage()->getText()))) {
             $telegram->getCommandBus()->execute('reinvest', '', $update);
         }
 
-        if (preg_match('%team%', $update->getMessage()->getText())) {
+        if (preg_match('%team%', strtolower($update->getMessage()->getText()))) {
             $telegram->getCommandBus()->execute('team', '', $update);
         }
 
-        if (preg_match('%back%', $update->getMessage()->getText())) {
-            mail("ylafontaine@addison-electronique.com", "test", "revenue");
-
+        if (preg_match('%back%', strtolower($update->getMessage()->getText()))) {
             $telegram->getCommandBus()->execute('back', '', $update);
         }
     }
