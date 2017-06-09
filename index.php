@@ -41,7 +41,7 @@ try {
 } catch (Exception $e) {
 
     if (getenv("DEBUG") == true) {
-        mail(getenv("MAIL"), "BOT ERROR", $e->getMessage());
+        mail(getenv("MAIL"), "BOT ERROR", $e->getMessage() . '<br/>' . $e->getFile() . '[' . $e->getLine() . ']');
     }
 }
 
