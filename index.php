@@ -40,8 +40,8 @@ try {
 
 } catch (Exception $e) {
 
-    if (getenv("DEBUG") == true) {
-        mail(getenv("MAIL"), "BOT ERROR", $e->getMessage() . '<br/>' . $e->getFile() . '[' . $e->getLine() . ']');
+    if (getenv("DEBUG") == 1) {
+        mail(getenv("MAIL"), "BOT ERROR", $e->getMessage() . "\n" . $e->getFile() . "[" . $e->getLine() . "]");
     }
 }
 
