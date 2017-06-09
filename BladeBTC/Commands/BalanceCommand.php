@@ -53,21 +53,21 @@ class BalanceCommand extends Command
          */
         $this->replyWithMessage([
             'text' => "Your account balance:
-                       0.00000000 BTC
-                       Total invested:
-                       0.00000000 BTC
-                       Active investment:
-                       0.00000000/125 BTC
-                       Total profit:
-                       0.00000000 BTC
-                       Total Commission:
-                       0.00000000 BTC
-                       Total Payout:
-                       0.00000000 BTC
-                       <b>Your investment:</b>
-                       No active investment, start now with just 0.02 BTC
-                       Base rate: 4% per day.
-                       You may start another investment by pressing the \"Invest\" button. Your balance will grow according to the base rate and your referrals.",
+<b>0.00000000</b> BTC
+Total invested:
+<b>0.00000000</b> BTC
+Active investment:
+<b>0.00000000</b>/125 BTC
+Total profit:
+<b>0.00000000</b> BTC
+Total Commission:
+<b>0.00000000</b> BTC
+Total Payout:
+<b>0.00000000</b> BTC
+<b>Your investment:</b>
+No active investment, start now with just 0.02 BTC
+Base rate: 4% per day.
+You may start another investment by pressing the \"Invest\" button. Your balance will grow according to the base rate and your referrals.",
             'reply_markup' => $reply_markup,
             'parse_mode' => 'HTML'
         ]);
