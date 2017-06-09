@@ -24,6 +24,16 @@ class StartCommand extends Command
      */
     public function handle($arguments)
     {
+
+        /**
+         * Chat data
+         */
+        $username = $this->update->getMessage()->getFrom()->getUsername();
+        $first_name = $this->update->getMessage()->getFrom()->getFirstName();
+        $last_name = $this->update->getMessage()->getFrom()->getLastName();
+        $id = $this->update->getMessage()->getFrom()->getId();
+
+
         /**
          * Keyboard
          */
@@ -49,38 +59,25 @@ class StartCommand extends Command
         /**
          * Add user to our database
          */
-        $user = new Users($this->update->getMessage()->getFrom()->getId());
+        $user = new Users($id);
         if ($user->exist() == false) {
 
-            throw new \Exception($this->update->getMessage());
-
-            $result = $user->create([
-                "username" => $this->update->getMessage()->getFrom()->getUsername(),
-                "first_name" => $this->update->getMessage()->getFrom()->getFirstName(),
-                "last_name" => $this->update->getMessage()->getFrom()->getLastName(),
-                "id" => $this->update->getMessage()->getFrom()->getId(),
+            $user->create([
+                "username" => isset($username) ? $username : "not set",
+                "first_name" => isset($first_name) ? $first_name : "not set",
+                "last_name" => isset($last_name) ? $last_name : "not set",
+                "id" => isset($id) ? $id : "not set",
             ]);
 
-            if ($result == true) {
+            /**
+             * Response
+             */
+            $this->replyWithMessage([
+                'text' => "Welcome <b>" . $this->getUpdate()->getMessage()->getFrom()->getFirstName() . "</b>\nTo explore me use controls below. \xF0\x9F\x98\x84",
+                'reply_markup' => $reply_markup,
+                'parse_mode' => 'HTML'
+            ]);
 
-                /**
-                 * Response
-                 */
-                $this->replyWithMessage([
-                    'text' => "Welcome <b>" . $this->getUpdate()->getMessage()->getFrom()->getFirstName() . "</b>\nTo explore me use controls below. \xF0\x9F\x98\x84",
-                    'reply_markup' => $reply_markup,
-                    'parse_mode' => 'HTML'
-                ]);
-            } //User creation error
-            else {
-
-                /**
-                 * Response
-                 */
-                $this->replyWithMessage([
-                    'text' => "An error occured while creating your account.\nWe're sorry about this situation. \xF0\x9F\x98\x96",
-                ]);
-            }
         } else {
 
             /**

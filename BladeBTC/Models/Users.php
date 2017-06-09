@@ -115,7 +115,6 @@ class Users
                                               '" . $this->_DB->quote($data["id"]) . "'
                                             )");
             $this->_DB->commit();
-            return true;
         } catch (\Exception $e) {
             $this->_DB->rollBack();
             throw new \Exception($e->getMessage());
