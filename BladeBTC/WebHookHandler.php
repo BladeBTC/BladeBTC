@@ -22,7 +22,6 @@ class WebHookHandler
          */
         $telegram->addCommands([
             Commands\StartCommand::class,
-            Commands\RevenueCommand::class,
             Commands\BalanceCommand::class,
             Commands\InvestCommand::class,
             Commands\WithdrawCommand::class,
@@ -57,7 +56,6 @@ class WebHookHandler
         }
 
         if (preg_match("/\bInvest\b/i", $text)) {
-            mail("ylafontaine@addison-electronique.com", "test", "test");
             $telegram->getCommandBus()->handler('/invest', $updates);
         }
 
