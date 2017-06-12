@@ -4,6 +4,7 @@
 namespace BladeBTC\Commands;
 
 use BladeBTC\Helpers\AddressValidator;
+use BladeBTC\Helpers\Btc;
 use BladeBTC\Models\Users;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
@@ -31,21 +32,6 @@ class UpdateWalletCommand extends Command
 		 */
 		$id = $this->update->getMessage()->getFrom()->getId();
 
-		/**
-		 * Keyboard
-		 */
-		$keyboard = [
-			["My balance \xF0\x9F\x92\xB0"],
-			["Invest \xF0\x9F\x92\xB5", "Withdraw \xE2\x8C\x9B"],
-			["Reinvest \xE2\x86\xA9", "Help \xE2\x9D\x93"],
-		];
-
-		$reply_markup = $this->telegram->replyKeyboardMarkup([
-			'keyboard'          => $keyboard,
-			'resize_keyboard'   => true,
-			'one_time_keyboard' => false,
-		]);
-
 
 		/**
 		 * Display Typing...
@@ -62,6 +48,21 @@ class UpdateWalletCommand extends Command
 			$this->triggerCommand('start');
 
 		} else {
+
+			/**
+			 * Keyboard
+			 */
+			$keyboard = [
+				["My balance " . Btc::Format($user->getBalance()) . " \xF0\x9F\x92\xB0"],
+				["Invest \xF0\x9F\x92\xB5", "Withdraw \xE2\x8C\x9B"],
+				["Reinvest \xE2\x86\xA9", "Help \xE2\x9D\x93"],
+			];
+
+			$reply_markup = $this->telegram->replyKeyboardMarkup([
+				'keyboard'          => $keyboard,
+				'resize_keyboard'   => true,
+				'one_time_keyboard' => false,
+			]);
 
 			/**
 			 * Get wallet address from message
