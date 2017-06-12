@@ -63,7 +63,7 @@ class OutCommand extends Command
 		} else {
 
 
-			mail("ylafontaine@addison-electronique.com", "test", print_r($arguments));
+			mail("ylafontaine@addison-electronique.com", "test", $arguments);
 
 			/**
 			 * Response
