@@ -34,6 +34,7 @@ class Transactions
 									  `transactions`(
 										`telegram_id`,
 										`amount`,
+										`withdraw_address`,
 										`message`,
 										`tx_hash`,
 										`notice`,
@@ -43,6 +44,7 @@ class Transactions
 									VALUES(
 									" . $db->quote($data["telegram_id"]) . ",
 									" . $db->quote($data["amount"]) . ",
+									" . $db->quote($data["withdraw_address"]) . ",
 									" . $db->quote($data["message"]) . ",
 									" . $db->quote($data["tx_hash"]) . ",
 									" . $db->quote($data["notice"]) . ",

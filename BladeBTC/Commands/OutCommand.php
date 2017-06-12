@@ -100,13 +100,14 @@ class OutCommand extends Command
 					 * Log
 					 */
 					Transactions::log([
-						"telegram_id" => $user->getTelegramId(),
-						"amount"      => $out_amount,
-						"message"     => $transaction['message'],
-						"tx_hash"     => $transaction['tx_hash'],
-						"notice"      => $transaction['notice'],
-						"status"      => 1,
-						"type"        => "withdraw",
+						"telegram_id"      => $user->getTelegramId(),
+						"amount"           => $out_amount,
+						"withdraw_address" => $user->getWalletAddress(),
+						"message"          => $transaction['message'],
+						"tx_hash"          => $transaction['tx_hash'],
+						"notice"           => $transaction['notice'],
+						"status"           => 1,
+						"type"             => "withdraw",
 					]);
 
 
@@ -124,13 +125,14 @@ class OutCommand extends Command
 					 * Log
 					 */
 					Transactions::log([
-						"telegram_id" => $user->getTelegramId(),
-						"amount"      => $out_amount,
-						"message"     => $transaction['message'],
-						"tx_hash"     => $transaction['tx_hash'],
-						"notice"      => $transaction['notice'],
-						"status"      => 0,
-						"type"        => "withdraw",
+						"telegram_id"      => $user->getTelegramId(),
+						"amount"           => $out_amount,
+						"withdraw_address" => $user->getWalletAddress(),
+						"message"          => $transaction['message'],
+						"tx_hash"          => $transaction['tx_hash'],
+						"notice"           => $transaction['notice'],
+						"status"           => 1,
+						"type"             => "withdraw",
 					]);
 
 

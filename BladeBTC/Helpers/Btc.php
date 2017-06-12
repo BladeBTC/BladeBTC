@@ -29,4 +29,16 @@ class Btc
 	{
 		return $amount / 100000000;
 	}
+
+	/**
+	 * Format number as BTC
+	 *
+	 * @param $amount - amount
+	 *
+	 * @return string
+	 */
+	public static function Format($amount)
+	{
+		return number_format($amount, 8, ".", " ");
+	}
 }

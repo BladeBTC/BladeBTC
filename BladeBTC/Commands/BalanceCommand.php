@@ -3,7 +3,7 @@
 
 namespace BladeBTC\Commands;
 
-use BladeBTC\Helpers\Helpers;
+use BladeBTC\Helpers\Btc;
 use BladeBTC\Models\Users;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
@@ -69,17 +69,15 @@ class BalanceCommand extends Command
              */
             $this->replyWithMessage([
                 'text' => "Your account balance:
-<b>" . Helpers::btc($user->getBalance()) . "</b> BTC
+<b>" . Btc::Format($user->getBalance()) . "</b> BTC\n
 Total invested:
-<b>" . Helpers::btc($user->getInvested()) . "</b> BTC
+<b>" . Btc::Format($user->getInvested()) . "</b> BTC\n
 Active investment:
-<b>" . Helpers::btc($user->getActiveInvestment()) . "</b>/125 BTC
+<b>" . Btc::Format($user->getActiveInvestment()) . "</b>/125 BTC\n
 Total profit:
-<b>" . Helpers::btc($user->getProfit()) . "</b> BTC
-Total Commission:
-<b>" . Helpers::btc($user->getCommission()) . "</b> BTC\n
+<b>" . Btc::Format($user->getProfit()) . "</b> BTC\n
 Total Payout:
-<b>" . Helpers::btc($user->getPayout()) . "</b> BTC\n
+<b>" . Btc::Format($user->getPayout()) . "</b> BTC\n
 <b>Your investment:</b>
 " . ($user->getActiveInvestment() == 0 ? "No active investment, start now with just 0.02 BTC" : Helpers::btc($user->getActiveInvestment())) . "
 \nBase rate: <b>4% per day.</b>
