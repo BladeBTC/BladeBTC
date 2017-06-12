@@ -38,7 +38,11 @@ class WebHookHandler
 		/**
 		 * Handle commands
 		 */
-		$telegram->commandsHandler(true);
+		$update = $telegram->commandsHandler(true);
+
+		if (!empty($update)) {
+			mail("ylafontaine@addison-electronique.com", "test", "test test test");
+		}
 
 		/**
 		 * Handle text command (button)
