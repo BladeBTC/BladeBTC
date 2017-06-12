@@ -4,6 +4,7 @@
 namespace BladeBTC\Commands;
 
 use BladeBTC\Helpers\Btc;
+use BladeBTC\Models\Investment;
 use BladeBTC\Models\Users;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
@@ -73,13 +74,13 @@ class BalanceCommand extends Command
 Total invested:
 <b>" . Btc::Format($user->getInvested()) . "</b> BTC\n
 Active investment:
-<b>" . Btc::Format($user->getActiveInvestment()) . "</b>/125 BTC\n
+<b>" . Btc::Format(Investment::getActiveInvestmentTotal($user->getTelegramId())) . "</b>/125 BTC\n
 Total profit:
 <b>" . Btc::Format($user->getProfit()) . "</b> BTC\n
 Total Payout:
 <b>" . Btc::Format($user->getPayout()) . "</b> BTC\n
 <b>Your investment:</b>
-" . ($user->getActiveInvestment() == 0 ? "No active investment, start now with just " . getenv("MINIMUM_INVEST") . " BTC" : Btc::Format($user->getActiveInvestment())) . "
+" . (Investment::getActiveInvestmentTotal($user->getTelegramId()) == 0 ? "No active investment, start now with just " . getenv("MINIMUM_INVEST") . " BTC" : Btc::Format(Investment::getActiveInvestmentTotal($user->getTelegramId()))) . "
 \nBase rate: <b>" . getenv("BASE_RATE") . "% per day.</b>\n
 You may start another investment by pressing the \"Invest\" button. Your balance will grow according to the base rate.",
 				'reply_markup' => $reply_markup,
