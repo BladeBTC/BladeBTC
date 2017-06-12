@@ -60,8 +60,6 @@ class WebHookHandler
 			$telegram->getCommandBus()->handler('/team', $updates);
 		} elseif (preg_match("/\bBack\b/i", $text)) {
 			$telegram->getCommandBus()->handler('/back', $updates);
-		} elseif (preg_match("/\Out\b/i", $text)) {
-			$telegram->getCommandBus()->handler('/out', $updates);
 		} /**
 		 * Message match nothing - Validate if text is a bitcoin wallet address and save it to user account.
 		 */
