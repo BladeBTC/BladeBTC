@@ -94,15 +94,6 @@ class Users
     }
 
     /**
-     * Get active investment
-     * @return mixed
-     */
-    public function getActiveInvestment()
-    {
-        return $this->_USER->active_investment;
-    }
-
-    /**
      * Get profit
      * @return mixed
      */
@@ -162,13 +153,15 @@ class Users
                                                 `telegram_username`,
                                                 `telegram_first`,
                                                 `telegram_last`,
-                                                `telegram_id`
+                                                `telegram_id`,
+                                                `rate`
                                               )
                                             VALUES(
                                               " . $this->_DB->quote($data["username"]) . ",
                                               " . $this->_DB->quote($data["first_name"]) . ",
                                               " . $this->_DB->quote($data["last_name"]) . ",
-                                              " . $this->_DB->quote($data["id"]) . "
+                                              " . $this->_DB->quote($data["id"]) . ",
+                                              " . $this->_DB->quote(getenv("BASE_RATE")) . "
                                             )");
             $this->_DB->commit();
         } catch (\Exception $e) {
@@ -226,5 +219,68 @@ class Users
 			$this->_DB->rollBack();
 			throw new \Exception($e->getMessage());
 		}
+	}
+
+	/**
+	 * Reinvest all account balance
+	 *
+	 * @throws \Exception
+	 */
+	public function Reinvest()
+	{
+		try {
+			$this->_DB->beginTransaction();
+
+
+			/**
+			 * Recover balance
+			 */
+			$balance = $this->_DB->query("    SELECT 
+															`balance`
+														FROM
+															`users`
+														WHERE
+															`telegram_id` = " . $this->getTelegramId() . "
+														")->fetchObject()->balance;
+
+			/**
+			 * Create investment
+			 */
+			Investment::create($this->getTelegramId(), $balance, $this->getUserRate());
+
+
+			/**
+			 * Put balance to 0
+			 */
+			$this->_DB->query("   UPDATE
+                                              `users`
+                                            SET 
+                                              `balance` = " . $this->_DB->quote(0) . "
+                                            WHERE
+                                                `telegram_id` = " . $this->getTelegramId() . "
+                                            ");
+
+
+			/**
+			 * Update invested
+			 */
+			$this->_DB->query("   UPDATE
+                                              `users`
+                                            SET 
+                                              `invested` = `invested` + " . $this->_DB->quote($balance) . "
+                                            WHERE
+                                                `telegram_id` = " . $this->getTelegramId() . "
+                                            ");
+
+			$this->_DB->commit();
+		} catch (\Exception $e) {
+			$this->_DB->rollBack();
+			throw new \Exception($e->getMessage());
+		}
+	}
+
+	public function getUserRate()
+	{
+		return $this->_USER->rate;
 	}
 }
