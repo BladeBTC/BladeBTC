@@ -28,7 +28,6 @@ class WebHookHandler
 			Commands\InvestCommand::class,
 			Commands\WithdrawCommand::class,
 			Commands\ReinvestCommand::class,
-			Commands\TeamCommand::class,
 			Commands\BackCommand::class,
 			Commands\ErrorCommand::class,
 			Commands\UpdateWalletCommand::class,
@@ -56,8 +55,6 @@ class WebHookHandler
 			$telegram->getCommandBus()->handler('/withdraw', $updates);
 		} elseif (preg_match("/\bReinvest\b/i", $text)) {
 			$telegram->getCommandBus()->handler('/reinvest', $updates);
-		} elseif (preg_match("/\bTeam\b/i", $text)) {
-			$telegram->getCommandBus()->handler('/team', $updates);
 		} elseif (preg_match("/\bBack\b/i", $text)) {
 			$telegram->getCommandBus()->handler('/back', $updates);
 		} /**
