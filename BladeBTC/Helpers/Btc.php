@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: ylafontaine
- * Date: 12/06/2017
- * Time: 11:07
- */
 
 namespace BladeBTC\Helpers;
 

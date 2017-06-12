@@ -3,6 +3,8 @@
 
 namespace BladeBTC\Commands;
 
+use BladeBTC\Helpers\Btc;
+use BladeBTC\Helpers\Wallet;
 use BladeBTC\Models\Users;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
@@ -89,8 +91,10 @@ class OutCommand extends Command
 			 */
 			else {
 
+				$transaction = Wallet::makeOutgoingPayment($user->getWalletAddress(), Btc::BtcToSatoshi($out_amount));
+
 				$this->replyWithMessage([
-					'text'         => "Withdraw.",
+					'text'         => "Message :\n" . $transaction['message'] . "\n" . "Transaction ID:\n" . $transaction['tx_hash'] . "\n" . "Notice:\n" . $transaction['notice'],
 					'reply_markup' => $reply_markup,
 					'parse_mode'   => 'HTML',
 				]);
