@@ -19,24 +19,38 @@ class Wallet
     {
 
         /**
-         * Param
+         * Database connexion
          */
-        $wallet = getenv("WALLET_ID");
-        $main_password = getenv("WALLET_PASSWORD");
-        $label = $telegram_user_id;
+        $db = Database::get();
 
         /**
-         * Request URL
+         * Select address from users database if exist
          */
-        $json_url = "http://127.0.0.1:3000/merchant/$wallet/new_address?password=$main_password&label=$label";
+        $wallet_address = $db->query("SELECT investment_address FROM users WHERE telegram_id = '" . $telegram_user_id . "'")->fetchObject()->investment_address;
+        if (!is_null($wallet_address) || !empty($wallet_address)) {
+            return $wallet_address;
+        } else {
 
-        /**
-         * Request
-         */
-        $json_data = file_get_contents($json_url);
-        $json_feed = json_decode($json_data);
+            /**
+             * Param
+             */
+            $wallet = getenv("WALLET_ID");
+            $main_password = getenv("WALLET_PASSWORD");
+            $label = $telegram_user_id;
+
+            /**
+             * Request URL
+             */
+            $json_url = "http://127.0.0.1:3000/merchant/$wallet/new_address?password=$main_password&label=$label";
+
+            /**
+             * Request
+             */
+            $json_data = file_get_contents($json_url);
+            $json_feed = json_decode($json_data);
 
 
-        return $json_feed->address;
+            return $json_feed->address;
+        }
     }
 }

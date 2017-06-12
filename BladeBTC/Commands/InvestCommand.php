@@ -74,6 +74,15 @@ class InvestCommand extends Command
              */
             if (!empty($payment_address)) {
 
+                /**
+                 * Store investment_address
+                 */
+                $user->setInvestmentAddress($payment_address);
+
+
+                /**
+                 * Response
+                 */
                 $this->replyWithMessage([
                     'text' => "Here is your personal BTC address for your investments:",
                     'reply_markup' => $reply_markup,
