@@ -5,6 +5,7 @@ namespace BladeBTC\Commands;
 
 use BladeBTC\Helpers\Btc;
 use BladeBTC\Helpers\Wallet;
+use BladeBTC\Models\Transactions;
 use BladeBTC\Models\Users;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
@@ -94,12 +95,48 @@ class OutCommand extends Command
 				$transaction = Wallet::makeOutgoingPayment($user->getWalletAddress(), Btc::BtcToSatoshi($out_amount));
 
 				if (!empty($transaction)) {
+
+					/**
+					 * Log
+					 */
+					Transactions::log([
+						"telegram_id" => $user->getTelegramId(),
+						"amount"      => $out_amount,
+						"message"     => $transaction['message'],
+						"tx_hash"     => $transaction['tx_hash'],
+						"notice"      => $transaction['notice'],
+						"status"      => 1,
+						"type"        => "withdraw",
+					]);
+
+
+					/**
+					 * Response
+					 */
 					$this->replyWithMessage([
 						'text'         => "Message :\n" . $transaction['message'] . "\n" . "Transaction ID:\n" . $transaction['tx_hash'] . "\n" . "Notice:\n" . $transaction['notice'],
 						'reply_markup' => $reply_markup,
 						'parse_mode'   => 'HTML',
 					]);
 				} else {
+
+					/**
+					 * Log
+					 */
+					Transactions::log([
+						"telegram_id" => $user->getTelegramId(),
+						"amount"      => $out_amount,
+						"message"     => $transaction['message'],
+						"tx_hash"     => $transaction['tx_hash'],
+						"notice"      => $transaction['notice'],
+						"status"      => 0,
+						"type"        => "withdraw",
+					]);
+
+
+					/**
+					 * Response
+					 */
 					$this->replyWithMessage([
 						'text'         => "An error occurred while withdrawing your BTC.\nPlease contact support with this account ID : <b>" . $user->getTelegramId() . "</b>. \xF0\x9F\x98\x96",
 						'reply_markup' => $reply_markup,
