@@ -62,19 +62,39 @@ class OutCommand extends Command
 
 		} else {
 
-
-			mail("ylafontaine@addison-electronique.com", "test", $arguments);
+			$out_amount = trim($arguments);
 
 			/**
-			 * Response
+			 * Validate payout amount requested
 			 */
-			$this->replyWithMessage([
-				'text'         => $arguments[0],
-				'reply_markup' => $reply_markup,
-				'parse_mode'   => 'HTML',
-			]);
+			if (!is_numeric($out_amount) || $out_amount < getenv("MINIMUM_PAYOUT")) {
 
+				$this->replyWithMessage([
+					'text'         => "You need to payout at least " . getenv("MINIMUM_PAYOUT") . " BTC",
+					'reply_markup' => $reply_markup,
+					'parse_mode'   => 'HTML',
+				]);
+			} /**
+			 * Validate account balance
+			 */
+			elseif ($user->getBalance() < $out_amount) {
 
+				$this->replyWithMessage([
+					'text'         => "Not enough balance.",
+					'reply_markup' => $reply_markup,
+					'parse_mode'   => 'HTML',
+				]);
+			} /**
+			 * Withdraw
+			 */
+			else {
+
+				$this->replyWithMessage([
+					'text'         => "Withdraw.",
+					'reply_markup' => $reply_markup,
+					'parse_mode'   => 'HTML',
+				]);
+			}
 		}
 	}
 }
