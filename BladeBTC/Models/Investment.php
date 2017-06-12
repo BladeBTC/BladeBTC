@@ -40,7 +40,7 @@ class Investment
 									 " . $db->quote($telegram_id) . ",
 									 " . $db->quote($amount) . ",
 									 " . $db->quote($rate) . ",
-									 CURRENT_TIMESTAMP() + " . (getenv("CONTRACT_DAY")) . "
+									 NOW() + INTERVAL " . (getenv("CONTRACT_DAY")) . " DAY
 									)");
 			$db->commit();
 		} catch (\Exception $e) {
@@ -60,7 +60,7 @@ class Investment
 		$db = Database::get();
 
 		$total = 0;
-		$investment = $db->query("	SELECT `amount` FROM `investment` WHERE contract_end_date > CURRENT_TIMESTAMP() AND `telegram_id` = " . $telegram_id);
+		$investment = $db->query("	SELECT `amount` FROM `investment` WHERE contract_end_date > NOW() AND `telegram_id` = " . $telegram_id);
 		while ($row = $investment->fetchObject()) {
 			$total += $row->amount;
 		}
