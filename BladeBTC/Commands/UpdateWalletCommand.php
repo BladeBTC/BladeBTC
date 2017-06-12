@@ -3,21 +3,22 @@
 
 namespace BladeBTC\Commands;
 
+use BladeBTC\Helpers\AddressValidator;
 use BladeBTC\Models\Users;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
-class WithdrawCommand extends Command
+class UpdateWalletCommand extends Command
 {
 	/**
 	 * @var string Command Name
 	 */
-	protected $name = "withdraw";
+	protected $name = "update_wallet";
 
 	/**
 	 * @var string Command Description
 	 */
-	protected $description = "Load withdraw menu";
+	protected $description = "Update wallet address";
 
 	/**
 	 * @inheritdoc
@@ -29,7 +30,6 @@ class WithdrawCommand extends Command
 		 * Chat data
 		 */
 		$id = $this->update->getMessage()->getFrom()->getId();
-
 
 		/**
 		 * Keyboard
@@ -52,6 +52,7 @@ class WithdrawCommand extends Command
 		 */
 		$this->replyWithChatAction(['action' => Actions::TYPING]);
 
+
 		/**
 		 * Verify user
 		 */
@@ -63,27 +64,38 @@ class WithdrawCommand extends Command
 		} else {
 
 			/**
-			 * Verify user wallet address
+			 * Get wallet address from message
 			 */
-			if (is_null($user->getWalletAddress())) {
+			$wallet_address = $this->update->getMessage()->getText();
 
+
+			/**
+			 * Validate payment address and reply
+			 */
+			if (!empty($wallet_address) && AddressValidator::isValid($wallet_address)) {
+
+				/**
+				 * Store investment_address
+				 */
+				$user->setWalletAddress($wallet_address);
+
+
+				/**
+				 * Response
+				 */
 				$this->replyWithMessage([
-					'text'         => "Your withdraw address is <b>not set</b>\bPlease set your correct withdraw address first.",
+					'text'         => "Bitcoin address detected and successfully set as destination wallet.\n
+To payout now please press the withdraw button again.",
 					'reply_markup' => $reply_markup,
 					'parse_mode'   => 'HTML',
 				]);
 
 			} else {
-
 				$this->replyWithMessage([
-					'text'         => "Your withdraw address is
-<b>" . $user->getWalletAddress() . "</b>
-Use command /out AMOUNT, for example: /out 1.2
-Specified amount will be delivered to your address ASAP (usually during one-two hours - min: 0.04BTC).",
+					'text'         => "An error occurred while save your wallet address.\nPlease contact support. \xF0\x9F\x98\x96",
 					'reply_markup' => $reply_markup,
 					'parse_mode'   => 'HTML',
 				]);
-
 			}
 		}
 	}

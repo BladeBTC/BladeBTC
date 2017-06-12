@@ -2,6 +2,7 @@
 
 namespace BladeBTC;
 
+use BladeBTC\Helpers\AddressValidator;
 use Telegram\Bot\Api;
 
 /**
@@ -11,63 +12,68 @@ use Telegram\Bot\Api;
 class WebHookHandler
 {
 
-    /**
-     * WebHookHandler constructor.
-     */
-    public function __construct(Api $telegram)
-    {
+	/**
+	 * WebHookHandler constructor.
+	 */
+	public function __construct(Api $telegram)
+	{
 
-        /**
-         * Populate commands list
-         */
-        $telegram->addCommands([
-            Commands\StartCommand::class,
-            Commands\BalanceCommand::class,
-            Commands\InvestCommand::class,
-            Commands\WithdrawCommand::class,
-            Commands\ReinvestCommand::class,
-            Commands\TeamCommand::class,
-            Commands\BackCommand::class,
-        ]);
+		/**
+		 * Populate commands list
+		 */
+		$telegram->addCommands([
+			Commands\StartCommand::class,
+			Commands\BalanceCommand::class,
+			Commands\InvestCommand::class,
+			Commands\WithdrawCommand::class,
+			Commands\ReinvestCommand::class,
+			Commands\TeamCommand::class,
+			Commands\BackCommand::class,
+			Commands\ErrorCommand::class,
+			Commands\UpdateWalletCommand::class,
+		]);
 
+		/**
+		 * Handle commands
+		 */
+		$telegram->commandsHandler(true);
 
-        /**
-         * Handle commands
-         */
-        $telegram->commandsHandler(true);
+		/**
+		 * Handle text command (button)
+		 */
+		$updates = $telegram->getWebhookUpdates();
+		$text = $updates->getMessage()->getText();
 
-        /**
-         * Handle text command (button)
-         */
-        $updates = $telegram->getWebhookUpdates();
-        $text = $updates->getMessage()->getText();
+		if (preg_match("/\bRevenue\b/i", $text)) {
+			$telegram->getCommandBus()->handler('/revenue', $updates);
+		} elseif (preg_match("/\bBalance\b/i", $text)) {
+			$telegram->getCommandBus()->handler('/balance', $updates);
+		} elseif (preg_match("/\bInvest\b/i", $text)) {
+			$telegram->getCommandBus()->handler('/invest', $updates);
+		} elseif (preg_match("/\bWithdraw\b/i", $text)) {
+			$telegram->getCommandBus()->handler('/withdraw', $updates);
+		} elseif (preg_match("/\bReinvest\b/i", $text)) {
+			$telegram->getCommandBus()->handler('/reinvest', $updates);
+		} elseif (preg_match("/\bTeam\b/i", $text)) {
+			$telegram->getCommandBus()->handler('/team', $updates);
+		} elseif (preg_match("/\bBack\b/i", $text)) {
+			$telegram->getCommandBus()->handler('/back', $updates);
+		} /**
+		 * Message match nothing - Validate if text is a bitcoin wallet address and save it to user account.
+		 */
+		else {
 
-        if (preg_match("/\bRevenue\b/i", $text)) {
-            $telegram->getCommandBus()->handler('/revenue', $updates);
-        }
-
-        if (preg_match("/\bBalance\b/i", $text)) {
-            $telegram->getCommandBus()->handler('/balance', $updates);
-        }
-
-        if (preg_match("/\bInvest\b/i", $text)) {
-            $telegram->getCommandBus()->handler('/invest', $updates);
-        }
-
-        if (preg_match("/\bWithdraw\b/i", $text)) {
-            $telegram->getCommandBus()->handler('/withdraw', $updates);
-        }
-
-        if (preg_match("/\bReinvest\b/i", $text)) {
-            $telegram->getCommandBus()->handler('/reinvest', $updates);
-        }
-
-        if (preg_match("/\bTeam\b/i", $text)) {
-            $telegram->getCommandBus()->handler('/team', $updates);
-        }
-
-        if (preg_match("/\bBack\b/i", $text)) {
-            $telegram->getCommandBus()->handler('/back', $updates);
-        }
-    }
+			/**
+			 * Text is a valid bitcoin address - Save it
+			 */
+			if (AddressValidator::isValid($text)) {
+				$telegram->getCommandBus()->handler('/update_wallet', $updates);
+			} /**
+			 * Text is nothing return error.
+			 */
+			else {
+				$telegram->getCommandBus()->handler('/error', $updates);
+			}
+		}
+	}
 }

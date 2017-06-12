@@ -206,4 +206,25 @@ class Users
     {
         return $this->_USER->telegram_id;
     }
+
+	/**
+	 * Store wallet address
+	 */
+	public function setWalletAddress($wallet_address)
+	{
+		try {
+			$this->_DB->beginTransaction();
+			$this->_DB->query("   UPDATE
+                                              `users`
+                                            SET 
+                                              `wallet_address` = " . $this->_DB->quote($wallet_address) . "
+                                            WHERE
+                                                `telegram_id` = " . $this->getTelegramId() . "
+                                            ");
+			$this->_DB->commit();
+		} catch (\Exception $e) {
+			$this->_DB->rollBack();
+			throw new \Exception($e->getMessage());
+		}
+	}
 }
