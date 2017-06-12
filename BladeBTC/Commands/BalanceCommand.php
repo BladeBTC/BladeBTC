@@ -74,7 +74,7 @@ class BalanceCommand extends Command
 Total invested:
 <b>" . Btc::Format($user->getInvested()) . "</b> BTC\n
 Active investment:
-<b>" . Btc::Format(Investment::getActiveInvestmentTotal($user->getTelegramId())) . "</b>/125 BTC\n
+<b>" . Btc::Format(Investment::getActiveInvestmentTotal($user->getTelegramId())) . "</b> BTC\n
 Total profit:
 <b>" . Btc::Format($user->getProfit()) . "</b> BTC\n
 Total Payout:
