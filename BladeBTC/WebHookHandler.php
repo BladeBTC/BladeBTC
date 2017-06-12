@@ -79,7 +79,7 @@ class WebHookHandler
 				 * Add command handled by the main command handler
 				 * Avoid returning error for nothing.
 				 */
-				if (!preg_match("/\Out\b/i", $text) ||
+				if (!preg_match("/\Out\b/i", $text) &&
 					!preg_match("/\Start\b/i", $text)
 				) {
 					$telegram->getCommandBus()->handler('/error', $updates);
