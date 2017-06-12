@@ -67,7 +67,7 @@ class OutCommand extends Command
 			 * Response
 			 */
 			$this->replyWithMessage([
-				'text'         => $arguments,
+				'text'         => $arguments[0],
 				'reply_markup' => $reply_markup,
 				'parse_mode'   => 'HTML',
 			]);
