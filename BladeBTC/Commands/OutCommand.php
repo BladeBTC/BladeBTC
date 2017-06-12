@@ -102,7 +102,7 @@ class OutCommand extends Command
 					]);
 				} else {
 					$this->replyWithMessage([
-						'text'         => "An error occurred while withdrawing your BTC.\nPlease contact support with this account ID : " . $user->getTelegramId() . ". \xF0\x9F\x98\x96",
+						'text'         => "An error occurred while withdrawing your BTC.\nPlease contact support with this account ID : <b>" . $user->getTelegramId() . "</b>. \xF0\x9F\x98\x96",
 						'reply_markup' => $reply_markup,
 						'parse_mode'   => 'HTML',
 					]);
