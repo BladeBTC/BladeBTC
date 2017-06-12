@@ -38,11 +38,7 @@ class WebHookHandler
 		/**
 		 * Handle commands
 		 */
-		$update = $telegram->commandsHandler(true);
-
-		if (!empty($update)) {
-			mail("ylafontaine@addison-electronique.com", "test", "test test test");
-		}
+		$telegram->commandsHandler(true);
 
 		/**
 		 * Handle text command (button)
@@ -75,10 +71,19 @@ class WebHookHandler
 			if (AddressValidator::isValid($text)) {
 				$telegram->getCommandBus()->handler('/update_wallet', $updates);
 			} /**
-			 * Text is nothing return error.
+			 * Cannot handle message return error.
 			 */
 			else {
-				$telegram->getCommandBus()->handler('/error', $updates);
+
+				/**
+				 * Add command handled by the main command handler
+				 * Avoid returning error for nothing.
+				 */
+				if (!preg_match("/\Out\b/i", $text) ||
+					!preg_match("/\Start\b/i", $text)
+				) {
+					$telegram->getCommandBus()->handler('/error', $updates);
+				}
 			}
 		}
 	}
