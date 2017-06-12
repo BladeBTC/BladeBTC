@@ -30,7 +30,7 @@ class ReinvestCommand extends Command
         $keyboard = [
             ["My balance \xF0\x9F\x92\xB0"],
             ["Invest \xF0\x9F\x92\xB5", "Withdraw \xE2\x8C\x9B"],
-            ["Reinvest \xE2\x86\xA9", "My team \xF0\x9F\x91\xA8"],
+			["Reinvest \xE2\x86\xA9", "Help \xE2\x9D\x93"],
         ];
 
         $reply_markup = $this->telegram->replyKeyboardMarkup([
