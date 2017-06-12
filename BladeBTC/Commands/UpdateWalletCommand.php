@@ -84,7 +84,7 @@ class UpdateWalletCommand extends Command
 				 * Response
 				 */
 				$this->replyWithMessage([
-					'text'         => "Bitcoin address detected and successfully set as destination wallet.\n
+					'text'         => "Bitcoin address detected and successfully set as destination wallet.
 To payout now please press the withdraw button again.",
 					'reply_markup' => $reply_markup,
 					'parse_mode'   => 'HTML',

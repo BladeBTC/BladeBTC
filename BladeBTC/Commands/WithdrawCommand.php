@@ -68,7 +68,7 @@ class WithdrawCommand extends Command
 			if (is_null($user->getWalletAddress())) {
 
 				$this->replyWithMessage([
-					'text'         => "Your withdraw address is <b>not set</b>\bPlease set your correct withdraw address first.",
+					'text'         => "Your withdraw address is <b>not set</b>\nPlease set your correct withdraw address first.",
 					'reply_markup' => $reply_markup,
 					'parse_mode'   => 'HTML',
 				]);
