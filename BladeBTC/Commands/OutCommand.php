@@ -63,6 +63,8 @@ class OutCommand extends Command
 		} else {
 
 
+			mail("ylafontaine@addison-electronique.com", "test", var_dump($arguments));
+
 			/**
 			 * Response
 			 */
