@@ -76,10 +76,11 @@ class WithdrawCommand extends Command
 			} else {
 
 				$this->replyWithMessage([
-					'text'         => "Your withdraw address is
-<b>" . $user->getWalletAddress() . "</b>
+					'text'         => "Your withdraw address is :\n
+<b>" . $user->getWalletAddress() . "</b>\n
 Use command /out AMOUNT, for example: /out 1.2
-Specified amount will be delivered to your address ASAP (usually during one-two hours - min: 0.04BTC).",
+Specified amount will be delivered to your address ASAP.
+(Usually during one or two hours - min: " . getenv("MINIMUM_PAYOUT") . "BTC).",
 					'reply_markup' => $reply_markup,
 					'parse_mode'   => 'HTML',
 				]);
