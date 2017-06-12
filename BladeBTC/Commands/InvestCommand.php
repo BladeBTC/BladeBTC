@@ -96,9 +96,9 @@ class InvestCommand extends Command
                 ]);
 
                 $this->replyWithMessage([
-                    'text' => "You may invest at anytime and as much as you want (minimum 0.02 BTC). After correct transfer, your funds will be added to your account during an hour. Have fun and enjoy your daily profit!",
-                    'reply_markup' => $reply_markup,
-                    'parse_mode' => 'HTML'
+					'text'         => "You may invest at anytime and as much as you want (minimum " . getenv("MINIMUM_INVEST") . " BTC). After correct transfer, your funds will be added to your account during an hour. Have fun and enjoy your daily profit!",
+					'reply_markup' => $reply_markup,
+					'parse_mode'   => 'HTML'
                 ]);
             } else {
                 $this->replyWithMessage([
