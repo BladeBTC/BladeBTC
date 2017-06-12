@@ -93,11 +93,20 @@ class OutCommand extends Command
 
 				$transaction = Wallet::makeOutgoingPayment($user->getWalletAddress(), Btc::BtcToSatoshi($out_amount));
 
-				$this->replyWithMessage([
-					'text'         => "Message :\n" . $transaction['message'] . "\n" . "Transaction ID:\n" . $transaction['tx_hash'] . "\n" . "Notice:\n" . $transaction['notice'],
-					'reply_markup' => $reply_markup,
-					'parse_mode'   => 'HTML',
-				]);
+				if (!empty($transaction)) {
+
+					$this->replyWithMessage([
+						'text'         => "Message :\n" . $transaction['message'] . "\n" . "Transaction ID:\n" . $transaction['tx_hash'] . "\n" . "Notice:\n" . $transaction['notice'],
+						'reply_markup' => $reply_markup,
+						'parse_mode'   => 'HTML',
+					]);
+				} else {
+					$this->replyWithMessage([
+						'text'         => "An error occurred while withdrawing your BTC.\nPlease contact support with this account ID : " . $user->getTelegramId() . ". \xF0\x9F\x98\x96",
+						'reply_markup' => $reply_markup,
+						'parse_mode'   => 'HTML',
+					]);
+				}
 			}
 		}
 	}
