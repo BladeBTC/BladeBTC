@@ -15,7 +15,7 @@ class Wallet
 	public static function getBalance()
 	{
 
-		$path = 'account/getbalance';
+		$path = 'account/getbalances';
 		$params = [
 			"currency" => "BTC",
 		];
