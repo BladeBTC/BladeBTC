@@ -121,7 +121,7 @@ Your perfect start.
 			 * Response
 			 */
 			$this->replyWithMessage([
-				'text'         => "<b>Support</b> 💼
+				'text'         => "<b>Support</b> \xF0\x9F\x92\xAC
 
 ✒️ " . getenv("SUPPORT_CHAT_ID"),
 				'reply_markup' => $reply_markup,
