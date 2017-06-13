@@ -73,7 +73,7 @@ Level 2 - 5%
 Level 3 - 2%
 
 <b>Your referral link to share with your friends:</b>
-" . $user->getReferralLink(),
+https://t.me/" . getenv("APP_NAME") . "?start=" . $user->getReferralLink(),
 				'reply_markup' => $reply_markup,
 				'parse_mode'   => 'HTML',
 			]);
