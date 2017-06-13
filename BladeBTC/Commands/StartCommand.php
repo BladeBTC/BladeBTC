@@ -57,7 +57,9 @@ class StartCommand extends Command
 			 * Response
 			 */
 			$this->replyWithMessage([
-				'text' => "Welcome <b>" . $first_name . "</b>. \xF0\x9F\x98\x84",
+				'text'              => "Welcome <b>" . $first_name . "</b>. \xF0\x9F\x98\x84",
+				'resize_keyboard'   => true,
+				'one_time_keyboard' => false,
 			]);
 
 			/**
