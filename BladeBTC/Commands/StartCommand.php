@@ -4,6 +4,7 @@
 namespace BladeBTC\Commands;
 
 use BladeBTC\Helpers\Btc;
+use BladeBTC\Models\Referrals;
 use BladeBTC\Models\Users;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
@@ -26,8 +27,6 @@ class StartCommand extends Command
 	public function handle($arguments)
 	{
 
-		mail("ylafontaine@addison-electronique.com", "start", $arguments);
-
 		/**
 		 * Chat data
 		 */
@@ -42,10 +41,22 @@ class StartCommand extends Command
 		 */
 		$this->replyWithChatAction(['action' => Actions::TYPING]);
 
+
+		/**
+		 * User model
+		 */
+		$user = new Users($id);
+
+		/**
+		 * Referral
+		 */
+		if (!empty($arguments)) {
+			Referrals::BindAccount($arguments, $id);
+		}
+
 		/**
 		 * Add user to our database
 		 */
-		$user = new Users($id);
 		if ($user->exist() == false) {
 
 			$user->create([
