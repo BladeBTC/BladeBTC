@@ -66,6 +66,19 @@ class BalanceCommand extends Command
 
 
 			/**
+			 * Contract list
+			 */
+			$investment = Investment::getActiveInvestment($user->getTelegramId());
+			if (count($investment) > 0) {
+				$investment_data = "Amount|Rate|End\n";
+				foreach ($investment as $row) {
+					$investment_data .= $row->amount . "|" . $row->rate . "|" . $row->contract_end_date . "\n";
+				}
+			} else {
+				$investment_data = "No active investment, start now with just " . getenv("MINIMUM_INVEST") . " BTC";
+			}
+
+			/**
 			 * Response
 			 */
 			$this->replyWithMessage([
@@ -80,7 +93,7 @@ Total profit:
 Total Payout:
 <b>" . Btc::Format($user->getPayout()) . "</b> BTC\n
 <b>Your investment:</b>
-" . (Investment::getActiveInvestmentTotal($user->getTelegramId()) == 0 ? "No active investment, start now with just " . getenv("MINIMUM_INVEST") . " BTC" : Btc::Format(Investment::getActiveInvestmentTotal($user->getTelegramId()))) . "
+" . $investment_data . "
 \nBase rate: <b>" . getenv("BASE_RATE") . "% per day.</b>\n
 You may start another investment by pressing the \"Invest\" button. Your balance will grow according to the base rate.",
 				'reply_markup' => $reply_markup,

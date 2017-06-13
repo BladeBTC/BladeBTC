@@ -82,7 +82,7 @@ class ReinvestCommand extends Command
 				 * Reinvest balance
 				 */
 				$user->Reinvest();
-
+				$user->Refresh();
 
 				/**
 				 * Keyboard + Refresh balance
@@ -98,7 +98,6 @@ class ReinvestCommand extends Command
 					'resize_keyboard'   => true,
 					'one_time_keyboard' => false,
 				]);
-
 
 
 				/**
