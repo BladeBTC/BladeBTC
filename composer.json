@@ -8,7 +8,7 @@
         }
     },
     "require": {
-        "irazasyed/telegram-bot-sdk": "^2.0",
+        "irazasyed/telegram-bot-sdk": "dev-master",
         "vlucas/phpdotenv": "^2.4"
     }
 }
