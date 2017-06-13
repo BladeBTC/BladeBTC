@@ -68,7 +68,13 @@ class HelpCommand extends Command
 			 * Response
 			 */
 			$this->replyWithMessage([
-				'text'         => "Press one of the buttons below to get more information about how to start, I am very happy to work with you.",
+				'text'         => "First steps🎽
+
+Your perfect start.
+
+✏️ First of all you need your own Crypto-Wallet and some BTC on it (minimum invest is 0.02 BTC). To create your own wallet ask around in the groups or your sponsor, it is really simple. I can recommend platforms like Bittrex, Blockchain or Bitpanda.
+
+✏️ Global CryptoBot offers you and your partners 4% on a daily base for 40 days. You will receive 1% every 6 hours from the moment you deposit, until the 40 days are over. The minimum invest is 0.02 BTC and the minimum for a withdraw is 0.04 BTC. You can invest as many times as you want and I also offer you to reinvest your balance, the minimum for reinvest is 0.02 BTC.",
 				'reply_markup' => $reply_markup,
 				'parse_mode'   => 'HTML',
 			]);
