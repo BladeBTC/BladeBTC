@@ -75,9 +75,11 @@ Use the following link to refer your friends and you will get a 10% bonus on the
 https://t.me/" . getenv("APP_NAME") . "?start=" . $user->getReferralLink() . "
 
 <b>My Stats</b>
-Total referrals: " . Referrals::getTotalReferrals($user->getTelegramId()) . "
+
+Total referrals : <b>" . Referrals::getTotalReferrals($user->getTelegramId()) . "</b>
+
 Members | Active | Invest
-0 | 0 | 0.000 BTC
+" . Referrals::getTotalReferrals($user->getTelegramId()) . " | 0 | 0.000 BTC
 ",
 				'reply_markup' => $reply_markup,
 				'parse_mode'   => 'HTML',
