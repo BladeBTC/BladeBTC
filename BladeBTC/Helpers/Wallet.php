@@ -6,147 +6,57 @@ namespace BladeBTC\Helpers;
  * Class Wallet
  *
  * @package BladeBTC\Helpers
- * @see     https://blockchain.info/api/blockchain_wallet_api
+ * @see     https://bittrex.com/Home/Api
+ *            https://github.com/Cannacoin-Project/Bittrex-API-Client/blob/master/client.php
  */
 class Wallet
 {
-	/**
-	 * Generate payment address
-	 *
-	 * @param $telegram_user_id - ID of the current user requesting address
-	 *
-	 * @return string - Payment address
-	 */
-	public static function generateAddress($telegram_user_id)
+
+	private static function getBalance()
 	{
 
-		/**
-		 * Database connexion
-		 */
-		$db = Database::get();
+		$path = 'account/getbalance';
+		$params = [
+			"currency" => "BTC",
+		];
 
-		/**
-		 * Select address from users database if exist
-		 */
-		$wallet_address = $db->query("SELECT investment_address FROM users WHERE telegram_id = '" . $telegram_user_id . "'")->fetchObject()->investment_address;
-		if (!is_null($wallet_address) || !empty($wallet_address)) {
-			return $wallet_address;
-		} else {
+		$response = self::apiQuery($path, $params);
+		echo json_encode($response);
+	}
 
-			/**
-			 * Param
-			 */
-			$wallet = getenv("WALLET_ID");
-			$main_password = getenv("WALLET_PASSWORD");
-			$label = $telegram_user_id;
+	private static function apiQuery($path, array $req = [])
+	{
+		$req['apikey'] = getenv("API_KEY");
+		$req['nonce'] = time();
 
-			/**
-			 * Request URL
-			 */
-			$json_url = "http://127.0.0.1:3000/merchant/$wallet/new_address?password=$main_password&label=$label";
+		$queryString = http_build_query($req, '', '&');
+		$requestUrl = getenv("API_URL") . $path . '?' . $queryString;
+		$sign = hash_hmac('sha512', $requestUrl, getenv("PRIVATE_KEY"));
 
-			/**
-			 * Request
-			 */
-			$json_data = file_get_contents($json_url);
-			$json_feed = json_decode($json_data);
+		static $curlHandler = null;
 
-
-			return $json_feed->address;
+		if (is_null($curlHandler)) {
+			$curlHandler = curl_init();
+			curl_setopt($curlHandler, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($curlHandler, CURLOPT_HTTPHEADER, ['apisign:' . $sign]);
+			curl_setopt($curlHandler, CURLOPT_HTTPGET, true);
+			curl_setopt($curlHandler, CURLOPT_URL, $requestUrl);
+			curl_setopt($curlHandler, CURLOPT_SSL_VERIFYPEER, true);
 		}
+
+		// run the query
+		$response = curl_exec($curlHandler);
+
+		if ($response === false) {
+			throw new \Exception('Could not get reply: ' . curl_error($curlHandler));
+		}
+
+		$json = json_decode($response, true);
+		if (!$json) {
+			throw new \Exception('Invalid data received, please make sure connection is working and requested API exists');
+		}
+
+		return $json;
 	}
 
-
-	/**
-	 * Get wallet balance
-	 *
-	 * @return mixed
-	 */
-	public static function getBalance()
-	{
-
-		/**
-		 * Param
-		 */
-		$wallet = getenv("WALLET_ID");
-		$main_password = getenv("WALLET_PASSWORD");
-
-		/**
-		 * Request URL
-		 */
-		$json_url = "http://127.0.0.1:3000/merchant/$wallet/balance?password=$main_password";
-
-		/**
-		 * Request
-		 */
-		$json_data = file_get_contents($json_url);
-		$json_feed = json_decode($json_data);
-
-
-		return $json_feed->balance;
-	}
-
-
-	/**
-	 * Get address balance
-	 *
-	 * @param $address - Address to query
-	 *
-	 * @return array - ["balance", "address", "total_received"]
-	 */
-	public static function getAddressBalance($address)
-	{
-		/**
-		 * Param
-		 */
-		$wallet = getenv("WALLET_ID");
-		$main_password = getenv("WALLET_PASSWORD");
-
-		/**
-		 * Request URL
-		 */
-		$json_url = "http://127.0.0.1:3000/merchant/$wallet/address_balance?password=$main_password&address=$address";
-
-		/**
-		 * Request
-		 */
-		$json_data = file_get_contents($json_url);
-		$json_feed = json_decode($json_data, true);
-
-
-		return $json_feed;
-	}
-
-
-	/**
-	 * Send bitcoin to a specific address
-	 *
-	 * @param $to_wallet_address - Wallet address
-	 * @param $satoshi_amount    - Satoshi amount
-	 *
-	 * @return array - ["message" => "Response Message", "tx_hash" => "Transaction Hash", "notice" => "Additional
-	 *               Message"]
-	 */
-	public static function makeOutgoingPayment($to_wallet_address, $satoshi_amount)
-	{
-		/**
-		 * Param
-		 */
-		$wallet = getenv("WALLET_ID");
-		$main_password = getenv("WALLET_PASSWORD");
-
-		/**
-		 * Request URL
-		 */
-		$json_url = "http://127.0.0.1:3000/merchant/$wallet/payment?password=$main_password&to=$to_wallet_address&amount=$satoshi_amount";
-
-		/**
-		 * Request
-		 */
-		$json_data = file_get_contents($json_url);
-		$json_feed = json_decode($json_data);
-
-
-		return $json_feed;
-	}
 }
