@@ -100,7 +100,7 @@ class Referrals
 	{
 		$db = Database::get();
 		$actives = 0;
-		$referrals = $db->query("SELECT `telegram_id_referred` AS `C` FROM `referrals` WHERE `telegram_id_referent` = '" . $telegram_referent_id . "'");
+		$referrals = $db->query("SELECT `telegram_id_referred` FROM `referrals` WHERE `telegram_id_referent` = '" . $telegram_referent_id . "'");
 		while ($referral = $referrals->fetchObject()) {
 			$count = $db->query("SELECT 
 												COUNT(*) AS `C` 
@@ -128,7 +128,7 @@ class Referrals
 	{
 		$db = Database::get();
 		$total = 0;
-		$referrals = $db->query("SELECT `telegram_id_referred` AS `C` FROM `referrals` WHERE `telegram_id_referent` = '" . $telegram_referent_id . "'");
+		$referrals = $db->query("SELECT `telegram_id_referred` FROM `referrals` WHERE `telegram_id_referent` = '" . $telegram_referent_id . "'");
 		while ($referral = $referrals->fetchObject()) {
 			$amounts = $db->query("SELECT 
 												`amount`
