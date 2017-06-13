@@ -60,5 +60,21 @@ class Referrals
 		}
 	}
 
+	/**
+	 * Get total of referrals
+	 *
+	 * @param $telegram_referent_id
+	 *
+	 * @return mixed
+	 */
+	public static function getTotalReferrals($telegram_referent_id)
+	{
+		$db = Database::get();
+		$referent = $db
+			->query("SELECT COUNT(*) AS `C` FROM `referrals` WHERE `telegram_id_referent` = '" . $telegram_referent_id . "'")
+			->fetchObject()
+			->C;
 
+		return $referent;
+	}
 }

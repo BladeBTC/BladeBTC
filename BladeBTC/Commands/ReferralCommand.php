@@ -4,6 +4,7 @@
 namespace BladeBTC\Commands;
 
 use BladeBTC\Helpers\Btc;
+use BladeBTC\Models\Referrals;
 use BladeBTC\Models\Users;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
@@ -74,7 +75,7 @@ Use the following link to refer your friends and you will get a 10% bonus on the
 https://t.me/" . getenv("APP_NAME") . "?start=" . $user->getReferralLink() . "
 
 <b>My Stats</b>
-Total referrals: 0
+Total referrals: " . Referrals::getTotalReferrals($user->getTelegramId()) . "
 Members | Active | Invest
 0 | 0 | 0.000 BTC
 ",
