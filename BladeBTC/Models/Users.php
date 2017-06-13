@@ -193,6 +193,12 @@ class Users
 	{
 		try {
 			$this->_DB->beginTransaction();
+
+			/**
+			 * Generate referral link
+			 */
+			$referral_link = uniqid();
+
 			$this->_DB->query("   INSERT
                                             INTO
                                               `users`(
@@ -200,14 +206,16 @@ class Users
                                                 `telegram_first`,
                                                 `telegram_last`,
                                                 `telegram_id`,
-                                                `rate`
+                                                `rate`,
+                                                `referral_link`
                                               )
                                             VALUES(
                                               " . $this->_DB->quote($data["username"]) . ",
                                               " . $this->_DB->quote($data["first_name"]) . ",
                                               " . $this->_DB->quote($data["last_name"]) . ",
                                               " . $this->_DB->quote($data["id"]) . ",
-                                              " . $this->_DB->quote(getenv("BASE_RATE")) . "
+                                              " . $this->_DB->quote(getenv("BASE_RATE")) . ",
+                                              " . $this->_DB->quote($referral_link) . "
                                             )");
 			$this->_DB->commit();
 		} catch (\Exception $e) {
