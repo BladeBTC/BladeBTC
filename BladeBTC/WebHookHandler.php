@@ -32,6 +32,7 @@ class WebHookHandler
 			Commands\ErrorCommand::class,
 			Commands\UpdateWalletCommand::class,
 			Commands\OutCommand::class,
+			Commands\ReferralCommand::class,
 		]);
 
 		/**
@@ -57,6 +58,8 @@ class WebHookHandler
 			$telegram->getCommandBus()->handler('/reinvest', $updates);
 		} elseif (preg_match("/\bBack\b/i", $text)) {
 			$telegram->getCommandBus()->handler('/back', $updates);
+		} elseif (preg_match("/\Referral\b/i", $text)) {
+			$telegram->getCommandBus()->handler('/referral', $updates);
 		} /**
 		 * Message match nothing - Validate if text is a bitcoin wallet address and save it to user account.
 		 */
