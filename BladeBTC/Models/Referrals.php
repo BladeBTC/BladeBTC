@@ -81,12 +81,12 @@ class Referrals
 	public static function getTotalReferrals($telegram_referent_id)
 	{
 		$db = Database::get();
-		$referent = $db
+		$referrals = $db
 			->query("SELECT COUNT(*) AS `C` FROM `referrals` WHERE `telegram_id_referent` = '" . $telegram_referent_id . "'")
 			->fetchObject()
 			->C;
 
-		return $referent;
+		return $referrals;
 	}
 
 	/**
@@ -99,12 +99,22 @@ class Referrals
 	public static function getActiveReferrals($telegram_referent_id)
 	{
 		$db = Database::get();
-		$referent = $db
-			->query("SELECT COUNT(*) AS `C` FROM `referrals` WHERE `telegram_id_referent` = '" . $telegram_referent_id . "'")
-			->fetchObject()
-			->C;
+		$actives = 0;
+		$referrals = $db->query("SELECT `telegram_id_referred` AS `C` FROM `referrals` WHERE `telegram_id_referent` = '" . $telegram_referent_id . "'");
+		while ($referral = $referrals->fetchObject()) {
+			$count = $db->query("SELECT 
+												COUNT(*) AS `C` 
+											  FROM 
+											  	`investment`
+											  WHERE 
+											  	`telegram_id` ='" . $referral->telegram_id_referred . "' AND
+											  	`contract_end_date` > NOW()")->fetchObject()->C;
+			if ($count > 0) {
+				$actives++;
+			}
+		}
 
-		return $referent;
+		return $actives;
 	}
 
 	/**
@@ -117,11 +127,21 @@ class Referrals
 	public static function getReferralsInvest($telegram_referent_id)
 	{
 		$db = Database::get();
-		$referent = $db
-			->query("SELECT COUNT(*) AS `C` FROM `referrals` WHERE `telegram_id_referent` = '" . $telegram_referent_id . "'")
-			->fetchObject()
-			->C;
+		$total = 0;
+		$referrals = $db->query("SELECT `telegram_id_referred` AS `C` FROM `referrals` WHERE `telegram_id_referent` = '" . $telegram_referent_id . "'");
+		while ($referral = $referrals->fetchObject()) {
+			$amounts = $db->query("SELECT 
+												`amount`
+											  FROM 
+											  	`investment`
+											  WHERE 
+											  	`telegram_id` ='" . $referral->telegram_id_referred . "' AND
+											  	`contract_end_date` > NOW()");
+			while ($amount = $amounts->fetchObject()) {
+				$total += $amount->amount;
+			}
+		}
 
-		return $referent;
+		return $total;
 	}
 }
