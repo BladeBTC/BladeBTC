@@ -14,7 +14,7 @@ class ReferralCommand extends Command
 	/**
 	 * @var string Command Name
 	 */
-	protected $name = "referal";
+	protected $name = "referral";
 
 	/**
 	 * @var string Command Description
