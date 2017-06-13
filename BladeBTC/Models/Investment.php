@@ -51,7 +51,7 @@ class Investment
 
 
 	/**
-	 * Get active total
+	 * Get active investment total
 	 *
 	 * @param $telegram_id - Telegram ID
 	 */
@@ -66,6 +66,26 @@ class Investment
 		}
 
 		return $total;
+
+	}
+
+
+	/**
+	 * Get active investment list
+	 *
+	 * @param $telegram_id - Telegram ID
+	 */
+	public static function getActiveInvestment($telegram_id)
+	{
+		$db = Database::get();
+
+		$investment = [];
+		$investment_qry = $db->query("	SELECT * FROM `investment` WHERE contract_end_date > NOW() AND `telegram_id` = " . $telegram_id);
+		while ($row = $investment_qry->fetchObject()) {
+			$investment[] = $row;
+		}
+
+		return $investment;
 
 	}
 }
