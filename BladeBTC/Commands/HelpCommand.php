@@ -7,6 +7,7 @@ use BladeBTC\Helpers\Btc;
 use BladeBTC\Models\Users;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
+use Telegram\Bot\Keyboard\Keyboard;
 
 class HelpCommand extends Command
 {
@@ -64,19 +65,32 @@ class HelpCommand extends Command
 				'one_time_keyboard' => false,
 			]);
 
+			/**
+			 * Keyboard Inline
+			 */
+			$inlineLayout = [
+				[
+					Keyboard::inlineButton(['text' => 'Test', 'callback_data' => 'data']),
+					Keyboard::inlineButton(['text' => 'Btn 2', 'callback_data' => 'data_from_btn2']),
+				],
+			];
+
+			$keyboard = $this->telegram->replyKeyboardMarkup([
+				'inline_keyboard' => $inlineLayout,
+			]);
+
 
 			/**
 			 * Response
 			 */
 			$this->replyWithMessage([
-				'text'         => "Here is your personal BTC address for your investments:",
+				'text'         => "Press one of the buttons below to get more information about how to start, I am very happy to work with you.",
 				'reply_markup' => $reply_markup,
 				'parse_mode'   => 'HTML',
 			]);
 
 			$this->replyWithMessage([
-				'text'         => "You may invest at anytime and as much as you want (minimum " . getenv("MINIMUM_INVEST") . " BTC). After correct transfer, your funds will be added to your account during an hour. Have fun and enjoy your daily profit!",
-				'reply_markup' => $reply_markup,
+				'reply_markup' => $keyboard,
 				'parse_mode'   => 'HTML',
 			]);
 		}
