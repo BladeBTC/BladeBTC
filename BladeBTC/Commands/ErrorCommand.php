@@ -55,7 +55,7 @@ class ErrorCommand extends Command
 				["My balance " . Btc::Format($user->getBalance()) . " \xF0\x9F\x92\xB0"],
 				["Invest \xF0\x9F\x92\xB5", "Withdraw \xE2\x8C\x9B"],
 				["Reinvest \xE2\x86\xA9", "Help \xE2\x9D\x93"],
-				["Referral \xF0\x9F\x91\xAB"],
+				["My Team \xF0\x9F\x91\xAB"],
 			];
 
 			$reply_markup = $this->telegram->replyKeyboardMarkup([
