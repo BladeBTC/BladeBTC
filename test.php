@@ -10,4 +10,4 @@ require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 use BladeBTC\Helpers\Wallet;
 
 $w = new Wallet();
-$w->getDepositAddress("BTC");
+echo $w->getDepositAddress("BTC");
