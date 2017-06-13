@@ -56,6 +56,7 @@ class BalanceCommand extends Command
 				["My balance " . Btc::Format($user->getBalance()) . " \xF0\x9F\x92\xB0"],
 				["Invest \xF0\x9F\x92\xB5", "Withdraw \xE2\x8C\x9B"],
 				["Reinvest \xE2\x86\xA9", "Help \xE2\x9D\x93"],
+				["Referral \xF0\x9F\x91\xAB"],
 			];
 
 			$reply_markup = $this->telegram->replyKeyboardMarkup([
@@ -72,7 +73,7 @@ class BalanceCommand extends Command
 			if (count($investment) > 0) {
 				$investment_data = "\n|   Amount   |   Rate   |   End   |\n";
 				foreach ($investment as $row) {
-					$investment_data .= "|" . $row->amount . "|" . $row->rate . "|" . $row->contract_end_date . "|\n";
+					$investment_data .= "|" . $row->amount . "|" . $row->rate . "%|" . $row->contract_end_date . "|\n";
 				}
 			} else {
 				$investment_data = "No active investment, start now with just " . getenv("MINIMUM_INVEST") . " BTC";
