@@ -68,9 +68,7 @@ class ReferralCommand extends Command
 			$this->replyWithMessage([
 				'text'         => "<b>Referral System:</b>
 
-Level 1 - 10%
-Level 2 - 5%
-Level 3 - 2%
+Use the following link to refer your friends and you will get a 10% bonus on the first investment and on their reinvestment.
 
 <b>Your referral link to share with your friends:</b>
 https://t.me/" . getenv("APP_NAME") . "?start=" . $user->getReferralLink() . "
@@ -78,9 +76,7 @@ https://t.me/" . getenv("APP_NAME") . "?start=" . $user->getReferralLink() . "
 <b>My Stats</b>
 Total referrals: 0
 Members | Active | Invest
-➀    0 | 0 | 0.000 BTC
-➁    0 | 0 | 0.000 BTC
-➂    0 | 0 | 0.000 BTC
+0 | 0 | 0.000 BTC
 ",
 				'reply_markup' => $reply_markup,
 				'parse_mode'   => 'HTML',
