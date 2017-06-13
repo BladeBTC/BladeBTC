@@ -85,15 +85,15 @@ Your perfect start.
 			$this->replyWithMessage([
 				'text'         => "<b>Deposit - Invest</b> 💵
 
-✒️ Push the invest button to do your first investment
+✏️ Push the invest button to do your first investment
 
-✒️ Now you see a long Wallet-ID with numbers and letters. Copy this address and send the amount you want to invest from your own wallet to the wallet displayed inside the " . getenv("APP_NAME") . ".
+✏️ Now you see a long Wallet-ID with numbers and letters. Copy this address and send the amount you want to invest from your own wallet to the wallet displayed inside the " . getenv("APP_NAME") . ".
 
-✒️ You can check that always on the \"My balance\" button. You also will find there all information about how many days are left in your current investments. Sometimes the investments or withdrawals can take a little longer, but that is not on me, as it is checked by Blockchain.
+✏️ You can check that always on the \"My balance\" button. You also will find there all information about how many days are left in your current investments. Sometimes the investments or withdrawals can take a little longer, but that is not on me, as it is checked by Blockchain.
 
-✒️ And from now on you earn " . getenv("BASE_RATE") . "% daily, " . (getenv("BASE_RATE") / (24 / getenv("TIMER_TIME_HOUR"))) . "% every " . getenv("TIMER_TIME_HOUR") . " hours until the " . getenv("CONTRACT_DAY") . " days are over.
+✏️ And from now on you earn " . getenv("BASE_RATE") . "% daily, " . (getenv("BASE_RATE") / (24 / getenv("TIMER_TIME_HOUR"))) . "% every " . getenv("TIMER_TIME_HOUR") . " hours until the " . getenv("CONTRACT_DAY") . " days are over.
 
-✒️ It is on you, if you want to invest your current balance again or if you want to withdraw it. If you want to reinvest your current balance you simple press the button “Reinvest”. Beside your other investments your now invested again with a new " . getenv("CONTRACT_DAY") . " day plan. Minimum for reinvest is " . getenv("MINIMUM_REINVEST") . " BTC.",
+✏️ It is on you, if you want to invest your current balance again or if you want to withdraw it. If you want to reinvest your current balance you simple press the button “Reinvest”. Beside your other investments your now invested again with a new " . getenv("CONTRACT_DAY") . " day plan. Minimum for reinvest is " . getenv("MINIMUM_REINVEST") . " BTC.",
 				'reply_markup' => $reply_markup,
 				'parse_mode'   => 'HTML',
 			]);
@@ -104,15 +104,15 @@ Your perfect start.
 			$this->replyWithMessage([
 				'text'         => "<b>Withdraw</b> 💼
 
-✒️ Press \"Withdraw\" button to withdraw your money to your BTC wallet.
+✏ Press \"Withdraw\" button to withdraw your money to your BTC wallet.
 
-✒️ Feels free to payout your available account balance at any time once all 24 hours. The minimum to withdraw is " . getenv("MINIMUM_PAYOUT") . " BTC.
+✏️ Feels free to payout your available account balance at any time once all 24 hours. The minimum to withdraw is " . getenv("MINIMUM_PAYOUT") . " BTC.
 
-✒️ Before pushing \"Withdraw\" paste your personal Wallet-ID into the chat window and press enter to setup your Wallet-ID.
+✏️ Before pushing \"Withdraw\" paste your personal Wallet-ID into the chat window and press enter to setup your Wallet-ID.
 
-✒️ Your wallet is now registered and connected with your Telegram account. Now choose the amount you want to payout as follows. Type into your chat the command: /out 0.08 (the 0.08 are just an example). As soon as you press enter now and your balance is high enough for the payout, you will get the immediate confirmation. Your money is now on the way to your personal BTC wallet within normally two hours.
+✏️ Your wallet is now registered and connected with your Telegram account. Now choose the amount you want to payout as follows. Type into your chat the command: /out 0.08 (the 0.08 are just an example). As soon as you press enter now and your balance is high enough for the payout, you will get the immediate confirmation. Your money is now on the way to your personal BTC wallet within normally two hours.
 
-✒️ To change your current payout wallet, you simply past your new wallet into the chat, that's it.",
+✏️ To change your current payout wallet, you simply past your new wallet into the chat, that's it.",
 				'reply_markup' => $reply_markup,
 				'parse_mode'   => 'HTML',
 			]);
@@ -123,7 +123,7 @@ Your perfect start.
 			$this->replyWithMessage([
 				'text'         => "<b>Support</b> \xF0\x9F\x92\xAC
 
-✒️ " . getenv("SUPPORT_CHAT_ID"),
+✏ " . getenv("SUPPORT_CHAT_ID"),
 				'reply_markup' => $reply_markup,
 				'parse_mode'   => 'HTML',
 			]);
