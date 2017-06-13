@@ -93,6 +93,8 @@ Total profit:
 <b>" . Btc::Format($user->getProfit()) . "</b> BTC\n
 Total Payout:
 <b>" . Btc::Format($user->getPayout()) . "</b> BTC\n
+Total commission:
+<b>" . Btc::Format($user->getCommission()) . "</b> BTC\n
 <b>Your investment:</b>
 " . $investment_data . "
 \nBase rate: <b>" . getenv("BASE_RATE") . "% per day.</b>\n
