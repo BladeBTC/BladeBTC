@@ -7,7 +7,6 @@ use BladeBTC\Helpers\Btc;
 use BladeBTC\Models\Users;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
-use Telegram\Bot\Keyboard\Keyboard;
 
 class HelpCommand extends Command
 {
@@ -63,20 +62,6 @@ class HelpCommand extends Command
 				'keyboard'          => $keyboard,
 				'resize_keyboard'   => true,
 				'one_time_keyboard' => false,
-			]);
-
-			/**
-			 * Keyboard Inline
-			 */
-			$inlineLayout = [
-				[
-					Keyboard::inlineButton(['text' => 'Test', 'callback_data' => 'data']),
-					Keyboard::inlineButton(['text' => 'Btn 2', 'callback_data' => 'data_from_btn2']),
-				],
-			];
-
-			$keyboard = $this->telegram->replyKeyboardMarkup([
-				'inline_keyboard' => $inlineLayout,
 			]);
 
 
