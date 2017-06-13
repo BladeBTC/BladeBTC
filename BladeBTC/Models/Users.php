@@ -173,6 +173,16 @@ class Users
 	}
 
 	/**
+	 * Get referral link
+	 *
+	 * @return mixed
+	 */
+	public function getReferralLink()
+	{
+		return $this->_USER->referral_link;
+	}
+
+	/**
 	 * Create user
 	 *
 	 * @param $data - Data user
