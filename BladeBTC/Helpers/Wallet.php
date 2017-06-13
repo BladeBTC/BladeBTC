@@ -18,8 +18,8 @@ class Wallet
 
 	public function __construct()
 	{
-		$this->apiKey = getenv("API_KEY");
-		$this->apiSecret = getenv("PRIVATE_KEY");
+		$this->apiKey = \getenv("API_KEY");
+		$this->apiSecret = \getenv("PRIVATE_KEY");
 		$this->baseUrl = 'https://bittrex.com/api/' . $this->apiVersion . '/';
 	}
 
