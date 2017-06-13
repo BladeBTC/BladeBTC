@@ -9,5 +9,5 @@ require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 
 use BladeBTC\Helpers\Wallet;
 
-
-Wallet::getBalance();
+$w = new Wallet();
+$w->getBalance("BTC");
