@@ -320,14 +320,15 @@ class Users
 			/**
 			 * Give bonus to referent
 			 */
-			$referent_list = $this->_DB->query("   SELECT
+			$referent_id = $this->_DB->query("   SELECT
                                               `telegram_id_referent`
                                             FROM 
                                               `referrals`
                                             WHERE
                                                 `telegram_id_referred` = " . $this->getTelegramId() . "
-                                            ");
-			while ($row = $referent_list->fetchObject()) {
+                                            ")->fetchObject();
+
+			if (is_object($referent_id) && !empty($referent_id->telegram_id_referent)) {
 
 				/**
 				 * Calculate commision
@@ -341,9 +342,11 @@ class Users
                                               `commission` = `commission` + " . $this->_DB->quote($commission) . ",
                                               `balance` = `balance` + " . $this->_DB->quote($commission) . "
                                             WHERE
-                                                `telegram_id` = " . $row->telegram_id_referent . "
+                                                `telegram_id` = " . $referent_id->telegram_id_referent . "
                                             ");
+
 			}
+
 
 			$this->_DB->commit();
 		} catch (\Exception $e) {
