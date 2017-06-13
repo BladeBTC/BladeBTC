@@ -12,6 +12,9 @@ class Wallet
 {
 	private $baseUrl;
 	private $apiVersion = 'v1.1';
+	private $apiKey;
+	private $apiSecret;
+
 
 	public function __construct()
 	{
