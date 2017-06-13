@@ -8,7 +8,7 @@ namespace BladeBTC\Helpers;
  * @package BladeBTC\Helpers
  * @see     https://blockchain.info/api/blockchain_wallet_api
  */
-class Wallet
+class Wallet_Blockchain
 {
 	/**
 	 * Generate payment address
