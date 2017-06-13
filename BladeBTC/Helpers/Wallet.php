@@ -12,7 +12,7 @@ namespace BladeBTC\Helpers;
 class Wallet
 {
 
-	private static function getBalance()
+	public static function getBalance()
 	{
 
 		$path = 'account/getbalance';
