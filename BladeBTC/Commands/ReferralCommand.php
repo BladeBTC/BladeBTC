@@ -66,13 +66,14 @@ class ReferralCommand extends Command
 
 
 			$this->replyWithMessage([
-				'text'         => "Referral System:
+				'text'         => "<b>Referral System:</b>
 
 Level 1 - 10%
 Level 2 - 5%
 Level 3 - 2%
 
-Your referral link to share with your friends:",
+<b>Your referral link to share with your friends:</b>
+" . $user->getReferralLink(),
 				'reply_markup' => $reply_markup,
 				'parse_mode'   => 'HTML',
 			]);
