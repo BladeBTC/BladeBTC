@@ -64,18 +64,12 @@ class HelpCommand extends Command
 				'one_time_keyboard' => false,
 			]);
 
-			$keyboard = [
-				'inline_keyboard' => [
-					[['text' => 'forward me to groups']],
-				],
-			];
-
 			/**
 			 * Response
 			 */
 			$this->replyWithMessage([
 				'text'         => "Press one of the buttons below to get more information about how to start, I am very happy to work with you.",
-				'reply_markup' => json_encode($keyboard),
+				'reply_markup' => $reply_markup,
 				'parse_mode'   => 'HTML',
 			]);
 
