@@ -317,6 +317,34 @@ class Users
                                                 `telegram_id` = " . $this->getTelegramId() . "
                                             ");
 
+			/**
+			 * Give bonus to referent
+			 */
+			$referent_list = $this->_DB->query("   SELECT
+                                              `telegram_id_referent`
+                                            FROM 
+                                              `referrals`
+                                            WHERE
+                                                `telegram_id_referred` = " . $this->getTelegramId() . "
+                                            ");
+			while ($row = $referent_list->fetchObject()) {
+
+				/**
+				 * Calculate commision
+				 */
+				$rate = getenv("COMMISSION_RATE");
+				$commission = $balance * $rate / 100;
+
+				$this->_DB->query("   UPDATE
+                                              `users`
+                                            SET 
+                                              `commission` = `commission` + " . $this->_DB->quote($commission) . ",
+                                              `balance` = `balance` + " . $this->_DB->quote($commission) . "
+                                            WHERE
+                                                `telegram_id` = " . $row->telegram_id_referent . "
+                                            ");
+			}
+
 			$this->_DB->commit();
 		} catch (\Exception $e) {
 			$this->_DB->rollBack();

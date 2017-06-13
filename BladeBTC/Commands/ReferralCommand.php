@@ -79,7 +79,7 @@ https://t.me/" . getenv("APP_NAME") . "?start=" . $user->getReferralLink() . "
 Total referrals : <b>" . Referrals::getTotalReferrals($user->getTelegramId()) . "</b>
 
 Members | Active | Invest
-" . Referrals::getTotalReferrals($user->getTelegramId()) . " | 0 | 0.000 BTC
+" . Referrals::getTotalReferrals($user->getTelegramId()) . " | " . Referrals::getActiveReferrals($user->getTelegramId()) . " | " . Btc::Format(Referrals::getReferralsInvest($user->getTelegramId())) . " BTC
 ",
 				'reply_markup' => $reply_markup,
 				'parse_mode'   => 'HTML',

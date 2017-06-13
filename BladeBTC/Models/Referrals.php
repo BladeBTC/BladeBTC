@@ -40,7 +40,15 @@ class Referrals
 				 */
 				if ($referent->telegram_id != $telegram_id_reffered) {
 
-					$db->query("	INSERT
+
+					/**
+					 * Check if user is already refered by another account.
+					 */
+					$count = $db->query("SELECT COUNT(*) AS `C` FROM `referrals` WHERE `telegram_id_referred` = '" . $telegram_id_reffered . "'")->fetchObject()->C;
+
+					if ($count <= 0) {
+
+						$db->query("	INSERT
 									INTO
 									  `referrals`(
 										`telegram_id_referent`,
@@ -50,6 +58,9 @@ class Referrals
 									 " . $db->quote($referent->telegram_id) . ",
 									 " . $db->quote($telegram_id_reffered) . "
 									)");
+					}
+
+
 				}
 			}
 
@@ -68,6 +79,42 @@ class Referrals
 	 * @return mixed
 	 */
 	public static function getTotalReferrals($telegram_referent_id)
+	{
+		$db = Database::get();
+		$referent = $db
+			->query("SELECT COUNT(*) AS `C` FROM `referrals` WHERE `telegram_id_referent` = '" . $telegram_referent_id . "'")
+			->fetchObject()
+			->C;
+
+		return $referent;
+	}
+
+	/**
+	 * Get active referrals
+	 *
+	 * @param $telegram_referent_id
+	 *
+	 * @return mixed
+	 */
+	public static function getActiveReferrals($telegram_referent_id)
+	{
+		$db = Database::get();
+		$referent = $db
+			->query("SELECT COUNT(*) AS `C` FROM `referrals` WHERE `telegram_id_referent` = '" . $telegram_referent_id . "'")
+			->fetchObject()
+			->C;
+
+		return $referent;
+	}
+
+	/**
+	 * Get referrals invest
+	 *
+	 * @param $telegram_referent_id
+	 *
+	 * @return mixed
+	 */
+	public static function getReferralsInvest($telegram_referent_id)
 	{
 		$db = Database::get();
 		$referent = $db
