@@ -81,7 +81,6 @@ Members | Active | Invest
 ➀    0 | 0 | 0.000 BTC
 ➁    0 | 0 | 0.000 BTC
 ➂    0 | 0 | 0.000 BTC
-➃    0 | 0 | 0.000 BTC
 ",
 				'reply_markup' => $reply_markup,
 				'parse_mode'   => 'HTML',
