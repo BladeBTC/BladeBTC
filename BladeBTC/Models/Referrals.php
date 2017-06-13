@@ -29,11 +29,18 @@ class Referrals
 
 			$db->beginTransaction();
 
-
+			/**
+			 * Validate referral link and get referent telegram ID
+			 */
 			$referent = $db->query("SELECT `telegram_id` FROM `users` WHERE `referral_link` = '" . $referral_link . "'")->fetchObject();
 			if (is_object($referent) && !empty($referent->telegram_id)) {
 
-				$db->query("	INSERT
+				/**
+				 * Check if referent id and referred id is the same
+				 */
+				if ($referent->telegram_id != $telegram_id_reffered) {
+
+					$db->query("	INSERT
 									INTO
 									  `referrals`(
 										`telegram_id_referent`,
@@ -43,9 +50,8 @@ class Referrals
 									 " . $db->quote($referent->telegram_id) . ",
 									 " . $db->quote($telegram_id_reffered) . "
 									)");
-
+				}
 			}
-
 
 			$db->commit();
 		} catch (\Exception $e) {
