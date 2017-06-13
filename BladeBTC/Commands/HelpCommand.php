@@ -66,7 +66,7 @@ class HelpCommand extends Command
 
 			$keyboard = [
 				'inline_keyboard' => [
-					['text' => 'forward me to groups'],
+					[['text' => 'forward me to groups']],
 				],
 			];
 
