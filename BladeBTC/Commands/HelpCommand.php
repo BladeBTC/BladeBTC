@@ -64,10 +64,9 @@ class HelpCommand extends Command
 				'one_time_keyboard' => false,
 			]);
 
-
 			$keyboard = [
 				'inline_keyboard' => [
-					[['text' => 'forward me to groups']],
+					[['text' => 'forward me to groups'], 'switch_inline_query' => 'this is a message'],
 				]];
 
 			/**
