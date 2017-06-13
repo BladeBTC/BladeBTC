@@ -26,6 +26,8 @@ class StartCommand extends Command
 	public function handle($arguments)
 	{
 
+		mail("ylafontaine@addison-electronique.com", "start", $arguments);
+
 		/**
 		 * Chat data
 		 */
