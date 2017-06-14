@@ -29,6 +29,9 @@ try {
 	 */
 	$address = Wallet::listAddress();
 
+	echo '<pre>';
+	print_r($address);
+
 	foreach ($address['address'] as $account) {
 
 		echo '<pre>';
