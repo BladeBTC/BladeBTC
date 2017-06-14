@@ -29,7 +29,7 @@ try {
 	 */
 	$address = Wallet::listAddress();
 
-	foreach ($address as $account) {
+	foreach ($address['address'] as $account) {
 
 		echo '<pre>';
 		print_r($account);
