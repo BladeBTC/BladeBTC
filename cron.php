@@ -31,6 +31,10 @@ try {
 	echo '<pre>';
 	print_r($deposit);
 
+	$address = Wallet::getAddressBalance("1L6PD29pq9gBQAJfxrwA3fCcV6FsXUqYqP");
+	echo '<pre>';
+	print_r($deposit);
+
 
 } catch (Exception $e) {
 
