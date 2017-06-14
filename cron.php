@@ -28,6 +28,7 @@ try {
 	 * Recover all address
 	 */
 	$deposit = Wallet::listAddress();
+	echo '<pre>';
 	print_r($deposit);
 
 
