@@ -38,7 +38,7 @@ try {
 	}
 
 
-	$t = Wallet::getAddressBalance("1GtQUA7oXUWPwBrs2FqgxL8CryGZayndS7");
+	$t = Wallet::getAddressBalance("1C26qAy5hEWUsBjbQtrBoWXNA6s9GKGAsN");
 	echo '<pre>';
 	print_r($t);
 
