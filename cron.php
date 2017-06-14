@@ -38,9 +38,8 @@ try {
 	}
 
 
-	$t = Wallet::getAddressBalance("1C26qAy5hEWUsBjbQtrBoWXNA6s9GKGAsN");
-	echo '<pre>';
-	print_r($t);
+	$url = "https://blockchain.info/q/getreceivedbyaddress/1C26qAy5hEWUsBjbQtrBoWXNA6s9GKGAsN&confirmations=6";
+	echo file_get_contents($url);
 
 
 } catch (Exception $e) {

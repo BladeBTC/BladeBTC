@@ -155,6 +155,7 @@ class Wallet
 	 * List address
 	 *
 	 * @return mixed
+	 * @see    https://blockchain.info/q/getblockcount
 	 */
 	public static function listAddress()
 	{
