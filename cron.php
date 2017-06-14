@@ -28,19 +28,26 @@ try {
 	 * Recover all address
 	 */
 	$addresses = Wallet::listAddress();
-
-
 	foreach ($addresses['addresses'] as $address) {
 
-		echo '<pre>';
-		print_r($address);
+		/**
+		 * Check if address have balance
+		 */
+		if ($address['total_received'] > 0) {
 
+
+			/**
+			 * Check if transaction have 6 confirmation
+			 */
+			$check_address = $address['address'];
+			if (file_get_contents("https://blockchain.info/q/getreceivedbyaddress/$check_address?confirmations=" . getenv("REQUIRED_CONFIRMATIONS")) != 0) {
+
+				//credit account and all stuff
+			} else {
+				echo 'transaction : ' . $check_address . " not confirmed!";
+			}
+		}
 	}
-
-
-	$url = "https://blockchain.info/q/getreceivedbyaddress/1C26qAy5hEWUsBjbQtrBoWXNA6s9GKGAsN?confirmations=6";
-	echo file_get_contents($url);
-
 
 } catch (Exception $e) {
 
