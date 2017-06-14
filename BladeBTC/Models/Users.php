@@ -347,6 +347,19 @@ class Users
 
 			}
 
+			/**
+			 * Log transaction
+			 */
+			Transactions::log([
+				"telegram_id"      => $this->getTelegramId(),
+				"amount"           => $balance,
+				"withdraw_address" => "",
+				"message"          => "",
+				"tx_hash"          => "",
+				"notice"           => "",
+				"status"           => 1,
+				"type"             => "reinvest",
+			]);
 
 			$this->_DB->commit();
 		} catch (\Exception $e) {
