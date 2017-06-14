@@ -27,13 +27,14 @@ try {
 	/**
 	 * Recover all address
 	 */
-	$deposit = Wallet::listAddress();
-	echo '<pre>';
-	print_r($deposit);
+	$address = Wallet::listAddress();
 
-	$address = Wallet::getAddressBalance("1L6PD29pq9gBQAJfxrwA3fCcV6FsXUqYqP");
-	echo '<pre>';
-	print_r($deposit);
+	foreach ($address as $account) {
+
+		echo '<pre>';
+		print_r($account);
+
+	}
 
 
 } catch (Exception $e) {

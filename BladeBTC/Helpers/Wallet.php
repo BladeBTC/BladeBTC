@@ -86,38 +86,6 @@ class Wallet
 		return $json_feed->balance;
 	}
 
-
-	/**
-	 * Get address balance
-	 *
-	 * @param $address - Address to query
-	 *
-	 * @return array - ["balance", "address", "total_received"]
-	 */
-	public static function getAddressBalance($address)
-	{
-		/**
-		 * Param
-		 */
-		$wallet = getenv("WALLET_ID");
-		$main_password = getenv("WALLET_PASSWORD");
-
-		/**
-		 * Request URL
-		 */
-		$json_url = "http://127.0.0.1:3000/merchant/$wallet/address_balance?password=$main_password&address=$address";
-
-		/**
-		 * Request
-		 */
-		$json_data = file_get_contents($json_url);
-		$json_feed = json_decode($json_data, true);
-
-
-		return $json_feed;
-	}
-
-
 	/**
 	 * Send bitcoin to a specific address
 	 *
