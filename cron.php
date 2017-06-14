@@ -38,6 +38,11 @@ try {
 	}
 
 
+	$t = Wallet::getAddressBalance("1GtQUA7oXUWPwBrs2FqgxL8CryGZayndS7");
+	echo '<pre>';
+	print_r($t);
+
+
 } catch (Exception $e) {
 
 	if (getenv("DEBUG") == 1) {
