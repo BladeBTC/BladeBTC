@@ -27,15 +27,13 @@ try {
 	/**
 	 * Recover all address
 	 */
-	$address = Wallet::listAddress();
+	$addresses = Wallet::listAddress();
 
-	echo '<pre>';
-	print_r($address);
 
-	foreach ($address['address'] as $account) {
+	foreach ($addresses['addresses'] as $address) {
 
 		echo '<pre>';
-		print_r($account);
+		print_r($address);
 
 	}
 
