@@ -149,4 +149,34 @@ class Wallet
 
 		return $json_feed;
 	}
+
+
+	/**
+	 * List address
+	 *
+	 * @return mixed
+	 */
+	public static function listAddress()
+	{
+		/**
+		 * Param
+		 */
+		$wallet = getenv("WALLET_ID");
+		$main_password = getenv("WALLET_PASSWORD");
+
+		/**
+		 * Request URL
+		 */
+		$json_url = "http://127.0.0.1:3000/merchant/$wallet/list?password=$main_password";
+
+		/**
+		 * Request
+		 */
+		$json_data = file_get_contents($json_url);
+		$json_feed = json_decode($json_data, true);
+
+
+		return $json_feed;
+	}
+
 }
