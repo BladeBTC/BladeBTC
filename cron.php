@@ -46,21 +46,22 @@ try {
 
 
 			/**
+			 * Build user object
+			 */
+			$user = new Users($address['label']);
+
+
+			/**
 			 * Check if transaction have 6 confirmation
 			 */
 			$check_address = $address['address'];
-			if (file_get_contents("https://blockchain.info/q/getreceivedbyaddress/$check_address?confirmations=" . getenv("REQUIRED_CONFIRMATIONS")) != 0) {
+			if (file_get_contents("https://blockchain.info/q/getreceivedbyaddress/$check_address?confirmations=" . getenv("REQUIRED_CONFIRMATIONS")) > $user->getLastConfirmed()) {
 
 				$db = Database::get();
 
 				try {
 
 					$db->beginTransaction();
-
-					/**
-					 * Build user object
-					 */
-					$user = new Users($address['label']);
 
 
 					/**
