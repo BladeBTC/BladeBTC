@@ -179,4 +179,18 @@ class Wallet
 
 		return $json_feed;
 	}
+
+	/**
+	 * Get the amount received and confirmed for an address
+	 *
+	 * @param $address
+	 *
+	 * @return bool|string
+	 */
+	public static function getConfirmedReceivedByAddress($address)
+	{
+		$amount = file_get_contents("https://blockchain.info/q/getreceivedbyaddress/$address?confirmations=" . getenv("REQUIRED_CONFIRMATIONS"));
+
+		return $amount;
+	}
 }

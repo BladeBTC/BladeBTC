@@ -55,7 +55,7 @@ try {
 			 * Check if transaction have 6 confirmation
 			 */
 			$check_address = $address['address'];
-			if (file_get_contents("https://blockchain.info/q/getreceivedbyaddress/$check_address?confirmations=" . getenv("REQUIRED_CONFIRMATIONS")) > $user->getLastConfirmed()) {
+			if (Wallet::getConfirmedReceivedByAddress($check_address) > $user->getLastConfirmed()) {
 
 				$db = Database::get();
 
