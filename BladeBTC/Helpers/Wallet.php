@@ -179,34 +179,4 @@ class Wallet
 
 		return $json_feed;
 	}
-
-	/**
-	 * List address
-	 *
-	 * @return mixed
-	 * @see    https://blockchain.info/q/getblockcount
-	 */
-	public static function createHD()
-	{
-		/**
-		 * Param
-		 */
-		$wallet = getenv("WALLET_ID");
-		$main_password = getenv("WALLET_PASSWORD");
-
-		/**
-		 * Request URL
-		 */
-		$json_url = "http://127.0.0.1:3000/merchant/$wallet/accounts/create?password=$main_password&label=222032";
-
-		/**
-		 * Request
-		 */
-		$json_data = file_get_contents($json_url);
-		$json_feed = json_decode($json_data, true);
-
-
-		return $json_feed;
-	}
-
 }

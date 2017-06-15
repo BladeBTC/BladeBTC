@@ -18,7 +18,7 @@ try {
 	$dotenv->load();
 
 	echo '<pre>';
-	print_r(wallet::createHD());
+	print_r(wallet::getBalance());
 
 
 } catch (Exception $e) {
