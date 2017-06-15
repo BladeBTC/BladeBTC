@@ -89,6 +89,21 @@ class Investment
 
 	}
 
+	/**
+	 * Get total investment
+	 *
+	 * @param $telegram_id - Telegram ID
+	 */
+	public static function getTotalInvestment($telegram_id)
+	{
+		$db = Database::get();
+
+
+		$count = $db->query("	SELECT COUNT(*) AS `C` FROM `investment` WHERE `telegram_id` = " . $telegram_id)->fetchObject()->C;
+
+		return $count;
+
+	}
 
 	/**
 	 * Give interest from contract

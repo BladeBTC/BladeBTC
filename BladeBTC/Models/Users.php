@@ -351,7 +351,10 @@ class Users
 			/**
 			 * Give bonus to referent
 			 */
-			$referent_id = $this->_DB->query("   SELECT
+
+			if (getenv("INTEREST_ON_REINVEST") == 1) {
+
+				$referent_id = $this->_DB->query("   SELECT
                                               `telegram_id_referent`
                                             FROM 
                                               `referrals`
@@ -359,15 +362,15 @@ class Users
                                                 `telegram_id_referred` = " . $this->getTelegramId() . "
                                             ")->fetchObject();
 
-			if (is_object($referent_id) && !empty($referent_id->telegram_id_referent)) {
+				if (is_object($referent_id) && !empty($referent_id->telegram_id_referent)) {
 
-				/**
-				 * Calculate commision
-				 */
-				$rate = getenv("COMMISSION_RATE");
-				$commission = $balance * $rate / 100;
+					/**
+					 * Calculate commision
+					 */
+					$rate = getenv("COMMISSION_RATE");
+					$commission = $balance * $rate / 100;
 
-				$this->_DB->query("   UPDATE
+					$this->_DB->query("   UPDATE
                                               `users`
                                             SET 
                                               `commission` = `commission` + " . $this->_DB->quote($commission) . ",
@@ -376,7 +379,9 @@ class Users
                                                 `telegram_id` = " . $referent_id->telegram_id_referent . "
                                             ");
 
+				}
 			}
+
 
 			/**
 			 * Log transaction

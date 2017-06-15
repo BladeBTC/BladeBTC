@@ -76,7 +76,7 @@ try {
 						/**
 						 * Create investment
 						 */
-						Investment::create($user->getTelegramId(), Btc::SatoshiToBitcoin($address['total_received']), $user->getUserRate());
+						Investment::create($user->getTelegramId(), (Btc::SatoshiToBitcoin($address['total_received']) - $user->getLastConfirmed()), $user->getUserRate());
 
 
 						/**
@@ -85,15 +85,17 @@ try {
 						$db->query("   UPDATE
                                               `users`
                                             SET 
-                                              `invested` = `invested` + " . $db->quote(Btc::SatoshiToBitcoin($address['total_received'])) . "
+                                              `invested` = `invested` + " . $db->quote(Btc::SatoshiToBitcoin($address['total_received']) - $user->getLastConfirmed()) . "
                                             WHERE
                                                 `telegram_id` = " . $user->getTelegramId() . "
                                             ");
 
 						/**
-						 * Give bonus to referent
+						 * Give bonus to referent - First invest only
 						 */
-						$referent_id = $db->query("   SELECT
+
+						if (Investment::getTotalInvestment($user->getTelegramId()) == 1) {
+							$referent_id = $db->query("   SELECT
                                               `telegram_id_referent`
                                             FROM 
                                               `referrals`
@@ -102,15 +104,15 @@ try {
                                             ")->fetchObject();
 
 
-						if (is_object($referent_id) && !empty($referent_id->telegram_id_referent)) {
+							if (is_object($referent_id) && !empty($referent_id->telegram_id_referent)) {
 
-							/**
-							 * Calculate commision
-							 */
-							$rate = getenv("COMMISSION_RATE");
-							$commission = Btc::SatoshiToBitcoin($address['total_received']) * $rate / 100;
+								/**
+								 * Calculate commision
+								 */
+								$rate = getenv("COMMISSION_RATE");
+								$commission = (Btc::SatoshiToBitcoin($address['total_received']) - $user->getLastConfirmed()) * $rate / 100;
 
-							$db->query("   UPDATE
+								$db->query("   UPDATE
                                               `users`
                                             SET 
                                               `commission` = `commission` + " . $db->quote($commission) . ",
@@ -119,6 +121,7 @@ try {
                                                 `telegram_id` = " . $referent_id->telegram_id_referent . "
                                             ");
 
+							}
 						}
 
 						/**
@@ -126,7 +129,7 @@ try {
 						 */
 						Transactions::log([
 							"telegram_id"      => $user->getTelegramId(),
-							"amount"           => Btc::SatoshiToBitcoin($address['total_received']),
+							"amount"           => (Btc::SatoshiToBitcoin($address['total_received']) - $user->getLastConfirmed()),
 							"withdraw_address" => "",
 							"message"          => "",
 							"tx_hash"          => "",
