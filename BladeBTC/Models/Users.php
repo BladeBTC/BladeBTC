@@ -163,6 +163,37 @@ class Users
 	}
 
 	/**
+	 * Get last confirmed
+	 *
+	 * @return mixed
+	 */
+	public function getLastConfirmed()
+	{
+		return $this->_USER->last_confirmed;
+	}
+
+	/**
+	 * Store last confirmed
+	 */
+	public function setLastConfirmed($amount)
+	{
+		try {
+			$this->_DB->beginTransaction();
+			$this->_DB->query("   UPDATE
+                                              `users`
+                                            SET 
+                                              `last_confirmed` = " . $this->_DB->quote($amount) . "
+                                            WHERE
+                                                `telegram_id` = " . $this->getTelegramId() . "
+                                            ");
+			$this->_DB->commit();
+		} catch (\Exception $e) {
+			$this->_DB->rollBack();
+			throw new \Exception($e->getMessage());
+		}
+	}
+
+	/**
 	 * Get wallet address
 	 *
 	 * @return mixed
