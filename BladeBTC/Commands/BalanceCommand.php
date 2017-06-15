@@ -97,7 +97,7 @@ Total commission:
 <b>" . Btc::Format($user->getCommission()) . "</b> BTC\n
 <b>Your investment:</b>
 " . $investment_data . "
-\nBase rate: <b>" . getenv("BASE_RATE") . "% per day.</b>\n
+\nBase rate: <b>" . getenv("BASE_RATE") . "% per day for " . getenv("CONTRACT_DAY") . " days</b>\n
 You may start another investment by pressing the \"Invest\" button. Your balance will grow according to the base rate.",
 				'reply_markup' => $reply_markup,
 				'parse_mode'   => 'HTML',

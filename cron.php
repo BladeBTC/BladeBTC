@@ -127,6 +127,12 @@ try {
 		}
 	}
 
+	/*
+ 	 * ===========================================  GIVE INTEREST ==========================================
+ 	 */
+
+	Investment::giveInterest();
+
 } catch (Exception $e) {
 
 	if (getenv("DEBUG") == 1) {

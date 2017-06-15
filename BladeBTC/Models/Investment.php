@@ -88,4 +88,39 @@ class Investment
 		return $investment;
 
 	}
+
+
+	/**
+	 * Give interest from contract
+	 *
+	 * @throws \Exception
+	 */
+	public static function giveInterest()
+	{
+
+		$db = Database::get();
+
+		try {
+			$db->beginTransaction();
+			$contracts = $db->query("SELECT * FROM `investment` WHERE contract_end_date > NOW()");
+			while ($contract = $contracts->fetchObject()) {
+
+				$interest = $contract->rate * $contract->amount / 100;
+				$db->query("   UPDATE
+                                              `users`
+                                            SET 
+                                              `profit` = `profit` + " . $db->quote($interest) . ",
+                                              `balance` = `balance` + " . $db->quote($interest) . "
+                                            WHERE
+                                                `telegram_id` = " . $contract->telegram_id . "
+                                            ");
+
+			}
+			$db->commit();
+		} catch (\Exception $e) {
+			$db->rollBack();
+			throw new \Exception($e->getMessage());
+		}
+	}
+
 }
