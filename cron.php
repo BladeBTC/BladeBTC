@@ -39,6 +39,9 @@ try {
 	$addresses = Wallet::listAddress();
 	foreach ($addresses['addresses'] as $address) {
 
+		echo '<pre>';
+		print_r($address);
+
 		/**
 		 * Check if address have balance
 		 */
