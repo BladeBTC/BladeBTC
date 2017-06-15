@@ -17,6 +17,7 @@ try {
 	$dotenv = new Dotenv\Dotenv(__DIR__);
 	$dotenv->load();
 
+	echo '<pre>';
 	print_r(wallet::createHD());
 
 
