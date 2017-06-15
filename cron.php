@@ -23,6 +23,13 @@ try {
 	$dotenv->load();
 
 	/*
+  	 * ===========================================  GIVE INTEREST ==========================================
+	 * Interest must be givin before handle deposit.
+     */
+
+	Investment::giveInterest();
+
+	/*
 	 * ===========================================  HANDLE DEPOSIT ==========================================
 	 */
 
@@ -127,11 +134,6 @@ try {
 		}
 	}
 
-	/*
- 	 * ===========================================  GIVE INTEREST ==========================================
- 	 */
-
-	Investment::giveInterest();
 
 } catch (Exception $e) {
 
