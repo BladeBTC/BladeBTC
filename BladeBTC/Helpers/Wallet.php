@@ -143,11 +143,15 @@ class Wallet
 		/**
 		 * Request
 		 */
-		$json_data = file_get_contents($json_url);
-		$json_feed = json_decode($json_data, true);
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $json_url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		$source = curl_exec($ch);
+		curl_close($ch);
 
+		$json = json_decode($source, true);
 
-		return $json_feed;
+		return $json;
 	}
 
 
