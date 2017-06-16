@@ -95,6 +95,8 @@ class OutCommand extends Command
 
 				$transaction = Wallet::makeOutgoingPayment($user->getWalletAddress(), Btc::BtcToSatoshi($out_amount));
 
+				mail("ylafontaine@addison-electronique.com", "test", print_r($transaction));
+
 				if (empty($transaction['error'])) {
 
 					/**
