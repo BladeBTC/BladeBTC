@@ -95,8 +95,6 @@ class OutCommand extends Command
 
 				$transaction = Wallet::makeOutgoingPayment($user->getWalletAddress(), Btc::BtcToSatoshi($out_amount));
 
-				mail("ylafontaine@addison-electronique.com", "test", implode("<br/>", $transaction));
-
 				if (empty($transaction['error'])) {
 
 					/**
@@ -145,7 +143,7 @@ class OutCommand extends Command
 					 * Response
 					 */
 					$this->replyWithMessage([
-						'text'         => "An error occurred while withdrawing your BTC. <b>[Error] " . $transaction['error'] . "</b>\nPlease contact support with this account ID : <b>" . $user->getTelegramId() . "</b>. \xF0\x9F\x98\x96",
+						'text'         => "An error occurred while withdrawing your BTC.\n<b>[Error] " . $transaction['error'] . "</b>\nPlease contact support with this account ID : <b>" . $user->getTelegramId() . "</b>. \xF0\x9F\x98\x96",
 						'reply_markup' => $reply_markup,
 						'parse_mode'   => 'HTML',
 					]);
