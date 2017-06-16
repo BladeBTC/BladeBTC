@@ -4,6 +4,7 @@
 namespace BladeBTC\Commands;
 
 use BladeBTC\Helpers\Btc;
+use BladeBTC\Helpers\Database;
 use BladeBTC\Helpers\Wallet;
 use BladeBTC\Models\Transactions;
 use BladeBTC\Models\Users;
@@ -113,14 +114,26 @@ class OutCommand extends Command
 
 
 					/**
+					 * Update balance and payout
+					 */
+					$db = Database::get();
+					$db->query("   UPDATE
+                                              `users`
+                                            SET 
+                                              `balance` = `balance` - " . $db->quote($out_amount) . ",
+                                              `payout` = `payout` + " . $db->quote($out_amount) . "
+                                            WHERE
+                                                `telegram_id` = " . $user->getTelegramId() . "
+                                            ");
+
+					/**
 					 * Response
 					 */
 					$this->replyWithMessage([
-						'text'         => "Message :\n" . $transaction['message'] . "\n" . "Transaction ID:\n" . $transaction['tx_hash'] . "\n" . "Notice:\n" . $transaction['notice'],
+						'text'         => "Message :\n<b>" . $transaction['message'] . "</b>\n" . "Transaction ID:\n<b>" . $transaction['tx_hash'] . "</b>\n" . "Notice:\n<b>" . $transaction['notice'] . "</b>",
 						'reply_markup' => $reply_markup,
 						'parse_mode'   => 'HTML',
 					]);
-
 
 				} else {
 
