@@ -95,7 +95,7 @@ class OutCommand extends Command
 
 				$transaction = Wallet::makeOutgoingPayment($user->getWalletAddress(), Btc::BtcToSatoshi($out_amount));
 
-				if (!empty($transaction)) {
+				if (empty($transaction['error'])) {
 
 					/**
 					 * Log
@@ -131,10 +131,10 @@ class OutCommand extends Command
 						"telegram_id"      => $user->getTelegramId(),
 						"amount"           => $out_amount,
 						"withdraw_address" => $user->getWalletAddress(),
-						"message"          => $transaction['message'],
-						"tx_hash"          => $transaction['tx_hash'],
-						"notice"           => $transaction['notice'],
-						"status"           => 1,
+						"message"          => $transaction['error'],
+						"tx_hash"          => "",
+						"notice"           => "",
+						"status"           => 0,
 						"type"             => "withdraw",
 					]);
 
@@ -143,7 +143,7 @@ class OutCommand extends Command
 					 * Response
 					 */
 					$this->replyWithMessage([
-						'text'         => "An error occurred while withdrawing your BTC.\nPlease contact support with this account ID : <b>" . $user->getTelegramId() . "</b>. \xF0\x9F\x98\x96",
+						'text'         => "An error occurred while withdrawing your BTC. <b>[Error] " . $transaction['error'] . "</b>\nPlease contact support with this account ID : <b>" . $user->getTelegramId() . "</b>. \xF0\x9F\x98\x96",
 						'reply_markup' => $reply_markup,
 						'parse_mode'   => 'HTML',
 					]);

@@ -144,7 +144,7 @@ class Wallet
 		 * Request
 		 */
 		$json_data = file_get_contents($json_url);
-		$json_feed = json_decode($json_data);
+		$json_feed = json_decode($json_data, true);
 
 
 		return $json_feed;
