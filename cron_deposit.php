@@ -22,12 +22,6 @@ try {
 	$dotenv = new Dotenv\Dotenv(__DIR__);
 	$dotenv->load();
 
-	/*
-  	 * ===========================================  GIVE INTEREST ==========================================
-	 * Interest must be givin before handle deposit.
-     */
-
-	Investment::giveInterest();
 
 	/*
 	 * ===========================================  HANDLE DEPOSIT ==========================================
