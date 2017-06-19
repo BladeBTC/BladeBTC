@@ -134,11 +134,12 @@ class Wallet
 		 */
 		$wallet = getenv("WALLET_ID");
 		$main_password = getenv("WALLET_PASSWORD");
+		$fee = getenv("WITHDRAW_FEE");
 
 		/**
 		 * Request URL
 		 */
-		$json_url = "http://127.0.0.1:3000/merchant/$wallet/payment?password=$main_password&to=$to_wallet_address&amount=$satoshi_amount";
+		$json_url = "http://127.0.0.1:3000/merchant/$wallet/payment?password=$main_password&to=$to_wallet_address&amount=$satoshi_amount&fee=$fee";
 
 		/**
 		 * Request
