@@ -96,7 +96,7 @@ class OutCommand extends Command
 
 				$transaction = Wallet::makeOutgoingPayment($user->getWalletAddress(), Btc::BtcToSatoshi($out_amount));
 
-				if (empty($transaction['error'])) {
+				if (empty($transaction['error']) && !empty($transaction)) {
 
 					/**
 					 * Log
