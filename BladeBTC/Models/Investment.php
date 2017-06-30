@@ -120,7 +120,7 @@ class Investment
 			$contracts = $db->query("SELECT * FROM `investment` WHERE contract_end_date > NOW()");
 			while ($contract = $contracts->fetchObject()) {
 
-				$interest = $contract->rate * $contract->amount / 100;
+				$interest = ($contract->rate / (24 / getenv("TIMER_TIME_HOUR"))) * $contract->amount / 100;
 				$db->query("   UPDATE
                                               `users`
                                             SET 
