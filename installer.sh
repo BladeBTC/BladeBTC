@@ -246,22 +246,22 @@ make_install(){
 	#create application config
 	if ! echo '
 		#DEBUG
-		DEBUG=0
-		MAIL=""
+		DEBUG=$DEBUG
+		MAIL="$MAIL"
 
 		#DATABASE
-		HOST=""
-		USER=""
-		PASS=""
-		BDD=""
+		HOST="$HOST"
+		USER="$USER"
+		PASS="$PASS"
+		BDD="$BDD"
 
 		#TELEGRAM
-		APP_ID=""
-		APP_NAME=""
+		APP_ID="$APP_ID"
+		APP_NAME="$APP_NAME"
 
 		#CHAINBLOCK
-		WALLET_ID=""
-		WALLET_PASSWORD=""
+		WALLET_ID="$WALLET_ID"
+		WALLET_PASSWORD="$WALLET_PASSWORD"
 
 		#RULES
 		MINIMUM_INVEST="0.01"
@@ -294,8 +294,8 @@ make_install(){
 	#install certbot
 	apt-get install software-properties-common
 	add-apt-repository ppa:certbot/certbot
-	apt-get update
-	apt-get install python-certbot-apache 
+	apt-get update -y
+	apt-get install -y python-certbot-apache 
 	certbot --apache
 	
 	#restart apache
@@ -334,7 +334,7 @@ make_install(){
 			$CRON_HOUR="$i"
 		fi
 		
-		$i = $I + $TIMER
+		$i = $i + $TIMER
 	done
 	
 	(crontab -l 2>/dev/null; echo "0 $CRON_HOUR * * * curl https://$DOMAIN/cron_interest.php") | crontab -
