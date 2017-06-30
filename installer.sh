@@ -112,10 +112,8 @@ make_install(){
 	apt-get install phpmyadmin htop mytop unzip zip unrar webmin -y
 
 	#install nodejs
-	#apt-get install -y npm
 	curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 	apt-get install -y nodejs
-	#npm install -g npm
 	apt-get install -y build-essential
 	
 	#install wallet service
@@ -149,6 +147,7 @@ make_install(){
 		
 		#install website
 		cp -R ./bot/* /var/www/bot/
+		cp ./bot/.htaccess /var/www/bot/.htaccess
 		
 		#creating vhost
 		if ! echo "
@@ -320,13 +319,13 @@ make_install(){
 	mysql -u $USER -p$PASS $BDD < /var/www/bot/localhost.sql
 	
 	#Set WebHook
-	curl https://$DOMAIN/index.php?setWebHookUrl=$DOMAIN
+	curl https://$DOMAIN/index.php?setWebHookUrl=https://$DOMAIN
 	
 	#cron 1
 	(crontab -l 2>/dev/null; echo "0,5,10,15,20,25,30,35,40,45,50,55 * * * * curl https://$DOMAIN/cron_deposit.php") | crontab -
 	
 	#cron 2
-	for (( i=0; i <= 24; i=$i+$TIMER_TIME_HOUR ))
+	for (( i=0; i < 24; i=$i+$TIMER_TIME_HOUR ))
 	do
 		if [ -n "$CRON_HOUR" ]; then
 				CRON_HOUR="$CRON_HOUR,$i"
