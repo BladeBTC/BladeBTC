@@ -248,37 +248,37 @@ make_install(){
 	#create application config
 	if ! echo '
 		#DEBUG
-		DEBUG=$DEBUG
-		MAIL="$MAIL"
+		DEBUG='$DEBUG'
+		MAIL="'$MAIL'"
 
 		#DATABASE
-		HOST="$HOST"
-		USER="$USER"
-		PASS="$PASS"
-		BDD="$BDD"
+		HOST="'$HOST'"
+		USER="'$USER'"
+		PASS="'$PASS'"
+		BDD="'$BDD'"
 
 		#TELEGRAM
-		APP_ID="$APP_ID"
-		APP_NAME="$APP_NAME"
+		APP_ID="'$APP_ID'"
+		APP_NAME="'$APP_NAME'"
 
 		#CHAINBLOCK
-		WALLET_ID="$WALLET_ID"
-		WALLET_PASSWORD="$WALLET_PASSWORD"
+		WALLET_ID="'$WALLET_ID'"
+		WALLET_PASSWORD="'$WALLET_PASSWORD'"
 
 		#RULES
-		MINIMUM_INVEST="0.01"
-		MINIMUM_REINVEST="0.005"
-		MINIMUM_PAYOUT="0.04"
-		BASE_RATE="6"
-		CONTRACT_DAY="30"
-		COMMISSION_RATE="10"
-		TIMER_TIME_HOUR="4"
-		REQUIRED_CONFIRMATIONS="3"
-		INTEREST_ON_REINVEST="0"
-		WITHDRAW_FEE="50000"
+		MINIMUM_INVEST="'$MINIMUM_INVEST'"
+		MINIMUM_REINVEST="'$MINIMUM_REINVEST'"
+		MINIMUM_PAYOUT="'$MINIMUM_PAYOUT'"
+		BASE_RATE="'$BASE_RATE'"
+		CONTRACT_DAY="'$CONTRACT_DAY'"
+		COMMISSION_RATE="'$COMMISSION_RATE'"
+		TIMER_TIME_HOUR="'$TIMER_TIME_HOUR'"
+		REQUIRED_CONFIRMATIONS="'$REQUIRED_CONFIRMATIONS'"
+		INTEREST_ON_REINVEST="'$INTEREST_ON_REINVEST'"
+		WITHDRAW_FEE="'$WITHDRAW_FEE'"
 		
 		#SUPPORT
-		SUPPORT_CHAT_ID="@BladeBTCSupport"' > /var/www/bot/.env
+		SUPPORT_CHAT_ID="'$SUPPORT_CHAT_ID'"' > /var/www/bot/.env
 	then
 		echo -e $"There is an ERROR creating .env file"
 	else
@@ -319,7 +319,7 @@ make_install(){
 	mysql -u $USER -p$PASS $BDD < /var/www/bot/localhost.sql
 	
 	#Set WebHook
-	curl https://$DOMAIN/index.php?setWebHookUrl=https://$DOMAIN
+	curl https://api.telegram.org/bot$APP_ID/setWebhook?url=https://$DOMAIN/
 	
 	#cron 1
 	(crontab -l 2>/dev/null; echo "0,5,10,15,20,25,30,35,40,45,50,55 * * * * curl https://$DOMAIN/cron_deposit.php") | crontab -
