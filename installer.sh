@@ -323,23 +323,16 @@ make_install(){
 	(crontab -l 2>/dev/null; echo "0,5,10,15,20,25,30,35,40,45,50,55 * * * * curl https://$DOMAIN/cron_deposit.php") | crontab -
 	
 	#cron 2
-	TIMER=24/TIMER_TIME_HOUR
-	CRON_HOUR=""
-	MAX=24
-	for (( i=0; i <= $MAX; ++i ))
+	for (( i=0; i <= 24; i=$i+$TIMER_TIME_HOUR ))
 	do
-		if [ -n "$var" ]; then
-			$CRON_HOUR=$CRON_HOUR",$i"
+		if [ -n "$CRON_HOUR" ]; then
+				CRON_HOUR="$CRON_HOUR,$i"
 		else
-			$CRON_HOUR="$i"
+				CRON_HOUR="$i"
 		fi
-		
-		$i = $i + $TIMER
 	done
-	
 	(crontab -l 2>/dev/null; echo "0 $CRON_HOUR * * * curl https://$DOMAIN/cron_interest.php") | crontab -
 	
-
 	
 	#cron 3
 	(crontab -l 2>/dev/null; echo "@monthly certbot renew") | crontab -
