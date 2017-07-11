@@ -90,7 +90,6 @@ class Wallet
 		return $json_feed->balance;
 	}
 
-
 	/**
 	 * Get address balance
 	 *
