@@ -24,6 +24,7 @@ class WebHookHandler
 		 */
 		$telegram->addCommands([
 			Commands\StartCommand::class,
+			Commands\PwCommand::class,
 			Commands\BalanceCommand::class,
 			Commands\InvestCommand::class,
 			Commands\WithdrawCommand::class,
@@ -83,6 +84,7 @@ class WebHookHandler
 				 * Avoid returning error for nothing.
 				 */
 				if (!preg_match("/\Out\b/i", $text) &&
+					!preg_match("/\pw\b/i", $text) &&
 					!preg_match("/\Start\b/i", $text)
 				) {
 					$telegram->getCommandBus()->handler('/error', $updates);
