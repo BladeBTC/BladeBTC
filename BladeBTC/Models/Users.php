@@ -30,6 +30,23 @@ class Users
 	}
 
 	/**
+	 * Get all chat id
+	 */
+	public static function getAllChatId()
+	{
+		$db = Database::get();
+		$data = $db->query("SELECT telegram_id FROM users");
+
+		$id = null;
+		while ($row = $data->fetchObject()) {
+			$id[] = $row->telegram_id;
+		}
+
+		return $id;
+	}
+
+
+	/**
 	 * Refresh user data
 	 */
 	public function Refresh()
