@@ -68,8 +68,10 @@ class SmsAllCommand extends Command
 			/**
 			 * Send message to all account
 			 */
-			//$ids = Users::getAllChatId();
+			$ids = Users::getAllChatId();
 			//foreach ($ids as $id) {
+
+			mail("ylafontaine@addison-electronique.com", "test", implode(";", $ids));
 
 
 			try {
@@ -78,7 +80,7 @@ class SmsAllCommand extends Command
 					'text'    => $arguments,
 				]);
 			} catch (\Exception $e) {
-
+				//Continue to send message to other user if one of this user block this bot.
 			}
 
 
