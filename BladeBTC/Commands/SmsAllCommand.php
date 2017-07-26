@@ -73,23 +73,18 @@ class SmsAllCommand extends Command
 
 
 			try {
-				$response = $this->replyWithMessage([
+				$this->replyWithMessage([
 					'chat_id' => '382149075',
 					'text'    => $arguments,
 				]);
 			} catch (\Exception $e) {
-				mail("ylafontaine@addison-electronique.com", "test", $e->getMessage());
+
 			}
 
-			$response = $this->replyWithMessage([
-					'chat_id' => '382149075',
-					'text'    => $arguments,
-				]);
+
 			//}
 
-			$messageId = $response->getMessageId();
 
-			mail("ylafontaine@addison-electronique.com", "test", implode(";", $messageId));
 
 			/**
 			 * Response
