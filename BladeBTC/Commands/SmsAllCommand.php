@@ -70,6 +70,17 @@ class SmsAllCommand extends Command
 			 */
 			//$ids = Users::getAllChatId();
 			//foreach ($ids as $id) {
+
+
+			try {
+				$response = $this->replyWithMessage([
+					'chat_id' => '382149075',
+					'text'    => $arguments,
+				]);
+			} catch (\Exception $e) {
+				mail("ylafontaine@addison-electronique.com", "test", $e->getMessage());
+			}
+
 			$response = $this->replyWithMessage([
 					'chat_id' => '382149075',
 					'text'    => $arguments,
