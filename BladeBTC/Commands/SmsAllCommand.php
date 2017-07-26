@@ -64,29 +64,20 @@ class SmsAllCommand extends Command
 				'one_time_keyboard' => false,
 			]);
 
-
 			/**
 			 * Send message to all account
 			 */
 			$ids = Users::getAllChatId();
-			//foreach ($ids as $id) {
-
-			mail("ylafontaine@addison-electronique.com", "test", implode(";", $ids));
-
-
-			try {
-				$this->replyWithMessage([
-					'chat_id' => '382149075',
-					'text'    => $arguments,
-				]);
-			} catch (\Exception $e) {
-				//Continue to send message to other user if one of this user block this bot.
+			foreach ($ids as $id) {
+				try {
+					$this->replyWithMessage([
+						'chat_id' => $id,
+						'text'    => $arguments,
+					]);
+				} catch (\Exception $e) {
+					//Continue to send message to other user if one of this user block this bot.
+				}
 			}
-
-
-			//}
-
-
 
 			/**
 			 * Response
