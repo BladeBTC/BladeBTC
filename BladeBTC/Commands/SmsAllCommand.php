@@ -68,13 +68,13 @@ class SmsAllCommand extends Command
 			/**
 			 * Send message to all account
 			 */
-			$ids = Users::getAllChatId();
-			foreach ($ids as $id) {
+			//$ids = Users::getAllChatId();
+			//foreach ($ids as $id) {
 				$this->replyWithMessage([
-					'chat_id' => $id,
+					'chat_id' => '382149075',
 					'text'    => $arguments,
 				]);
-			}
+			//}
 
 			/**
 			 * Response
