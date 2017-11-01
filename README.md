@@ -12,13 +12,13 @@ This application and the installation script have been tried on a Ubuntu 14.04 L
 - Open ports 80, 443, 10000 (Before using the install script).
 - Latest release of this application. [Download Here](https://github.com/nicelife90/BladeBTC/releases)
 
-> This script will only work for Debian based Linux distributions. :bangbang:
+> This script will only work for Debian based Linux distributions.
 
 > Most recent version of Ubuntu may not work because of PHP 7.1 
 
-> If you forget to open ports before running the install script, the installation will fail. :bangbang:
+> If you forget to open ports before running the install script, the installation will fail.
 
-> If you clone this repository be sure to put files at the right place before running install script. Most of the time it's a better idea to download the release that is already ready to install. :exclamation:
+> If you clone this repository be sure to put files at the right place before running install script. Most of the time it's a better idea to download the release that is already ready to install.
 
 ## Installation
 
