@@ -2,11 +2,11 @@
 
 ####################################################################################
 #
-# open port 80, 443, 10000
-# creater foler install
-# put this script in install folder
-# create folder bot
-# put all website script in this folder
+# Open port 80, 443, 10000
+# Create a folder named install
+# Put this script (installer.sh) in the install folder
+# Create a folder named bot
+# Put all application files in the bot folder
 # chmod 777 installer.sh
 # sudo ./installer.sh
 #
