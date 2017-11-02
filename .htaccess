@@ -8,6 +8,11 @@ Order Allow,Deny
 Deny from all
 </Files>
 
+<Files .env.sample>
+Order Allow,Deny
+Deny from all
+</Files>
+
 <Files installer.sh>
 Order Allow,Deny
 Deny from all

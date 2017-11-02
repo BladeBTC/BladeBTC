@@ -24,7 +24,6 @@ class WebHookHandler
 		 */
 		$telegram->addCommands([
 			Commands\StartCommand::class,
-			Commands\PwCommand::class,
 			Commands\WalletBalanceCommand::class,
 			Commands\SmsAllCommand::class,
 			Commands\BalanceCommand::class,
@@ -86,7 +85,6 @@ class WebHookHandler
 				 * Avoid returning error for nothing.
 				 */
 				if (!preg_match("/\/out/", $text) &&
-					!preg_match("/\/pw/", $text) &&
 					!preg_match("/\/gwb/", $text) &&
 					!preg_match("/\/sms/", $text) &&
 					!preg_match("/\/start/", $text)

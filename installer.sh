@@ -36,6 +36,7 @@ APP_NAME=""
 #CHAINBLOCK
 WALLET_ID=""
 WALLET_PASSWORD=""
+WALLET_PASSWORD_SECOND=""
 
 #RULES
 MINIMUM_INVEST=""
@@ -264,6 +265,7 @@ make_install(){
 		#CHAINBLOCK
 		WALLET_ID="'$WALLET_ID'"
 		WALLET_PASSWORD="'$WALLET_PASSWORD'"
+		WALLET_PASSWORD_SECOND="'$WALLET_PASSWORD_SECOND'"
 
 		#RULES
 		MINIMUM_INVEST="'$MINIMUM_INVEST'"
@@ -454,6 +456,13 @@ while [ "$WALLET_PASSWORD" == "" ]
 do
         WALLET_PASSWORD_DEFAULT=""
         read -p "Please enter your Blockchain wallet password (Disable 2 form authentication and be sure to have only one password.) [$WALLET_PASSWORD_DEFAULT]: " WALLET_PASSWORD
+        WALLET_PASSWORD="${WALLET_PASSWORD:-$WALLET_PASSWORD_DEFAULT}"
+done
+
+while [ "$WALLET_PASSWORD_SECOND" == "" ]
+do
+        WALLET_PASSWORD_DEFAULT=""
+        read -p "Please enter your Blockchain second wallet password (Be sure to disable 2 form authentication.) [$WALLET_PASSWORD_DEFAULT]: " WALLET_PASSWORD
         WALLET_PASSWORD="${WALLET_PASSWORD:-$WALLET_PASSWORD_DEFAULT}"
 done
 

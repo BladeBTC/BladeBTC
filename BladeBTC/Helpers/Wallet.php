@@ -40,7 +40,7 @@ class Wallet
 			 */
 			$wallet = getenv("WALLET_ID");
 			$main_password = getenv("WALLET_PASSWORD");
-			$second_password = Passwd::get();
+            $second_password = getenv("WALLET_PASSWORD_SECOND");
 			$label = $telegram_user_id;
 
 			/**
@@ -73,7 +73,7 @@ class Wallet
 		 */
 		$wallet = getenv("WALLET_ID");
 		$main_password = getenv("WALLET_PASSWORD");
-		$second_password = Passwd::get();
+        $second_password = getenv("WALLET_PASSWORD_SECOND");
 
 		/**
 		 * Request URL
@@ -104,7 +104,7 @@ class Wallet
 		 */
 		$wallet = getenv("WALLET_ID");
 		$main_password = getenv("WALLET_PASSWORD");
-		$second_password = Passwd::get();
+        $second_password = getenv("WALLET_PASSWORD_SECOND");
 
 		/**
 		 * Request URL
@@ -138,7 +138,7 @@ class Wallet
 		 */
 		$wallet = getenv("WALLET_ID");
 		$main_password = getenv("WALLET_PASSWORD");
-		$second_password = Passwd::get();
+        $second_password = getenv("WALLET_PASSWORD_SECOND");
 		$fee = getenv("WITHDRAW_FEE");
 
 		/**
@@ -174,7 +174,7 @@ class Wallet
 		 */
 		$wallet = getenv("WALLET_ID");
 		$main_password = getenv("WALLET_PASSWORD");
-		$second_password = Passwd::get();
+        $second_password = getenv("WALLET_PASSWORD_SECOND");
 
 		/**
 		 * Request URL
