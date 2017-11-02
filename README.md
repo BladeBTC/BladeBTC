@@ -22,7 +22,25 @@ This application and the installation script have been tried on a Ubuntu 14.04 L
 
 ## Installation
 
-Comming Soon
+#### Telegram Bot
+
+- Use BotFather on Telegram to create new bot [BotFather](https://telegram.me/BotFather)
+- Customize and put your new bot inline with BotFather.
+
+#### Blockchain Wallet
+
+- Create new Wallet on Blockchain website. [BlockChain](https://blockchain.info/fr/wallet/#/signup)
+- In Settings / Security - Setup second password for your wallet.
+- In Settings / Security / Advance settings - Withelist your public IP.
+
+#### Domain Name / No-IP
+
+- Register new domain name at [GoDaddy](https://ca.godaddy.com/) or any registrar.
+- Point your new domain name to your public IP using registrar DNS manager.
+
+> If you don't want to pay for a domaine name you could use [No-IP](https://www.noip.com/) to create free host.
+
+#### Server
 
 ```sh
 $ curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
