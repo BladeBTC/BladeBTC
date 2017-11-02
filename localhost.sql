@@ -90,9 +90,32 @@ CREATE TABLE `users` (
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
+  
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `passwd`
+--
+
+CREATE TABLE `passwd` (
+  `id`               INT(11)   NOT NULL,
+  `passwd`           TEXT
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
+-- --------------------------------------------------------
+
+  
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `investment`
+--
+ALTER TABLE `passwd`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `investment`
@@ -143,6 +166,12 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
+  MODIFY `id` INT(25) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `passwd`
+--
+ALTER TABLE `passwd`
   MODIFY `id` INT(25) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT = @OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS = @OLD_CHARACTER_SET_RESULTS */;

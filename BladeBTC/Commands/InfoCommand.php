@@ -8,17 +8,17 @@ use BladeBTC\Models\Users;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
-class HelpCommand extends Command
+class InfoCommand extends Command
 {
 	/**
 	 * @var string Command Name
 	 */
-	protected $name = "help";
+	protected $name = "info";
 
 	/**
 	 * @var string Command Description
 	 */
-	protected $description = "Help menu.";
+	protected $description = "Info menu.";
 
 	/**
 	 * @inheritdoc

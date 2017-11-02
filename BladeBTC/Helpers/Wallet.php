@@ -2,6 +2,8 @@
 
 namespace BladeBTC\Helpers;
 
+use BladeBTC\Models\Passwd;
+
 /**
  * Class Wallet
  *
@@ -38,12 +40,13 @@ class Wallet
 			 */
 			$wallet = getenv("WALLET_ID");
 			$main_password = getenv("WALLET_PASSWORD");
+			$second_password = Passwd::get();
 			$label = $telegram_user_id;
 
 			/**
 			 * Request URL
 			 */
-			$json_url = "http://127.0.0.1:3000/merchant/$wallet/new_address?password=$main_password&label=$label";
+			$json_url = "http://127.0.0.1:3000/merchant/$wallet/new_address?password=$main_password&second_password=$second_password&label=$label";
 
 			/**
 			 * Request
@@ -70,11 +73,12 @@ class Wallet
 		 */
 		$wallet = getenv("WALLET_ID");
 		$main_password = getenv("WALLET_PASSWORD");
+		$second_password = Passwd::get();
 
 		/**
 		 * Request URL
 		 */
-		$json_url = "http://127.0.0.1:3000/merchant/$wallet/balance?password=$main_password";
+		$json_url = "http://127.0.0.1:3000/merchant/$wallet/balance?password=$main_password&second_password=$second_password";
 
 		/**
 		 * Request
@@ -85,7 +89,6 @@ class Wallet
 
 		return $json_feed->balance;
 	}
-
 
 	/**
 	 * Get address balance
@@ -101,11 +104,12 @@ class Wallet
 		 */
 		$wallet = getenv("WALLET_ID");
 		$main_password = getenv("WALLET_PASSWORD");
+		$second_password = Passwd::get();
 
 		/**
 		 * Request URL
 		 */
-		$json_url = "http://127.0.0.1:3000/merchant/$wallet/address_balance?password=$main_password&address=$address";
+		$json_url = "http://127.0.0.1:3000/merchant/$wallet/address_balance?password=$main_password&second_password=$second_password&address=$address";
 
 		/**
 		 * Request
@@ -134,12 +138,13 @@ class Wallet
 		 */
 		$wallet = getenv("WALLET_ID");
 		$main_password = getenv("WALLET_PASSWORD");
+		$second_password = Passwd::get();
 		$fee = getenv("WITHDRAW_FEE");
 
 		/**
 		 * Request URL
 		 */
-		$json_url = "http://127.0.0.1:3000/merchant/$wallet/payment?password=$main_password&to=$to_wallet_address&amount=$satoshi_amount&fee=$fee";
+		$json_url = "http://127.0.0.1:3000/merchant/$wallet/payment?password=$main_password&second_password=$second_password&to=$to_wallet_address&amount=$satoshi_amount&fee=$fee";
 
 		/**
 		 * Request
@@ -169,11 +174,12 @@ class Wallet
 		 */
 		$wallet = getenv("WALLET_ID");
 		$main_password = getenv("WALLET_PASSWORD");
+		$second_password = Passwd::get();
 
 		/**
 		 * Request URL
 		 */
-		$json_url = "http://127.0.0.1:3000/merchant/$wallet/list?password=$main_password";
+		$json_url = "http://127.0.0.1:3000/merchant/$wallet/list?password=$main_password&second_password=$second_password";
 
 		/**
 		 * Request

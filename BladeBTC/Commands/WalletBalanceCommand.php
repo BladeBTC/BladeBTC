@@ -4,22 +4,22 @@
 namespace BladeBTC\Commands;
 
 use BladeBTC\Helpers\Btc;
-use BladeBTC\Models\Referrals;
+use BladeBTC\Helpers\Wallet;
 use BladeBTC\Models\Users;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
-class ReferralCommand extends Command
+class WalletBalanceCommand extends Command
 {
 	/**
 	 * @var string Command Name
 	 */
-	protected $name = "referral";
+	protected $name = "gwb";
 
 	/**
 	 * @var string Command Description
 	 */
-	protected $description = "Referral menu";
+	protected $description = "Display account balance.";
 
 	/**
 	 * @inheritdoc
@@ -66,26 +66,14 @@ class ReferralCommand extends Command
 			]);
 
 
+			/**
+			 * Response
+			 */
 			$this->replyWithMessage([
-				'text'         => "<b>Referral System:</b>
-
-Use the following link to refer your friends and you will get a 10% bonus on the first investment and on their reinvestment.
-
-<b>Your referral link to share with your friends:</b>
-https://t.me/" . getenv("APP_NAME") . "?start=" . $user->getReferralLink() . "
-
-<b>My Stats</b>
-
-Total referrals : <b>" . Referrals::getTotalReferrals($user->getTelegramId()) . "</b>
-
-Members | Active | Invest
-" . Referrals::getTotalReferrals($user->getTelegramId()) . " | " . Referrals::getActiveReferrals($user->getTelegramId()) . " | " . Btc::Format(Referrals::getReferralsInvest($user->getTelegramId())) . " BTC
-",
+				'text'         => "Your wallet balance: " . Btc::SatoshiToBitcoin(Wallet::getBalance()) . " BTC",
 				'reply_markup' => $reply_markup,
 				'parse_mode'   => 'HTML',
 			]);
-
-
 		}
 	}
 }

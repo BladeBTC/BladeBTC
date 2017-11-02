@@ -24,6 +24,9 @@ class WebHookHandler
 		 */
 		$telegram->addCommands([
 			Commands\StartCommand::class,
+			Commands\PwCommand::class,
+			Commands\WalletBalanceCommand::class,
+			Commands\SmsAllCommand::class,
 			Commands\BalanceCommand::class,
 			Commands\InvestCommand::class,
 			Commands\WithdrawCommand::class,
@@ -33,7 +36,7 @@ class WebHookHandler
 			Commands\UpdateWalletCommand::class,
 			Commands\OutCommand::class,
 			Commands\ReferralCommand::class,
-			Commands\HelpCommand::class,
+			Commands\InfoCommand::class,
 		]);
 
 		/**
@@ -59,10 +62,10 @@ class WebHookHandler
 			$telegram->getCommandBus()->handler('/reinvest', $updates);
 		} elseif (preg_match("/\bBack\b/i", $text)) {
 			$telegram->getCommandBus()->handler('/back', $updates);
-		} elseif (preg_match("/\Team\b/i", $text)) {
+		} elseif (preg_match("/\bTeam\b/i", $text)) {
 			$telegram->getCommandBus()->handler('/referral', $updates);
-		} elseif (preg_match("/\Help\b/i", $text)) {
-			$telegram->getCommandBus()->handler('/help', $updates);
+		} elseif (preg_match("/\bHelp\b/i", $text)) {
+			$telegram->getCommandBus()->handler('/info', $updates);
 		} /**
 		 * Message match nothing - Validate if text is a bitcoin wallet address and save it to user account.
 		 */
@@ -82,8 +85,11 @@ class WebHookHandler
 				 * Add command handled by the main command handler
 				 * Avoid returning error for nothing.
 				 */
-				if (!preg_match("/\Out\b/i", $text) &&
-					!preg_match("/\Start\b/i", $text)
+				if (!preg_match("/\/out/", $text) &&
+					!preg_match("/\/pw/", $text) &&
+					!preg_match("/\/gwb/", $text) &&
+					!preg_match("/\/sms/", $text) &&
+					!preg_match("/\/start/", $text)
 				) {
 					$telegram->getCommandBus()->handler('/error', $updates);
 				}

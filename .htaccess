@@ -7,3 +7,14 @@ Options -Indexes
 Order Allow,Deny
 Deny from all
 </Files>
+
+<Files installer.sh>
+Order Allow,Deny
+Deny from all
+</Files>
+
+<Files localhost.sql>
+Order Allow,Deny
+Deny from all
+</Files>
+

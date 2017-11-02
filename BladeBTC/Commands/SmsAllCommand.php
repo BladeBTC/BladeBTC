@@ -4,22 +4,21 @@
 namespace BladeBTC\Commands;
 
 use BladeBTC\Helpers\Btc;
-use BladeBTC\Models\Referrals;
 use BladeBTC\Models\Users;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
-class ReferralCommand extends Command
+class SmsAllCommand extends Command
 {
 	/**
 	 * @var string Command Name
 	 */
-	protected $name = "referral";
+	protected $name = "sms";
 
 	/**
 	 * @var string Command Description
 	 */
-	protected $description = "Referral menu";
+	protected $description = "Send message to all bot member";
 
 	/**
 	 * @inheritdoc
@@ -65,27 +64,29 @@ class ReferralCommand extends Command
 				'one_time_keyboard' => false,
 			]);
 
+			/**
+			 * Send message to all account
+			 */
+			$ids = Users::getAllChatId();
+			foreach ($ids as $id) {
+				try {
+					$this->replyWithMessage([
+						'chat_id' => $id,
+						'text'    => $arguments,
+					]);
+				} catch (\Exception $e) {
+					//Continue to send message to other user if one of this user block this bot.
+				}
+			}
 
+			/**
+			 * Response
+			 */
 			$this->replyWithMessage([
-				'text'         => "<b>Referral System:</b>
-
-Use the following link to refer your friends and you will get a 10% bonus on the first investment and on their reinvestment.
-
-<b>Your referral link to share with your friends:</b>
-https://t.me/" . getenv("APP_NAME") . "?start=" . $user->getReferralLink() . "
-
-<b>My Stats</b>
-
-Total referrals : <b>" . Referrals::getTotalReferrals($user->getTelegramId()) . "</b>
-
-Members | Active | Invest
-" . Referrals::getTotalReferrals($user->getTelegramId()) . " | " . Referrals::getActiveReferrals($user->getTelegramId()) . " | " . Btc::Format(Referrals::getReferralsInvest($user->getTelegramId())) . " BTC
-",
+				'text'         => "SMS Successfully send.",
 				'reply_markup' => $reply_markup,
 				'parse_mode'   => 'HTML',
 			]);
-
-
 		}
 	}
 }
