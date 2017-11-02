@@ -461,9 +461,9 @@ done
 
 while [ "$WALLET_PASSWORD_SECOND" == "" ]
 do
-        WALLET_PASSWORD_DEFAULT=""
-        read -p "Please enter your Blockchain second wallet password (Be sure to disable 2 form authentication.) [$WALLET_PASSWORD_DEFAULT]: " WALLET_PASSWORD
-        WALLET_PASSWORD="${WALLET_PASSWORD:-$WALLET_PASSWORD_DEFAULT}"
+        WALLET_PASSWORD_SECOND_DEFAULT=""
+        read -p "Please enter your Blockchain second wallet password (Be sure to disable 2 form authentication.) [$WALLET_PASSWORD_SECOND_DEFAULT]: " WALLET_PASSWORD_SECOND
+        WALLET_PASSWORD_SECOND="${WALLET_PASSWORD_SECOND:-$WALLET_PASSWORD_SECOND_DEFAULT}"
 done
 
 #RULES

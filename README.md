@@ -24,7 +24,7 @@ This application and the installation script have been tried on a Ubuntu 14.04 L
 
 #### Telegram Bot
 
-- Use BotFather on Telegram to create new bot [BotFather](https://telegram.me/BotFather)
+- Use BotFather on Telegram to create new bot. [BotFather](https://telegram.me/BotFather)
 - Customize and put your new bot inline with BotFather.
 
 #### Blockchain Wallet
@@ -42,12 +42,29 @@ This application and the installation script have been tried on a Ubuntu 14.04 L
 
 #### Server
 
+> Make sure you already have opened the following port to your server - 80, 443, 10000
+
+On a fresh install of Ubuntu 14.04.5 LTS do the following commands :
+
+- Upload install.zip to ``/var/tmp``
+
 ```sh
-$ curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-$ sudo apt-get install -y nodejs
-$ sudo npm install -g npm
-$ sudo apt-get install -y build-essential
+$ cd /var/tmp
+$ sudo apt-get install -y unzip dos2unix
+$ unzip install.zip
+$ cd install/
+$ dos2unix installer.sh
+$ chmod 777 installer.sh
+$ sudo ./installer.sh
 ````
+
+- Follow the script instruction and give all the required data.
+- Reboot your server.
+
+## Hidden commands
+
+- /gwb - To get current blockchain wallet balance.
+- /sms [your message without brace] - To send a Telegram message to all account.
 
 ## Warnings and Disclaimers 
 
