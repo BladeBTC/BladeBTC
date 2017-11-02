@@ -48,6 +48,8 @@ On a fresh install of Ubuntu 14.04.5 LTS do the following commands :
 
 - Upload install.zip to ``/var/tmp``
 
+> Use apache2 when the installer.sh ask you for a choice!
+
 ```sh
 $ cd /var/tmp
 $ sudo apt-get install -y unzip dos2unix
