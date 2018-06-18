@@ -1,3 +1,7 @@
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/nicelife90/bladebtc.svg)](http://isitmaintained.com/project/nicelife90/bladebtc "Percentage of issues still open")
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/nicelife90/bladebtc.svg)](http://isitmaintained.com/project/nicelife90/bladebtc "Average time to resolve an issue")
+
+
 # BladeBTC
 This application is a telegram bot. The goal of this bot is to create a Bitcoin exchange platform. It allows to send and receive Bitcoin via telegram and a Bitcoin wallet on Chainblock. It guarantees a profit on investments. Users can invest, reinvest and withdraw their Bitcoin at any time via the telegram interface.
 
