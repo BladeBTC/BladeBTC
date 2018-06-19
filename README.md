@@ -1,4 +1,5 @@
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/nicelife90/BladeBTC.svg)](http://isitmaintained.com/project/nicelife90/BladeBTC "Average time to resolve an issue")
+
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/nicelife90/BladeBTC.svg)](http://isitmaintained.com/project/nicelife90/BladeBTC "Percentage of issues still open")
 
 # BladeBTC
