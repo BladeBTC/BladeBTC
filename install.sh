@@ -80,7 +80,7 @@ fi
 make_install(){
 
 	#webmin source
-	echo -e "\e[92mAdding source for Webmin ... [PLEASE WAIT]\e[0m"
+	echo -e "\n\n\e[92mAdding source for Webmin ... [PLEASE WAIT]\e[0m"
 	wget -O- http://www.webmin.com/jcameron-key.asc | sudo apt-key add -
 	echo "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
 	echo -e "\e[92mAdd source for Webmin ... [DONE]\e[0m"
