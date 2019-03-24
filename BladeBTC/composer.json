@@ -1,0 +1,14 @@
+{
+    "name": "nicelife90/blade-btc",
+    "description": "This is a little application to respond to request in telegram.",
+    "homepage": "https://github.com/nicelife90/BladeBTC",
+    "autoload": {
+        "psr-4": {
+            "BladeBTC\\": "BladeBTC/"
+        }
+    },
+    "require": {
+        "irazasyed/telegram-bot-sdk": "^2.0",
+        "vlucas/phpdotenv": "^2.4"
+    }
+}
