@@ -66,11 +66,9 @@ echo "[IMPORTANT] The database username will be \e[92mroot\e[0m"
 echo "============================================================================="
 
 #check for root access
-if [[ "$(whoami)" != 'root' ]]; then
-	echo ""
-	echo $"You have no permission to run $0 as non-root user. Use sudo"
-	echo ""
-	exit 1;
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root"
+   exit 1
 fi
 
 ####################################################################################
@@ -379,15 +377,18 @@ make_install(){
 function create_database() {
 
 #Create MySQL root Password
+service mysql stop
+mkdir /var/run/mysqld; sudo chown mysql /var/run/mysqld
 mysqld_safe --skip-grant-tables&
-mysql --user=root mysql
 read -r -d '' SQL_CREATE_PASSWORD << EOM
 update user set authentication_string=PASSWORD('${PASS}') where user='${USER}';
 flush privileges;
 quit
 EOM
-mysql -u ${USER} -p < ${SQL_CREATE_PASSWORD}
-service mysql restart
+mysql --user=root mysql < ${SQL_CREATE_PASSWORD}
+killall mysqld
+service mysql start
+
 
 #Secure Installation
 sh ./sub_process1.bash ${PASS} ${PASS}
