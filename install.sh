@@ -75,7 +75,48 @@ fi
 ################################# INSTALLING #######################################
 ####################################################################################
 
+do_step(){
+
+$0 2>/dev/null & #send command to background
+pid=$! # Process Id of the previous running command
+
+spin[0]="-"
+spin[1]="\\"
+spin[2]="|"
+spin[3]="/"
+
+echo -n "$1 [PLEASE WAIT] ${spin[0]}"
+while [ kill -0 $pid ]
+do
+  for i in "${spin[@]}"
+  do
+        echo -ne "\b$i"
+        sleep 0.1
+  done
+done
+
+wait $pid
+
+status=$?
+
+if [ $status -eq 0 ]
+then
+  echo -e "$1 [DONE]"
+  exit 0
+else
+   echo -e "$1 [FAILED]"
+  exit 1
+fi
+
+}
+
 make_install(){
+
+	#update server
+	echo -e "\e[92mUpdating server ... [PLEASE WAIT]\e[0m"
+	apt-get update -y
+	apt-get upgrade -y
+	echo -e "\e[92mUpdating server ... [DONE]\e[0m"
 
 	#webmin source
 	echo -e "\n\n\e[92mAdding source for Webmin ... [PLEASE WAIT]\e[0m"
@@ -88,21 +129,15 @@ make_install(){
     add-apt-repository ppa:certbot/certbot -y
     echo -e "\e[92mAdding source for Certbot ... [DONE]\e[0m"
 
+    #install some other package
+	echo -e "\e[92mInstalling all needed package ... [PLEASE WAIT]\e[0m"
+	apt-get install apache2 mysql-server php libapache2-mod-php htop webmin nodejs build-essential software-properties-common python-certbot-apache -y
+	echo -e "\e[92mInstalling all needed package ... [DONE]\e[0m"
+
     #install nodejs
     echo -e "\e[92mInstalling node.js ... [PLEASE WAIT]\e[0m"
 	curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 	echo -e "\e[92mInstalling node.js ... [DONE]\e[0m"
-
-	#update server
-	echo -e "\e[92mUpdating server ... [PLEASE WAIT]\e[0m"
-	apt-get update -y
-	apt-get upgrade -y
-	echo -e "\e[92mUpdating server ... [DONE]\e[0m"
-
-	#install some other package
-	echo -e "\e[92mInstalling all needed package ... [PLEASE WAIT]\e[0m"
-	apt-get install apache2 mysql-server php libapache2-mod-php htop webmin nodejs build-essential software-properties-common python-certbot-apache -y
-	echo -e "\e[92mInstalling all needed package ... [DONE]\e[0m"
 
 	#install wallet service
 	echo -e "\e[92mInstalling Blockchain Wallet API ... [PLEASE WAIT]\e[0m"
@@ -118,8 +153,6 @@ make_install(){
     #write server name
 	echo -e "\e[92mWriting apache2 configuration ... [PLEASE WAIT]\e[0m"
 	echo "ServerName ServerName" >> /etc/apache2/apache2.conf
-
-
 
 	#APACHE Config
 	sitesAvailable='/etc/apache2/sites-available/'
@@ -382,16 +415,16 @@ mkdir /var/run/mysqld; sudo chown mysql /var/run/mysqld
 mysqld_safe --skip-grant-tables&
 read -r -d '' SQL_CREATE_PASSWORD << EOM
 update user set authentication_string=PASSWORD('${PASS}') where user='${USER}';
-flush privileges;
+DELETE FROM mysql.user WHERE User='';
+DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+DROP DATABASE IF EXISTS test;
+DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
+FLUSH PRIVILEGES;
 quit
 EOM
 mysql --user=root mysql < ${SQL_CREATE_PASSWORD}
 killall mysqld
 service mysql start
-
-
-#Secure Installation
-sh ./sub_process1.bash ${PASS} ${PASS}
 
 #Create Database
 echo "create database $DB" | mysql -u ${USER} -p${PASS}
