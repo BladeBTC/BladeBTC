@@ -75,18 +75,21 @@ fi
 ################################# INSTALLING #######################################
 ####################################################################################
 
+#!/bin/bash
+
 do_step(){
 
-$0 2>/dev/null & #send command to background
-pid=$! # Process Id of the previous running command
+eval $1 > /dev/null &   #send command to background
+pid=$!                  #Process Id of the previous running command
+pid_status=$?           #Process return code
 
 spin[0]="-"
 spin[1]="\\"
 spin[2]="|"
 spin[3]="/"
 
-echo -n "$1 [PLEASE WAIT] ${spin[0]}"
-while [ kill -0 $pid ]
+echo -n "$2 [PLEASE WAIT] ${spin[0]}"
+while kill -0 $pid 2>/dev/null;
 do
   for i in "${spin[@]}"
   do
@@ -94,21 +97,25 @@ do
         sleep 0.1
   done
 done
+echo -ne "\b\b"
 
-wait $pid
-
-status=$?
-
-if [ $status -eq 0 ]
+echo $pid
+echo $pid_status
+if [ $pid_status -eq 0 ]
 then
-  echo -e "$1 [DONE]"
-  exit 0
+  echo -e "\n$2 [DONE]"
 else
-   echo -e "$1 [FAILED]"
-  exit 1
+  echo -e "\n$2 [FAILED]"
 fi
 
+sleep 0.3
+
 }
+
+do_step "command -v ping 127.0.0.1 -c 6" "PING DUNE ADRESSE..."
+do_step "ss -ntl sport = :53 | grep 12568" "copie du fichier..."
+
+
 
 make_install(){
 
