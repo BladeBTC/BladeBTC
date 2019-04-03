@@ -11,9 +11,9 @@ This application is a telegram bot. The goal of this bot is to create a Bitcoin 
 ## Prerequisites 
 
 This application is designed to be installed on a Linux server on which you have administrator access.
-This application and the installation script have been tried on a Ubuntu 14.04 LTS server.
+This application and the installation script have been tried on a Ubuntu 18.04 LTS server.
 
-- Linux server (Ubuntu 14.04 LTS).
+- Linux server (Ubuntu 18.04 LTS).
 - Root privileges.
 - Public / Private static IP on this server (recommended).
 - Open ports 80, 443, 10000 (Before using the install script).
@@ -51,7 +51,7 @@ This application and the installation script have been tried on a Ubuntu 14.04 L
 
 > Make sure you already have opened the following port to your server - 80, 443, 10000
 
-On a fresh install of Ubuntu 14.04.5 LTS do the following commands :
+On a fresh install of Ubuntu 18.04.5 LTS do the following commands :
 
 - Upload install.zip to ``/var/tmp``
 

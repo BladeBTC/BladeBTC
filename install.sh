@@ -75,40 +75,6 @@ fi
 ################################# INSTALLING #######################################
 ####################################################################################
 
-do_step(){
-
-$0 2>/dev/null & #send command to background
-pid=$! # Process Id of the previous running command
-
-spin[0]="-"
-spin[1]="\\"
-spin[2]="|"
-spin[3]="/"
-
-echo -n "$1 [PLEASE WAIT] ${spin[0]}"
-while [ kill -0 $pid ]
-do
-  for i in "${spin[@]}"
-  do
-        echo -ne "\b$i"
-        sleep 0.1
-  done
-done
-
-wait $pid
-
-status=$?
-
-if [ $status -eq 0 ]
-then
-  echo -e "$1 [DONE]"
-  exit 0
-else
-   echo -e "$1 [FAILED]"
-  exit 1
-fi
-
-}
 
 make_install(){
 
