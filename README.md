@@ -17,15 +17,12 @@ This application and the installation script have been tried on a Ubuntu 18.04 L
 - Root privileges.
 - Public / Private static IP on this server (recommended).
 - Open ports 80, 443, 10000 (Before using the install script).
-- Latest release of this application. [Download Here](https://github.com/nicelife90/BladeBTC/releases)
 
 > This script will only work for Debian based Linux distributions.
 
-> Most recent version of Ubuntu may not work because of PHP 7.1 
-
-> If you forget to open ports before running the install script, the installation will fail.
-
-> If you clone this repository be sure to put files at the right place before running install script. Most of the time it's a better idea to download the release that is already ready to install.
+```diff
+- Don't forget to open ports before running the install script otherwise the installation will fail.
+```
 
 ## Installation
 
@@ -45,30 +42,25 @@ This application and the installation script have been tried on a Ubuntu 18.04 L
 - Register new domain name at [GoDaddy](https://ca.godaddy.com/) or any registrar.
 - Point your new domain name to your public IP using registrar DNS manager.
 
-> If you don't want to pay for a domaine name you could use [No-IP](https://www.noip.com/) to create free host.
+> If you don't want to pay for a domain name you could use [No-IP](https://www.noip.com/) to create free host.
 
-#### Server
+#### Server (Installation)
 
 > Make sure you already have opened the following port to your server - 80, 443, 10000
 
 On a fresh install of Ubuntu 18.04.5 LTS do the following commands :
 
-- Upload install.zip to ``/var/tmp``
-
-> Use apache2 when the installer.sh ask you for a choice!
-
 ```sh
+$ sudo su
+$ apt-get install git -y
 $ cd /var/tmp
-$ sudo apt-get install -y unzip dos2unix
-$ unzip install.zip
-$ cd install/
-$ dos2unix installer.sh
-$ chmod 777 installer.sh
-$ sudo ./installer.sh
+$ git clone https://github.com/nicelife90/BladeBTC.git
+$ cd BladeBTC/
+$ chmod 550 install.sh
+$ ./install.sh
 ````
 
 - Follow the script instruction and give all the required data.
-- Reboot your server.
 
 ## Hidden commands
 
