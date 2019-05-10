@@ -1,14 +1,6 @@
 #!/bin/bash
 
 ####################################################################################
-#
-# Open port 80, 443, 10000
-# chmod 770 install.sh
-# sudo ./install.sh
-#
-####################################################################################
-
-####################################################################################
 ################################## VARIABLES #######################################
 ####################################################################################
 
@@ -34,16 +26,16 @@ WALLET_PASSWORD=""
 WALLET_PASSWORD_SECOND=""
 
 #RULES
-MINIMUM_INVEST=""
-MINIMUM_REINVEST=""
-MINIMUM_PAYOUT=""
-BASE_RATE=""
-CONTRACT_DAY=""
-COMMISSION_RATE=""
-TIMER_TIME_HOUR=""
-REQUIRED_CONFIRMATIONS=""
-INTEREST_ON_REINVEST=""
-WITHDRAW_FEE=""
+MINIMUM_INVEST="0.02"
+MINIMUM_REINVEST="0.005"
+MINIMUM_PAYOUT="0.05"
+BASE_RATE="6"
+CONTRACT_DAY="30"
+COMMISSION_RATE="10"
+TIMER_TIME_HOUR="4"
+REQUIRED_CONFIRMATIONS="3"
+INTEREST_ON_REINVEST="0"
+WITHDRAW_FEE="50000"
 
 #SUPPORT
 SUPPORT_CHAT_ID=""
@@ -96,21 +88,20 @@ make_install(){
 
     #install some other package
 	echo -e "\e[92mInstalling all needed package ... [PLEASE WAIT]\e[0m"
-	apt-get install apache2 php libapache2-mod-php htop webmin nodejs build-essential software-properties-common python-certbot-apache phpmyadmin -y
+	apt-get install unzip apache2 php libapache2-mod-php htop webmin nodejs build-essential software-properties-common python-certbot-apache -y
 	echo -e "\e[92mInstalling all needed package ... [DONE]\e[0m"
 
     #install mariadb
     apt-get install software-properties-common
     apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
     add-apt-repository 'deb [arch=amd64,arm64,ppc64el] http://mirror.its.dal.ca/mariadb/repo/10.3/ubuntu bionic main'
-    apt update
+    apt update -y
     echo "mariadb-server-10.3 mysql-server/root_password password $PASS" | debconf-set-selections
     echo "mariadb-server-10.3 mysql-server/root_password_again password $PASS" | debconf-set-selections
 
     echo -e "\e[92mInstalling MariaDB ... [PLEASE WAIT]\e[0m"
 	apt install mariadb-server-10.3 mariadb-client-10.3 -y
 	echo -e "\e[92mInstalling MariaDB ... [DONE]\e[0m"
-
 
     #install phpmyadmin
     echo "phpmyadmin phpmyadmin/dbconfig-install boolean true" | debconf-set-selections
@@ -409,34 +400,12 @@ do
 	DOMAIN="${DOMAIN:-$DOMAIN_DEFAULT}"
 done
 
-#DEBUG
-while [[ "$DEBUG" == "" ]]
-do
-        DEBUG_DEFAULT="0"
-        read -p "Would you like to put this application in debug mode? (Not recommanded for production server!) [$DEBUG_DEFAULT]: " DEBUG
-        DEBUG="${DEBUG:-$DEBUG_DEFAULT}"
-done
-
 #DATABASE
-while [[ "$HOST" == "" ]]
-do
-        HOST_DEFAULT="127.0.0.1"
-        read -p "Please enter database server address (Ex: 127.0.0.1) [$HOST_DEFAULT]: " HOST
-        HOST="${HOST:-$HOST_DEFAULT}"
-done
-
 while [[ "$PASS" == "" ]]
 do
         PASS_DEFAULT=""
         read -p "Please enter database server password [$PASS_DEFAULT]: " PASS
         PASS="${PASS:-$PASS_DEFAULT}"
-done
-
-while [[ "$DB" == "" ]]
-do
-        BDD_DEFAULT="telegram_bot"
-        read -p "Please enter server BDD [$BDD_DEFAULT]: " DB
-        DB="${DB:-$BDD_DEFAULT}"
 done
 
 #TELEGRAM
@@ -454,104 +423,33 @@ do
         APP_NAME="${APP_NAME:-$APP_NAME_DEFAULT}"
 done
 
-#CHAINBLOCK
+#BLOCKCHAIN
 while [[ "$WALLET_ID" == "" ]]
 do
         WALLET_ID_DEFAULT=""
-        read -p "Please enter your Blockchain wallet ID [ EX: cd6c4470-1195-4c44-83d7-7b223a2f8ggd ] : " WALLET_ID
+        read -p "Please enter your Blockchain wallet ID [ EX: cd6c4470-1195-4c44-83d7-7b223a2f8ggd ]: " WALLET_ID
         WALLET_ID="${WALLET_ID:-$WALLET_ID_DEFAULT}"
 done
 
 while [[ "$WALLET_PASSWORD" == "" ]]
 do
         WALLET_PASSWORD_DEFAULT=""
-        read -p "Please enter your Blockchain wallet password (Disable 2 form authentication and be sure to have only one password.) [$WALLET_PASSWORD_DEFAULT]: " WALLET_PASSWORD
+        read -p "Please enter your Blockchain wallet password (Disable 2 form authentication and be sure to have only one password.): " WALLET_PASSWORD
         WALLET_PASSWORD="${WALLET_PASSWORD:-$WALLET_PASSWORD_DEFAULT}"
 done
 
 while [[ "$WALLET_PASSWORD_SECOND" == "" ]]
 do
         WALLET_PASSWORD_SECOND_DEFAULT=""
-        read -p "Please enter your Blockchain second wallet password (Be sure to disable 2 form authentication.) [$WALLET_PASSWORD_SECOND_DEFAULT]: " WALLET_PASSWORD_SECOND
+        read -p "Please enter your Blockchain second wallet password (Be sure to disable 2 form authentication.): " WALLET_PASSWORD_SECOND
         WALLET_PASSWORD_SECOND="${WALLET_PASSWORD_SECOND:-$WALLET_PASSWORD_SECOND_DEFAULT}"
-done
-
-#RULES
-while [[ "$MINIMUM_INVEST" == "" ]]
-do
-        MINIMUM_INVEST_DEFAULT="0.02"
-        read -p "Please enter the minimum investment amount [$MINIMUM_INVEST_DEFAULT]: " MINIMUM_INVEST
-        MINIMUM_INVEST="${MINIMUM_INVEST:-$MINIMUM_INVEST_DEFAULT}"
-done
-
-while [[ "$MINIMUM_REINVEST" == "" ]]
-do
-        MINIMUM_REINVEST_DEFAULT="0.005"
-        read -p "Please enter the minimum reinvestment amount [$MINIMUM_REINVEST_DEFAULT]: " MINIMUM_REINVEST
-        MINIMUM_REINVEST="${MINIMUM_REINVEST:-$MINIMUM_REINVEST_DEFAULT}"
-done
-
-while [[ "$MINIMUM_PAYOUT" == "" ]]
-do
-        MINIMUM_PAYOUT_DEFAULT="0.05"
-        read -p "Please enter the minimum withdraw amount [$MINIMUM_PAYOUT_DEFAULT]: " MINIMUM_PAYOUT
-        MINIMUM_PAYOUT="${MINIMUM_PAYOUT:-$MINIMUM_PAYOUT_DEFAULT}"
-done
-
-while [[ "$BASE_RATE" == "" ]]
-do
-        BASE_RATE_DEFAULT="6"
-        read -p "Please enter the base rate in % of your bot (This is the amount in % that the bot give in interest.) [$BASE_RATE_DEFAULT]: " BASE_RATE
-        BASE_RATE="${BASE_RATE:-$BASE_RATE_DEFAULT}"
-done
-
-while [[ "$CONTRACT_DAY" == "" ]]
-do
-        CONTRACT_DAY_DEFAULT="30"
-        read -p "Please enter the contract time in day (This is the time in day that the investment are freeze to get interest.) [$CONTRACT_DAY_DEFAULT]: " CONTRACT_DAY
-        CONTRACT_DAY="${CONTRACT_DAY:-$CONTRACT_DAY_DEFAULT}"
-done
-
-while [[ "$COMMISSION_RATE" == "" ]]
-do
-        COMMISSION_RATE_DEFAULT="10"
-        read -p "Please enter the commission rate in % (This is the amount in % that the refferer get from the first investment of is reffral.) [$COMMISSION_RATE_DEFAULT]: " COMMISSION_RATE
-        COMMISSION_RATE="${COMMISSION_RATE:-$COMMISSION_RATE_DEFAULT}"
-done
-
-while [[ "$TIMER_TIME_HOUR" == "" ]]
-do
-        TIMER_TIME_HOUR_DEFAULT="4"
-        read -p "Please enter the interest interval in hour (Example if you put 4 than each 4 hours interest will be added to user account.) [$TIMER_TIME_HOUR_DEFAULT]: " TIMER_TIME_HOUR
-        TIMER_TIME_HOUR="${TIMER_TIME_HOUR:-$TIMER_TIME_HOUR_DEFAULT}"
-done
-
-while [[ "$REQUIRED_CONFIRMATIONS" == "" ]]
-do
-        REQUIRED_CONFIRMATIONS_DEFAULT="3"
-        read -p "Please enter the amount of confirmation required to validate a deposit [$REQUIRED_CONFIRMATIONS_DEFAULT]: " REQUIRED_CONFIRMATIONS
-        REQUIRED_CONFIRMATIONS="${REQUIRED_CONFIRMATIONS:-$REQUIRED_CONFIRMATIONS_DEFAULT}"
-done
-
-while [[ "$INTEREST_ON_REINVEST" == "" ]]
-do
-        INTEREST_ON_REINVEST_DEFAULT="0"
-        read -p "Please enter the commission rate in % gived on reinvest (This is the amount in % that the refferer get from the reinvestment of is reffral.) [$INTEREST_ON_REINVEST_DEFAULT]: " INTEREST_ON_REINVEST
-        INTEREST_ON_REINVEST="${INTEREST_ON_REINVEST:-$INTEREST_ON_REINVEST_DEFAULT}"
-done
-
-while [[ "$WITHDRAW_FEE" == "" ]]
-do
-        WITHDRAW_FEE_DEFAULT="50000"
-        read -p "Please enter the withdraw fee in satoshi (Small fee can make blockchain choose the fee himself and can create error.) [$WITHDRAW_FEE_DEFAULT]: " WITHDRAW_FEE
-        WITHDRAW_FEE="${WITHDRAW_FEE:-$WITHDRAW_FEE_DEFAULT}"
 done
 
 #SUPPORT
 while [[ "$SUPPORT_CHAT_ID" == "" ]]
 do
         SUPPORT_CHAT_ID_DEFAULT=""
-        read -p "Please enter Telegram chat ID where your users can get support (Ex: @yourTelegramID) [$SUPPORT_CHAT_ID_DEFAULT]: " SUPPORT_CHAT_ID
+        read -p "Please enter Telegram chat ID where your users can get support (Ex: @yourTelegramID): " SUPPORT_CHAT_ID
         SUPPORT_CHAT_ID="${SUPPORT_CHAT_ID:-$SUPPORT_CHAT_ID_DEFAULT}"
 done
 
@@ -566,7 +464,7 @@ echo "DOMAIN: $DOMAIN"
 echo "DEBUG: $DEBUG"
 echo "HOST: $HOST"
 echo "USER: $USER"
-echo "PASS: $PASS"
+echo "PASS:  "
 echo "BDD: $DB"
 echo "APP_ID: $APP_ID"
 echo "APP_NAME: $APP_NAME"
