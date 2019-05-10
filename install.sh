@@ -104,7 +104,7 @@ make_install(){
 	echo -e "\e[92mInstalling MariaDB ... [DONE]\e[0m"
 
     #install phpmyadmin
-    echo "phpmyadmin phpmyadmin/dbconfig-install boolean true" | debconf-set-selections
+    echo "phpmyadmin phpmyadmin/dbconfig-install boolean false" | debconf-set-selections
     echo "phpmyadmin phpmyadmin/app-password-confirm password $PASS" | debconf-set-selections
     echo "phpmyadmin phpmyadmin/mysql/admin-pass password $PASS" | debconf-set-selections
     echo "phpmyadmin phpmyadmin/mysql/app-pass password $PASS" | debconf-set-selections
@@ -118,6 +118,7 @@ make_install(){
     echo -e "\e[92mInstalling node.js ... [PLEASE WAIT]\e[0m"
 	curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 	echo -e "\e[92mInstalling node.js ... [DONE]\e[0m"
+    apt-get install npm -y
 
 	#install wallet service
 	echo -e "\e[92mInstalling Blockchain Wallet API ... [PLEASE WAIT]\e[0m"
@@ -382,7 +383,7 @@ make_install(){
 	echo ""
 	echo ""
 	echo "=========================================================================================="
-	echo "=====================           REBOOT YOUR SERVER NOW         ==========================="
+	echo "=================           SERVER IS GOING DOWN FOR REBOOT         ======================"
 	echo "=========================================================================================="
 	
 }
