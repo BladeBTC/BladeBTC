@@ -19,10 +19,10 @@ DOMAIN=""
 DEBUG=0
 
 #DATABASE
-HOST=""
+HOST="127.0.0.1"
 USER="root"
 PASS=""
-DB=""
+DB="telegram_bot"
 
 #TELEGRAM
 APP_ID=""
