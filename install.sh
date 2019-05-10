@@ -77,6 +77,7 @@ fi
 make_install(){
 
 	#update server
+	clear
 	echo -e "\e[92mUpdating server ... [PLEASE WAIT]\e[0m"
 	apt-get update -y
 	apt-get upgrade -y
@@ -95,7 +96,31 @@ make_install(){
 
     #install some other package
 	echo -e "\e[92mInstalling all needed package ... [PLEASE WAIT]\e[0m"
-	apt-get install apache2 mysql-server php libapache2-mod-php htop webmin nodejs build-essential software-properties-common python-certbot-apache -y
+	apt-get install apache2 php libapache2-mod-php htop webmin nodejs build-essential software-properties-common python-certbot-apache phpmyadmin -y
+	echo -e "\e[92mInstalling all needed package ... [DONE]\e[0m"
+
+    #install mariadb
+    apt-get install software-properties-common
+    apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
+    add-apt-repository 'deb [arch=amd64,arm64,ppc64el] http://mirror.its.dal.ca/mariadb/repo/10.3/ubuntu bionic main'
+    apt update
+    echo "mariadb-server-10.3 mysql-server/root_password password $PASS" | debconf-set-selections
+    echo "mariadb-server-10.3 mysql-server/root_password_again password $PASS" | debconf-set-selections
+
+    echo -e "\e[92mInstalling MariaDB ... [PLEASE WAIT]\e[0m"
+	apt install mariadb-server-10.3 mariadb-client-10.3 -y
+	echo -e "\e[92mInstalling MariaDB ... [DONE]\e[0m"
+
+
+    #install phpmyadmin
+    echo "phpmyadmin phpmyadmin/dbconfig-install boolean true" | debconf-set-selections
+    echo "phpmyadmin phpmyadmin/app-password-confirm password $PASS" | debconf-set-selections
+    echo "phpmyadmin phpmyadmin/mysql/admin-pass password $PASS" | debconf-set-selections
+    echo "phpmyadmin phpmyadmin/mysql/app-pass password $PASS" | debconf-set-selections
+    echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | debconf-set-selections
+
+    echo -e "\e[92mInstalling all needed package ... [PLEASE WAIT]\e[0m"
+	apt install phpmyadmin -y
 	echo -e "\e[92mInstalling all needed package ... [DONE]\e[0m"
 
     #install nodejs
@@ -309,7 +334,7 @@ make_install(){
 
 	#create database
 	echo -e "\e[92mCreating Database ... [PLEASE WAIT]\e[0m"
-	create_database
+	mysql -u ${USER} -p${PASS} < ./main.sql
 	echo -e "\e[92mCreating Database ... [DONE]\e[0m"
 
 	#Set WebHook
@@ -371,186 +396,6 @@ make_install(){
 	
 }
 
-function create_database() {
-
-#Create MySQL root Password
-service mysql stop
-mkdir /var/run/mysqld; sudo chown mysql /var/run/mysqld
-mysqld_safe --skip-grant-tables&
-read -r -d '' SQL_CREATE_PASSWORD << EOM
-update user set authentication_string=PASSWORD('${PASS}') where user='${USER}';
-DELETE FROM mysql.user WHERE User='';
-DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
-DROP DATABASE IF EXISTS test;
-DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
-FLUSH PRIVILEGES;
-quit
-EOM
-mysql --user=root mysql < ${SQL_CREATE_PASSWORD}
-killall mysqld
-service mysql start
-
-#Create Database
-echo "create database $DB" | mysql -u ${USER} -p${PASS}
-
-#Create Tables
-read -r -d '' SQL_SCRIPT << EOM
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT = @@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS = @@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION = @@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
-
--- --------------------------------------------------------
-
---
--- Table structure for table `investment`
---
-
-CREATE TABLE `investment` (
-  `id`                  INT(11)        NOT NULL,
-  `telegram_id`         INT(11)        NOT NULL,
-  `amount`              DECIMAL(15, 8) NOT NULL,
-  `rate`                DECIMAL(4, 2)  NOT NULL,
-  `contract_end_date`   TIMESTAMP      NULL     DEFAULT NULL,
-  `contract_start_date` TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `referrals`
---
-
-CREATE TABLE `referrals` (
-  `id`                   INT(11)   NOT NULL,
-  `telegram_id_referent` INT(11)   NOT NULL,
-  `telegram_id_referred` INT(11)   NOT NULL,
-  `bind_date`            TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `transactions`
---
-
-CREATE TABLE `transactions` (
-  `id`               INT(11)   NOT NULL,
-  `telegram_id`      INT(25)            DEFAULT NULL,
-  `amount`           DECIMAL(15, 8)     DEFAULT NULL,
-  `withdraw_address` TINYTEXT,
-  `message`          TEXT,
-  `tx_hash`          TEXT,
-  `notice`           TEXT,
-  `status`           INT(1)             DEFAULT NULL,
-  `type`             VARCHAR(50)        DEFAULT NULL,
-  `date`             TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
-CREATE TABLE `users` (
-  `id`                 INT(25)       NOT NULL,
-  `telegram_username`  TINYTEXT,
-  `telegram_first`     TINYTEXT,
-  `telegram_last`      TINYTEXT,
-  `telegram_id`        INT(25)                DEFAULT NULL,
-  `balance`            DOUBLE(15, 8) NOT NULL DEFAULT '0.00000000',
-  `invested`           DOUBLE(15, 8) NOT NULL DEFAULT '0.00000000',
-  `profit`             DOUBLE(15, 8) NOT NULL DEFAULT '0.00000000',
-  `commission`         DOUBLE(15, 8) NOT NULL DEFAULT '0.00000000',
-  `payout`             DOUBLE(15, 8) NOT NULL DEFAULT '0.00000000',
-  `rate`               DECIMAL(4, 2)          DEFAULT NULL,
-  `investment_address` TINYTEXT,
-  `last_confirmed`     DOUBLE(15, 8)          DEFAULT NULL,
-  `wallet_address`     TINYTEXT,
-  `referral_link`      TINYTEXT,
-  `created_at`         TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;
-
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `investment`
---
-ALTER TABLE `investment`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `referrals`
---
-ALTER TABLE `referrals`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `telegram_id_referred` (`telegram_id_referred`);
-
---
--- Indexes for table `transactions`
---
-ALTER TABLE `transactions`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `telegram_id` (`telegram_id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `investment`
---
-ALTER TABLE `investment`
-  MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `referrals`
---
-ALTER TABLE `referrals`
-  MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `transactions`
---
-ALTER TABLE `transactions`
-  MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` INT(25) NOT NULL AUTO_INCREMENT;
-
-
-/*!40101 SET CHARACTER_SET_CLIENT = @OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS = @OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION = @OLD_COLLATION_CONNECTION */;
-EOM
-
-mysql -u ${USER} -p${PASS} ${DB} < ${SQL_SCRIPT}
-
-}
-
 ####################################################################################
 ###################### FEED VARIABLE FROM USER DATA ################################
 ####################################################################################
@@ -598,14 +443,14 @@ done
 while [[ "$APP_ID" == "" ]]
 do
         APP_ID_DEFAULT=""
-        read -p "Please enter your Telegram application ID [$APP_ID_DEFAULT]: " APP_ID
+        read -p "Please enter your Telegram application ID ( API KEY ): " APP_ID
         APP_ID="${APP_ID:-$APP_ID_DEFAULT}"
 done
 
 while [[ "$APP_NAME" == "" ]]
 do
         APP_NAME_DEFAULT=""
-        read -p "Please enter your Telegram application name without @ [$APP_NAME_DEFAULT]: " APP_NAME
+        read -p "Please enter your Telegram application name without @ [ EX: BladeBTCBot ]: " APP_NAME
         APP_NAME="${APP_NAME:-$APP_NAME_DEFAULT}"
 done
 
@@ -613,7 +458,7 @@ done
 while [[ "$WALLET_ID" == "" ]]
 do
         WALLET_ID_DEFAULT=""
-        read -p "Please enter your Blockchain wallet ID (Don't put your wallet address.) [$WALLET_ID_DEFAULT]: " WALLET_ID
+        read -p "Please enter your Blockchain wallet ID [ EX: cd6c4470-1195-4c44-83d7-7b223a2f8ggd ] : " WALLET_ID
         WALLET_ID="${WALLET_ID:-$WALLET_ID_DEFAULT}"
 done
 
