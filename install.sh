@@ -101,6 +101,7 @@ make_install(){
 
     echo -e "\e[92mInstalling MariaDB ... [PLEASE WAIT]\e[0m"
 	apt install mariadb-server-10.3 mariadb-client-10.3 -y
+	service mysql restart
 	echo -e "\e[92mInstalling MariaDB ... [DONE]\e[0m"
 
     #install phpmyadmin
