@@ -1,0 +1,58 @@
+#!/usr/bin/env php
+<?php
+require __DIR__ . '/vendor/autoload.php';
+
+$dotenv = new Dotenv\Dotenv(__DIR__, '.env');
+$dotenv->load();
+
+date_default_timezone_set('America/Montreal');
+
+use App\Commands\Mail\CreateMailGroup;
+use App\Commands\Mail\ListMailGroup;
+use App\Commands\Mail\UserAddMailGroup;
+use App\Commands\Mail\UserDelMailGroup;
+use App\Commands\Database\Dump;
+use App\Commands\Database\Import;
+use App\Commands\Groups\ListGroup;
+use App\Commands\Models\CreateModel;
+use App\Commands\Modules\CreateModule;
+use App\Commands\Modules\RegisterModules;
+use App\Commands\Rbac\AssignmentRbac;
+use App\Commands\Rbac\AssignRbac;
+use App\Commands\Rbac\CreateRbac;
+use App\Commands\Rbac\DeassignRbac;
+use App\Commands\Rbac\ListRbac;
+use Symfony\Component\Console\Application;
+
+/** @var $application - New application */
+$application = new Application("CMS - Console", "1.0.0");
+
+/** Module */
+$application->add(new CreateModule());
+$application->add(new RegisterModules());
+
+/** Model */
+$application->add(new CreateModel());
+
+/** RBAC */
+$application->add(new CreateRbac());
+$application->add(new ListRbac());
+$application->add(new AssignRbac());
+$application->add(new DeassignRbac());
+$application->add(new AssignmentRbac());
+
+/** GROUP */
+$application->add(new ListGroup());
+
+/** DATABASE */
+$application->add(new Dump());
+$application->add(new Import());
+
+/** MAIL */
+$application->add(new CreateMailGroup());
+$application->add(new ListMailGroup());
+$application->add(new UserAddMailGroup());
+$application->add(new UserDelMailGroup());
+
+/** Run application */
+$application->run();

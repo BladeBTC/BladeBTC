@@ -1,0 +1,29 @@
+{
+  "name": "CMS",
+  "description": "Custom Made CMS",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Yanick Lafontaine",
+      "email": "yanicklafontaine@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
+  "require": {
+    "vlucas/phpdotenv": "v2.4.0",
+    "nojacko/email-validator": "~1.0",
+    "smarty/smarty": "~3.1",
+    "phpmailer/phpmailer": "^6.0",
+    "firebase/php-jwt": "^5.0",
+    "verot/class.upload.php": "dev-master",
+    "milon/barcode": "^5.3",
+    "symfony/console": "^3.3",
+    "maximebf/debugbar": "1.*",
+    "mk-j/php_xlsxwriter": "0.37",
+    "dompdf/dompdf": "^0.8.2"
+  }
+}

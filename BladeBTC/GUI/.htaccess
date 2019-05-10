@@ -1,0 +1,23 @@
+
+Options -Indexes
+ErrorDocument 404 /index.php
+
+# Hide a specific file
+<Files .env>
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files .env.sample>
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files application>
+    Order allow,deny
+    Deny from all
+</Files>
+
+
+
+
