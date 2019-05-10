@@ -17,7 +17,6 @@ DOMAIN=""
 
 #DEBUG
 DEBUG=0
-MAIL=""
 
 #DATABASE
 HOST=""
@@ -573,14 +572,6 @@ do
         DEBUG="${DEBUG:-$DEBUG_DEFAULT}"
 done
 
-
-while [[ "$MAIL" == "" ]]
-do
-        MAIL_DEFAULT=""
-        read -p "Please enter email address to send debug information [$MAIL_DEFAULT]: " MAIL
-        MAIL="${MAIL:-$MAIL_DEFAULT}"
-done
-
 #DATABASE
 while [[ "$HOST" == "" ]]
 do
@@ -728,7 +719,6 @@ echo -e "This is all the parameters you choose for this installation:"
 echo ""
 echo "DOMAIN: $DOMAIN"
 echo "DEBUG: $DEBUG"
-echo "MAIL: $MAIL"
 echo "HOST: $HOST"
 echo "USER: $USER"
 echo "PASS: $PASS"
