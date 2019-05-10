@@ -62,7 +62,7 @@ echo ""
 echo "Before we start installation, we need to collect some information."
 echo "We're now going to start to collect all information needed by this installer!"
 echo ""
-echo "[IMPORTANT] The database username will be \e[92mroot\e[0m"
+echo -e "[IMPORTANT] The database username will be \e[92mroot\e[0m"
 echo "============================================================================="
 
 #check for root access
