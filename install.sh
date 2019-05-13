@@ -347,7 +347,7 @@ make_install(){
 	
 	#install ssl certificate
 	echo -e "\e[92mInstall SSL Certificate ... [PLEASE WAIT]\e[0m"
-	certbot --apache
+	certbot run --apache --register-unsafely-without-email --agree-tos --redirect --preferred-challenges http -d ${DOMAIN}
 	echo -e "\e[92mInstall SSL Certificate ... [DONE]\e[0m"
 	
 	#restart apache
@@ -365,6 +365,7 @@ make_install(){
 	cd /var/www/bot/GUI
 	curl -sS https://getcomposer.org/installer |  php -- --install-dir=/usr/local/bin --filename=composer
 	composer install
+	cd /var/www/bot/
 	echo -e "\e[92mRunning composer install ... [DONE]\e[0m"
 	
 	#check right
