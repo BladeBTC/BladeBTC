@@ -7,6 +7,7 @@ This application is a telegram bot. The goal of this bot is to create a Bitcoin 
 This application is designed to be installed on a Linux server on which you have administrator access.
 This application and the installation script have been tried on a Ubuntu 18.04 LTS server.
 
+- PHP 7.x
 - Linux server (Ubuntu 18.04.2 LTS).
 - Root privileges.
 - Static IP (Public & Private).
