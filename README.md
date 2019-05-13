@@ -70,14 +70,14 @@ cd6c4470-1195-4c44-83d7-7b223a2f8ggd
 On your fresh install of Ubuntu 18.04.2 LTS do the following commands :
 
 ```sh
-$ sudo su
-$ apt-get install git -y
-$ cd /var/tmp
-$ git clone https://github.com/nicelife90/BladeBTC.git
-$ cd BladeBTC/
-$ git checkout Ubuntu-18.04LTS
-$ chmod 550 install.sh
-$ ./install.sh
+sudo su
+apt-get install git -y
+cd /var/tmp
+git clone https://github.com/nicelife90/BladeBTC.git
+cd BladeBTC/
+git checkout Ubuntu-18.04LTS
+chmod 550 install.sh
+./install.sh
 ````
 
 - Follow the script instruction and give all the required data.
