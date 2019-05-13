@@ -1,5 +1,7 @@
 #!/bin/bash
 
+SQL_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
+
 ####################################################################################
 ################################## VARIABLES #######################################
 ####################################################################################
@@ -378,7 +380,6 @@ make_install(){
 
 	#create database
 	echo -e "\e[92mCreating Database ... [PLEASE WAIT]\e[0m"
-    SQL_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
     chmod 550 ${SQL_PATH}/base.sql
     mysql --user=${USER} --password=${PASS} < ${SQL_PATH}/base.sql
 	echo -e "\e[92mCreating Database ... [DONE]\e[0m"
