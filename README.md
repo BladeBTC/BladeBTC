@@ -89,17 +89,17 @@ IMPORTANT - Go to your blockchain wallet and withelist your server IP.
 
 The install script enable multiple admin tool to help you to manage your server.
 
-####Webmin
+#### Webmin
 From Webmin you can manage everything about your server.
 
 URL: https://[your_domain]:10000
 
-####PHPMyAdmin
+#### PHPMyAdmin
 From PHPMyAdmin you can manage all database required by your bot and by the GUI.
 
 URL: https://[your_domain]/phpmyadmin
 
-####BladeBTC GUI
+#### BladeBTC GUI
 From BladeBTC GUI you can manage multiple options about your Bot.
 
 - User
