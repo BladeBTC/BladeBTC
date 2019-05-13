@@ -331,7 +331,7 @@ make_install(){
         SMTP_HOST=127.0.0.1
         SMTP_PORT=25
         EMAIL_DOMAIN='${DOMAIN}'
-        EMAIL_NAME="'${PASS}' - No-Reply"' > /var/www/bot/GUI/.env
+        EMAIL_NAME="'${PASS}' - No-Reply"' > /var/www/bot/gui/.env
 	then
 		echo -e "\e[31mWriting application configuration ... [FAILED]\e[0m"
 	else
@@ -365,7 +365,7 @@ make_install(){
 
 	#composer install gui
 	echo -e "\e[92mRunning composer install ... [PLEASE WAIT]\e[0m"
-	cd /var/www/bot/GUI
+	cd /var/www/bot/gui
 	curl -sS https://getcomposer.org/installer |  php -- --install-dir=/usr/local/bin --filename=composer
 	composer install
 	cd /var/www/bot/
