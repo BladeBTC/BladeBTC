@@ -81,6 +81,35 @@ $ ./install.sh
 
 - Follow the script instruction and give all the required data.
 
+```diff
+IMPORTANT - Go to your blockchain wallet and withelist your server IP. 
+```
+
+## GUI / ADMIN PANEL
+
+The install script enable multiple admin tool to help you to manage your server.
+
+####Webmin
+From Webmin you can manage everything about your server.
+
+URL: https://[your_domain]:10000
+
+####PHPMyAdmin
+From PHPMyAdmin you can manage all database required by your bot and by the GUI.
+
+URL: https://[your_domain]/phpmyadmin
+
+####BladeBTC GUI
+From BladeBTC GUI you can manage multiple options about your Bot.
+
+- User
+- Rates
+- Investment Plan
+- Ban
+- Logs
+
+URL: https://[your_domain]/gui
+
 ## Hidden commands
 
 - /gwb - To get current blockchain wallet balance.
