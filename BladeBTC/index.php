@@ -3,22 +3,33 @@
 require __DIR__ . '/bootstrap/app.php';
 
 use BladeBTC\Helpers\WebHook;
+use BladeBTC\Models\ErrorLogs;
 use BladeBTC\WebHookHandler;
 use Telegram\Bot\Api;
 
 try {
 
     /**
-     * Load .env file
+     * Fatal error log
      */
-    $dotenv = new Dotenv\Dotenv(__DIR__);
-    $dotenv->load();
+    register_shutdown_function(function () {
+        $error = error_get_last();
+
+        if ($error !== null) {
+            $errno = $error["type"];
+            $errfile = $error["file"];
+            $errline = $error["line"];
+            $errstr = $error["message"];
+
+            ErrorLogs::Log($errno, $errstr, $errline, $errfile);
+        }
+    });
+
 
     /**
      * Connect Telegram API
      */
     $telegram = new Api(getenv('APP_ID'));
-
 
     /**
      * Set WebHookURL
@@ -27,6 +38,12 @@ try {
         WebHook::set($telegram, $_GET['setWebHookUrl']);
     }
 
+    /**
+     * Remove WebHookURL
+     */
+    if (isset($_GET['removeWebHookUrl'])) {
+        WebHook::remove($telegram);
+    }
 
     /**
      * WebHookHandler
@@ -35,7 +52,5 @@ try {
 
 } catch (Exception $e) {
 
-    if (getenv("DEBUG") == 1) {
-        mail(getenv("MAIL"), "BOT ERROR", $e->getMessage() . "\n" . $e->getFile() . "[" . $e->getLine() . "]");
-    }
+    error_log($e->getMessage() . " on line " . $e->getLine() . " in file " . $e->getFile());
 }

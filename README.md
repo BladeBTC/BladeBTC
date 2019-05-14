@@ -70,7 +70,7 @@ cd6c4470-1195-4c44-83d7-7b223a2f8ggd
 On your fresh install of Ubuntu 18.04.2 LTS do the following commands :
 
 ```sh
-sudo su
+sudo -s
 apt-get install git -y
 cd /var/tmp
 git clone https://github.com/nicelife90/BladeBTC.git

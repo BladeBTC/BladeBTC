@@ -1,15 +1,15 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT'] . '/views/partials/header.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/gui/views/partials/header.php';
 
-use App\Controllers\ManageAccount;
-use App\Helpers\Form;
-use App\Helpers\Messages;
-use App\Helpers\Path;
-use App\Helpers\Request;
-use App\Helpers\Session;
-use App\Models\AccountModel;
-use App\Models\GroupModel;
-use App\Models\ModuleModel;
+use BladeBTC\GUI\Controllers\ManageAccount;
+use BladeBTC\GUI\Helpers\Form;
+use BladeBTC\GUI\Helpers\Messages;
+use BladeBTC\GUI\Helpers\Path;
+use BladeBTC\GUI\Helpers\Request;
+use BladeBTC\GUI\Helpers\Session;
+use BladeBTC\GUI\Models\AccountModel;
+use BladeBTC\GUI\Models\GroupModel;
+use BladeBTC\GUI\Models\ModuleModel;
 
 ?>
     <div class="content-wrapper">
@@ -393,4 +393,4 @@ use App\Models\ModuleModel;
     </script>
 
 <?php
-require $_SERVER['DOCUMENT_ROOT'] . '/views/partials/footer.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/gui/views/partials/footer.php';

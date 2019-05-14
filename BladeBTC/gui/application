@@ -7,21 +7,21 @@ $dotenv->load();
 
 date_default_timezone_set('America/Montreal');
 
-use App\Commands\Mail\CreateMailGroup;
-use App\Commands\Mail\ListMailGroup;
-use App\Commands\Mail\UserAddMailGroup;
-use App\Commands\Mail\UserDelMailGroup;
-use App\Commands\Database\Dump;
-use App\Commands\Database\Import;
-use App\Commands\Groups\ListGroup;
-use App\Commands\Models\CreateModel;
-use App\Commands\Modules\CreateModule;
-use App\Commands\Modules\RegisterModules;
-use App\Commands\Rbac\AssignmentRbac;
-use App\Commands\Rbac\AssignRbac;
-use App\Commands\Rbac\CreateRbac;
-use App\Commands\Rbac\DeassignRbac;
-use App\Commands\Rbac\ListRbac;
+use BladeBTC\GUI\Commands\Mail\CreateMailGroup;
+use BladeBTC\GUI\Commands\Mail\ListMailGroup;
+use BladeBTC\GUI\Commands\Mail\UserAddMailGroup;
+use BladeBTC\GUI\Commands\Mail\UserDelMailGroup;
+use BladeBTC\GUI\Commands\Database\Dump;
+use BladeBTC\GUI\Commands\Database\Import;
+use BladeBTC\GUI\Commands\Groups\ListGroup;
+use BladeBTC\GUI\Commands\Models\CreateModel;
+use BladeBTC\GUI\Commands\Modules\CreateModule;
+use BladeBTC\GUI\Commands\Modules\RegisterModules;
+use BladeBTC\GUI\Commands\Rbac\AssignmentRbac;
+use BladeBTC\GUI\Commands\Rbac\AssignRbac;
+use BladeBTC\GUI\Commands\Rbac\CreateRbac;
+use BladeBTC\GUI\Commands\Rbac\DeassignRbac;
+use BladeBTC\GUI\Commands\Rbac\ListRbac;
 use Symfony\Component\Console\Application;
 
 /** @var $application - New application */

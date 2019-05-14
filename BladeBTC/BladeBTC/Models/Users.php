@@ -4,6 +4,7 @@ namespace BladeBTC\Models;
 
 
 use BladeBTC\Helpers\Database;
+use Exception;
 
 /**
  * Users model
@@ -204,9 +205,9 @@ class Users
                                                 `telegram_id` = " . $this->getTelegramId() . "
                                             ");
 			$this->_DB->commit();
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->_DB->rollBack();
-			throw new \Exception($e->getMessage());
+			throw new Exception($e->getMessage());
 		}
 	}
 
@@ -235,7 +236,7 @@ class Users
 	 *
 	 * @param $data - Data user
 	 *
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public function create($data)
 	{
@@ -266,15 +267,17 @@ class Users
                                               " . $this->_DB->quote($referral_link) . "
                                             )");
 			$this->_DB->commit();
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->_DB->rollBack();
-			throw new \Exception($e->getMessage());
+			throw new Exception($e->getMessage());
 		}
 	}
 
-	/**
-	 * Store investment address
-	 */
+    /**
+     * Store investment address
+     * @param $investment_address
+     * @throws Exception
+     */
 	public function setInvestmentAddress($investment_address)
 	{
 		try {
@@ -287,9 +290,9 @@ class Users
                                                 `telegram_id` = " . $this->getTelegramId() . "
                                             ");
 			$this->_DB->commit();
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->_DB->rollBack();
-			throw new \Exception($e->getMessage());
+			throw new Exception($e->getMessage());
 		}
 	}
 
@@ -308,16 +311,16 @@ class Users
                                                 `telegram_id` = " . $this->getTelegramId() . "
                                             ");
 			$this->_DB->commit();
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->_DB->rollBack();
-			throw new \Exception($e->getMessage());
+			throw new Exception($e->getMessage());
 		}
 	}
 
 	/**
 	 * Reinvest all account balance
 	 *
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public function Reinvest()
 	{
@@ -415,9 +418,9 @@ class Users
 			]);
 
 			$this->_DB->commit();
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->_DB->rollBack();
-			throw new \Exception($e->getMessage());
+			throw new Exception($e->getMessage());
 		}
 	}
 

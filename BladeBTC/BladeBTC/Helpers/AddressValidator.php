@@ -4,6 +4,8 @@
 namespace BladeBTC\Helpers;
 
 
+use Exception;
+
 class AddressValidator
 {
 
@@ -14,7 +16,13 @@ class AddressValidator
 	CONST TESTNET_PUBKEY = "6F";
 	CONST TESTNET_SCRIPT = "C4";
 
-	static public function isValid($addr, $version = null)
+    /**
+     * @param $addr
+     * @param null $version
+     * @return bool
+     * @throws Exception
+     */
+    static public function isValid($addr, $version = null)
 	{
 		$type = self::typeOf($addr);
 		if ($type === false) {
@@ -37,7 +45,7 @@ class AddressValidator
 				$valids = [$version];
 				break;
 			default:
-				throw new \Exception('Unknown version constant');
+				throw new Exception('Unknown version constant');
 		}
 
 		return in_array($type, $valids);

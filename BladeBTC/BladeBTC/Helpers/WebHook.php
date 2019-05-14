@@ -1,19 +1,30 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: ylafontaine
- * Date: 08/06/2017
- * Time: 16:51
- */
 
 namespace BladeBTC\Helpers;
 
 use Telegram\Bot\Api;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 
 class WebHook
 {
+
+    /**
+     * Set Web Hook
+     * @param Api $telegram
+     * @param $url
+     * @throws TelegramSDKException
+     */
     public static function set(Api $telegram, $url)
     {
         $telegram->setWebhook(['url' => $url]);
+    }
+
+    /**
+     * Remove Bot Web Hook
+     * @param Api $telegram
+     */
+    public static function remove(Api $telegram)
+    {
+        $telegram->removeWebhook();
     }
 }

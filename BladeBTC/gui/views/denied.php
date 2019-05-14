@@ -1,7 +1,7 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT'] . '/views/partials/header.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/gui/views/partials/header.php';
 
-use App\Helpers\Path;
+use BladeBTC\GUI\Helpers\Path;
 
 ?>
     <div class="content-wrapper">
@@ -37,4 +37,4 @@ use App\Helpers\Path;
         <!-- /.content -->
     </div>
 <?php
-require $_SERVER['DOCUMENT_ROOT'] . '/views/partials/footer.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/gui/views/partials/footer.php';

@@ -1,15 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: ylafontaine
- * Date: 2017-10-10
- * Time: 13:47
- */
 
-use App\Helpers\Debugbar;
-use App\Helpers\Path;
-use App\Helpers\Security;
-use App\Helpers\Toast;
+use BladeBTC\GUI\Helpers\Debugbar;
+use BladeBTC\GUI\Helpers\Path;
+use BladeBTC\GUI\Helpers\Security;
+use BladeBTC\GUI\Helpers\Toast;
 ?>
 
 <!-- /.content-wrapper -->

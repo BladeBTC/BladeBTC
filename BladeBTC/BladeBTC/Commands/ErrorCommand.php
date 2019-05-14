@@ -68,7 +68,7 @@ class ErrorCommand extends Command
 			 * Response
 			 */
 			$this->replyWithMessage([
-				'text'         => "Looks like you failed.",
+				'text'         => "This command does not seem to be valid.",
 				'reply_markup' => $reply_markup,
 				'parse_mode'   => 'HTML',
 			]);

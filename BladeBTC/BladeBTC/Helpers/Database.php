@@ -6,7 +6,6 @@ use PDO;
 
 class Database
 {
-
     public static function get()
     {
 
@@ -19,7 +18,7 @@ class Database
         $bdd = getenv("BDD");
         $dsn = 'mysql:host=' . $host . ';dbname=' . $bdd;
         $options = array(
-            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4',
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
         );
 

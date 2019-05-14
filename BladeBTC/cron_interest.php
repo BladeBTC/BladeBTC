@@ -13,8 +13,8 @@ try {
     $dotenv->load();
 
     /*
-       * ===========================================  GIVE INTEREST ==========================================
-     * Interest must be givin before handle deposit.
+     * ===========================================  GIVE INTEREST ==========================================
+     * Interest must be apply before handle deposit.
      */
 
     Investment::giveInterest();

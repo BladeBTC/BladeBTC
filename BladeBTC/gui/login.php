@@ -1,18 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: ylafontaine
- * Date: 2017-10-10
- * Time: 13:47
- */
+require $_SERVER['DOCUMENT_ROOT'] . '/gui/BladeBTC/Helpers/Loader.php';
 
-require $_SERVER['DOCUMENT_ROOT'] . '/app/Helpers/Loader.php';
-
-use App\Controllers\Login;
-use App\Helpers\Messages;
-use App\Helpers\Path;
-use App\Helpers\Request;
-use App\Helpers\Session;
+use BladeBTC\GUI\Controllers\Login;
+use BladeBTC\GUI\Helpers\Messages;
+use BladeBTC\GUI\Helpers\Path;
+use BladeBTC\GUI\Helpers\Request;
+use BladeBTC\GUI\Helpers\Session;
 ?>
 <!DOCTYPE html>
 <html>

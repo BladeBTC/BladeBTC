@@ -1,14 +1,14 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT'] . '/views/partials/header.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/gui/views/partials/header.php';
 
-use App\Controllers\ManageMenu;
-use App\Helpers\FontAwesome;
-use App\Helpers\Form;
-use App\Helpers\Messages;
-use App\Helpers\Path;
-use App\Helpers\Request;
-use App\Helpers\Session;
-use App\Models\MenuModel;
+use BladeBTC\GUI\Controllers\ManageMenu;
+use BladeBTC\GUI\Helpers\FontAwesome;
+use BladeBTC\GUI\Helpers\Form;
+use BladeBTC\GUI\Helpers\Messages;
+use BladeBTC\GUI\Helpers\Path;
+use BladeBTC\GUI\Helpers\Request;
+use BladeBTC\GUI\Helpers\Session;
+use BladeBTC\GUI\Models\MenuModel;
 
 ?>
     <div class="content-wrapper">
@@ -171,4 +171,4 @@ use App\Models\MenuModel;
         <!-- /.content -->
     </div>
 <?php
-require $_SERVER['DOCUMENT_ROOT'] . '/views/partials/footer.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/gui/views/partials/footer.php';

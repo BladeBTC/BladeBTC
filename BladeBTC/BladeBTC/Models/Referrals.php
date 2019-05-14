@@ -2,8 +2,8 @@
 
 namespace BladeBTC\Models;
 
-
 use BladeBTC\Helpers\Database;
+use Exception;
 
 /**
  * Class Referrals
@@ -13,13 +13,13 @@ use BladeBTC\Helpers\Database;
 class Referrals
 {
 
-	/**
-	 * Create investment in database
-	 *
-	 * @param $telegram_id - User telegram ID
-	 * @param $amount      - Amount
-	 * @param $rate        - Rate
-	 */
+    /**
+     * Create investment in database
+     *
+     * @param $referral_link
+     * @param $telegram_id_reffered
+     * @throws Exception
+     */
 	public static function BindAccount($referral_link, $telegram_id_reffered)
 	{
 
@@ -65,9 +65,9 @@ class Referrals
 			}
 
 			$db->commit();
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$db->rollBack();
-			throw new \Exception($e->getMessage());
+			throw new Exception($e->getMessage());
 		}
 	}
 

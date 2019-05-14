@@ -91,7 +91,7 @@ make_install(){
 
     #install some other package
 	echo -e "\e[92mInstalling all needed package ... [PLEASE WAIT]\e[0m"
-	apt-get install unzip apache2 php libapache2-mod-php htop webmin nodejs build-essential software-properties-common python-certbot-apache -y
+	apt-get install unzip apache2 php php-bcmath libapache2-mod-php htop webmin nodejs build-essential software-properties-common python-certbot-apache -y
 	echo -e "\e[92mInstalling all needed package ... [DONE]\e[0m"
 
     #install mariadb
@@ -116,6 +116,7 @@ make_install(){
 
     echo -e "\e[92mInstalling all needed package ... [PLEASE WAIT]\e[0m"
 	apt install phpmyadmin -y
+	sed -i "s/|\s*\((count(\$analyzed_sql_results\['select_expr'\]\)/| (\1)/g" /usr/share/phpmyadmin/libraries/sql.lib.php
 	echo -e "\e[92mInstalling all needed package ... [DONE]\e[0m"
 
     #install nodejs
@@ -389,6 +390,12 @@ make_install(){
 	echo -e "\e[92mSet Telegram Webhook ... [PLEASE WAIT]\e[0m"
 	curl https://api.telegram.org/bot${APP_ID}/setWebhook?url=https://${DOMAIN}/
 	echo -e "\e[92mSet Telegram Webhook ... [DONE]\e[0m"
+	
+	#update groups
+	ORIGINAL_USER=$(logname)
+	usermod -a -G root ${ORIGINAL_USER}
+	usermod -a -G www-data ${ORIGINAL_USER}
+
 	
 	#cron 1
 	echo -e "\e[92mCreating CRON Job ... [PLEASE WAIT]\e[0m"

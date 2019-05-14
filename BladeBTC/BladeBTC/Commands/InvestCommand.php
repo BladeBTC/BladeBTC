@@ -6,6 +6,7 @@ namespace BladeBTC\Commands;
 use BladeBTC\Helpers\Btc;
 use BladeBTC\Helpers\Wallet;
 use BladeBTC\Models\Users;
+use Exception;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
@@ -71,41 +72,50 @@ class InvestCommand extends Command
 			 */
 			$payment_address = Wallet::generateAddress($user->getTelegramId());
 
-
 			/**
 			 * Validate payment address and reply
 			 */
-			if (!empty($payment_address)) {
+			if (isset($payment_address->address)) {
 
-				/**
-				 * Store investment_address
-				 */
-				$user->setInvestmentAddress($payment_address);
+			    try{
+                    /**
+                     * Store investment_address
+                     */
+                    $user->setInvestmentAddress($payment_address->address);
+
+                    /**
+                     * Response
+                     */
+                    $this->replyWithMessage([
+                        'text'         => "Here is your personal BTC address for your investments:",
+                        'reply_markup' => $reply_markup,
+                        'parse_mode'   => 'HTML'
+                    ]);
+
+                    $this->replyWithMessage([
+                        'text'         => "<b>$payment_address->address</b>",
+                        'reply_markup' => $reply_markup,
+                        'parse_mode'   => 'HTML'
+                    ]);
+
+                    $this->replyWithMessage([
+                        'text'         => "You may invest at anytime and as much as you want (minimum " . getenv("MINIMUM_INVEST") . " BTC). After correct transfer, your funds will be added to your account during an hour. Have fun and enjoy your daily profit!",
+                        'reply_markup' => $reply_markup,
+                        'parse_mode'   => 'HTML'
+                    ]);
+                }
+                catch (Exception $e){
+                    $this->replyWithMessage([
+                        'text'         => "An error occurred while generating your payment address.\n" . $e->getMessage() . ". \xF0\x9F\x98\x96",
+                        'reply_markup' => $reply_markup,
+                        'parse_mode'   => 'HTML'
+                    ]);
+                }
 
 
-				/**
-				 * Response
-				 */
-				$this->replyWithMessage([
-					'text'         => "Here is your personal BTC address for your investments:",
-					'reply_markup' => $reply_markup,
-					'parse_mode'   => 'HTML'
-				]);
-
-				$this->replyWithMessage([
-					'text'         => "<b>$payment_address</b>",
-					'reply_markup' => $reply_markup,
-					'parse_mode'   => 'HTML'
-				]);
-
-				$this->replyWithMessage([
-					'text'         => "You may invest at anytime and as much as you want (minimum " . getenv("MINIMUM_INVEST") . " BTC). After correct transfer, your funds will be added to your account during an hour. Have fun and enjoy your daily profit!",
-					'reply_markup' => $reply_markup,
-					'parse_mode'   => 'HTML'
-				]);
 			} else {
 				$this->replyWithMessage([
-					'text'         => "An error occurred while generating your payment address.\nPlease contact support with this account ID : <b>" . $user->getTelegramId() . "</b>. \xF0\x9F\x98\x96",
+					'text'         => "An error occurred while generating your payment address.\n" . $payment_address->error . ". \xF0\x9F\x98\x96",
 					'reply_markup' => $reply_markup,
 					'parse_mode'   => 'HTML'
 				]);

@@ -1,11 +1,11 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT'] . '/views/partials/header.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/gui/views/partials/header.php';
 
-use App\Controllers\Profile;
-use App\Helpers\Messages;
-use App\Helpers\Path;
-use App\Helpers\Request;
-use App\Helpers\Session;
+use BladeBTC\GUI\Controllers\Profile;
+use BladeBTC\GUI\Helpers\Messages;
+use BladeBTC\GUI\Helpers\Path;
+use BladeBTC\GUI\Helpers\Request;
+use BladeBTC\GUI\Helpers\Session;
 
 
 ?>
@@ -132,4 +132,4 @@ use App\Helpers\Session;
     </script>
 
 <?php
-require $_SERVER['DOCUMENT_ROOT'] . '/views/partials/footer.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/gui/views/partials/footer.php';

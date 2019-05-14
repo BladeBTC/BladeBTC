@@ -1,15 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: ylafontaine
- * Date: 2017-10-10
- * Time: 13:47
- */
 
-use App\Helpers\Path;
-use App\Helpers\Session;
-use App\Models\AccountModel;
-use App\Models\MenuModel;
+use BladeBTC\GUI\Helpers\Path;
+use BladeBTC\GUI\Helpers\Session;
+use BladeBTC\GUI\Models\AccountModel;
+use BladeBTC\GUI\Models\MenuModel;
 
 ?>
 <aside class="main-sidebar">
