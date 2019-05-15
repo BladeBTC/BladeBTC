@@ -11,8 +11,10 @@ use Exception;
 
 class Profile
 {
-
-
+    /**
+     * @return bool
+     * @throws Exception
+     */
     public static function update()
     {
         /**
@@ -27,12 +29,12 @@ class Profile
         $img = Request::file('img');
         if (!empty($img['name'])) {
 
-            $img_result = Upload::profile_image($img, $_SERVER["DOCUMENT_ROOT"] . '/dist/img/profiles/');
+            $img_result = Upload::profile_image($img, $_SERVER["DOCUMENT_ROOT"] . '/gui/dist/img/profiles/');
             if ($img_result["uploaded"]) {
                 $img_path = $img_result["msg"];
             }
             else {
-                throw new Exception("Une erreur s'est produit avec le traitement de votre photo : " . $img_result["msg"]);
+                throw new Exception("An error occurred while processing your photo : " . $img_result["msg"]);
             }
         }
 

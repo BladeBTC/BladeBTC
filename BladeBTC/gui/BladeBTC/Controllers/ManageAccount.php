@@ -13,11 +13,12 @@ use Exception;
 class ManageAccount
 {
 
-	/**
-	 * Handle multiples actions in account management.
-	 *
-	 * @return null|string
-	 */
+    /**
+     * Handle multiples actions in account management.
+     *
+     * @return null|string
+     * @throws Exception
+     */
 	public static function action()
 	{
 
@@ -30,7 +31,7 @@ class ManageAccount
 
 				$group_data = GroupModel::getByGroupId(Request::get('group_id'), true);
 				Form::save($group_data, true);
-				$msg = "Le groupe a bien été chargé.";
+				$msg = "The group has been loaded.";
 
 				break;
 
@@ -38,7 +39,7 @@ class ManageAccount
 
 				GroupModel::delete(Request::get('group_id'));
 
-				$msg = "Le groupe a bien été supprimé.";
+				$msg = "The group has been deleted.";
 
 				break;
 
@@ -47,7 +48,7 @@ class ManageAccount
 
 				$account_data = AccountModel::getById(Request::get('id'), true);
 				Form::save($account_data, true);
-				$msg = "Le compte a bien été chargé.";
+				$msg = "The account has been loaded.";
 
 				break;
 
@@ -55,16 +56,16 @@ class ManageAccount
 
 				AccountModel::delete(Request::get('id'));
 
-				$msg = "Le compte a bien été supprimé.";
+				$msg = "The account has been deleted.";
 
 				break;
 
 			case "reset_pwd":
 
-				AccountModel::setPassword(Request::get('id'), Password::hash('atc2453!'));
+				AccountModel::setPassword(Request::get('id'), Password::hash('bladebtc'));
 				AccountModel::setLoginAttempt(Request::get('id'), 0);
 
-				$msg = "Le mot de passe a bien été réinitialisé avec le mot de passe suivant : atc2453!";
+				$msg = "The password has been reset with the following password: bladebtc";
 
 				break;
 
@@ -73,7 +74,7 @@ class ManageAccount
 
 				AccountModel::setLoginAttempt(Request::get('id'), 0);
 
-				$msg = "Le compte à bien été déverrouillé.";
+				$msg = "The account has been unlocked.";
 
 				break;
 		}
@@ -106,7 +107,7 @@ class ManageAccount
 		 */
 		if (empty($group_name)) {
 			Form::remove('group_name');
-			throw new Exception("Vous devez entrer un nom de groupe.");
+			throw new Exception("You must enter a group name.");
 		}
 
 		/**
@@ -114,7 +115,7 @@ class ManageAccount
 		 */
 		if ($dashboard == -1) {
 			Form::remove('dashboard');
-			throw new Exception("Vous devez entrer une page d'accueil.");
+			throw new Exception("You must enter a home page.");
 		}
 
 		/**
@@ -122,7 +123,7 @@ class ManageAccount
 		 */
 		if (!empty($group_name) && !Database::fieldIsUnique('gui_group', 'group_name', $group_name)) {
 			Form::remove('group_name');
-			throw new Exception("Un autre groupe porte déjà le même nom.");
+			throw new Exception("Another group already has the same name.");
 		}
 
 		/**
@@ -172,7 +173,7 @@ class ManageAccount
 		 */
 		if (empty($group_name)) {
 			Form::remove('group_name');
-			throw new Exception("Vous devez entrer un nom de groupe.");
+			throw new Exception("You must enter a group name.");
 		}
 
 		/**
@@ -180,7 +181,7 @@ class ManageAccount
 		 */
 		if ($dashboard == -1) {
 			Form::remove('dashboard');
-			throw new Exception("Vous devez entrer une page d'accueil.");
+			throw new Exception("You must enter a home page.");
 		}
 
 		/**
@@ -188,7 +189,7 @@ class ManageAccount
 		 */
 		if (!empty($group_name) && !Database::fieldIsUnique('gui_group', 'group_name', $group_name, [$row_id])) {
 			Form::remove('group_name');
-			throw new Exception("Un autre groupe porte déjà le même nom.");
+			throw new Exception("Another group already has the same name.");
 		}
 
 		/**
@@ -242,7 +243,7 @@ class ManageAccount
 		 */
 		if (empty($first_name)) {
 			Form::remove('first_name');
-			throw new Exception("Vous devez entrer un prénom.");
+			throw new Exception("You must enter a first name.");
 		}
 
 
@@ -251,7 +252,7 @@ class ManageAccount
 		 */
 		if (empty($last_name)) {
 			Form::remove('last_name');
-			throw new Exception("Vous devez entrer un nom.");
+			throw new Exception("You must enter a name.");
 		}
 
 
@@ -260,12 +261,12 @@ class ManageAccount
 		 */
 		if (empty($username)) {
 			Form::remove('username');
-			throw new Exception("Vous devez entrer un nom d'utilisateur.");
+			throw new Exception("You must enter a username.");
 		}
 
 		if (!empty($username) && !Database::fieldIsUnique('gui_account', 'username', $username)) {
 			Form::remove('username');
-			throw new Exception("Ce nom d'utilisateur n'est pas disponible.");
+			throw new Exception("This username is not available.");
 		}
 
 		/**
@@ -273,7 +274,7 @@ class ManageAccount
 		 */
 		if (empty($account_group)) {
 			Form::remove('account_group');
-			throw new Exception("Vous devez choisir un groupe.");
+			throw new Exception("You must choose a group.");
 		}
 
 		/**
@@ -281,7 +282,7 @@ class ManageAccount
 		 */
 		if (empty($password)) {
 			Form::remove('password');
-			throw new Exception("Vous devez entrer un mot de passe.");
+			throw new Exception("You must enter a password.");
 		}
 
 		/**
@@ -289,7 +290,7 @@ class ManageAccount
 		 */
 		if (!Utils::isEmail($email)) {
 			Form::remove('email');
-			throw new Exception("Vous devez entrer un courriel valide.");
+			throw new Exception("You must enter a valid email.");
 		}
 
 
@@ -347,7 +348,7 @@ class ManageAccount
 		 */
 		if (empty($first_name)) {
 			Form::remove('first_name');
-			throw new Exception("Vous devez entrer un prénom.");
+			throw new Exception("You must enter a first name.");
 		}
 
 
@@ -356,7 +357,7 @@ class ManageAccount
 		 */
 		if (empty($last_name)) {
 			Form::remove('last_name');
-			throw new Exception("Vous devez entrer un nom.");
+			throw new Exception("You must enter a name.");
 		}
 
 
@@ -365,12 +366,12 @@ class ManageAccount
 		 */
 		if (empty($username)) {
 			Form::remove('username');
-			throw new Exception("Vous devez entrer un nom d'utilisateur.");
+			throw new Exception("You must enter a username.");
 		}
 
 		if (!empty($username) && !Database::fieldIsUnique('gui_account', 'username', $username, [$account_id])) {
 			Form::remove('username');
-			throw new Exception("Ce nom d'utilisateur n'est pas disponible.");
+			throw new Exception("This username is not available.");
 		}
 
 		/**
@@ -378,7 +379,7 @@ class ManageAccount
 		 */
 		if (empty($account_group)) {
 			Form::remove('account_group');
-			throw new Exception("Vous devez choisir un groupe.");
+			throw new Exception("You must choose a group.");
 		}
 
 
@@ -387,7 +388,7 @@ class ManageAccount
 		 */
 		if (!Utils::isEmail($email)) {
 			Form::remove('email');
-			throw new Exception("Vous devez entrer un courriel valide.");
+			throw new Exception("You must enter a valid email.");
 		}
 
 

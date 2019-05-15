@@ -16,12 +16,14 @@ class Session
 		echo '</pre>';
 	}
 
-	/**
-	 * Save and return session value
-	 *
-	 * @param $key  - Key to create
-	 * @param $data - Data to save
-	 */
+    /**
+     * Save and return session value
+     *
+     * @param $key  - Key to create
+     * @param $data - Data to save
+     *
+     * @return mixed|null
+     */
 	public static function set($key, $data)
 	{
 		$_SESSION[$key] = $data;
@@ -29,13 +31,15 @@ class Session
 		return isset($_SESSION[$key]) ? $_SESSION[$key] : null;
 	}
 
-	/**
-	 * Get session value
-	 *
-	 * @param $key - Key to get
-	 *
-	 * @return mixed
-	 */
+    /**
+     * Get session value
+     *
+     * @param      $key - Key to get
+     *
+     * @param null $subkey
+     *
+     * @return mixed
+     */
 	public static function get($key, $subkey = null)
 	{
 		if (!is_null($subkey)) {
@@ -46,11 +50,12 @@ class Session
 	}
 
 
-	/**
-	 * Delete session key
-	 *
-	 * @param $key - Key to delete
-	 */
+    /**
+     * Delete session key
+     *
+     * @param      $key - Key to delete
+     * @param null $subkey
+     */
 	public static function delete($key, $subkey = null)
 	{
 		if (!is_null($subkey)) {
@@ -60,11 +65,13 @@ class Session
 		}
 	}
 
-	/**
-	 * Create, save and return form uniqid
-	 *
-	 * @param $form_name - Form name
-	 */
+    /**
+     * Create, save and return form uniqid
+     *
+     * @param $form_name - Form name
+     *
+     * @return mixed|null
+     */
 	public static function setFormId($form_name)
 	{
 		$_SESSION[$form_name] = uniqid($form_name . "_");

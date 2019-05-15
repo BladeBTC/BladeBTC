@@ -5,6 +5,7 @@ namespace BladeBTC\GUI\Models;
 use BladeBTC\GUI\Helpers\Database;
 use Exception;
 use PDO;
+use PDOStatement;
 
 /**
  * Class ModuleModel
@@ -16,7 +17,7 @@ class ModuleModel
 	/**
 	 * Get all modules
 	 *
-	 * @return \PDOStatement
+	 * @return PDOStatement
 	 */
 	public static function getAll()
 	{
@@ -27,13 +28,15 @@ class ModuleModel
 		return $module;
 	}
 
-	/**
-	 * Get module
-	 *
-	 * @param $module_id - ModuleModel id
-	 *
-	 * @return mixed
-	 */
+    /**
+     * Get module
+     *
+     * @param      $module_id - ModuleModel id
+     *
+     * @param bool $fetch_assoc
+     *
+     * @return mixed
+     */
 	public static function getById($module_id, $fetch_assoc = false)
 	{
 		$db = Database::get();
@@ -109,11 +112,13 @@ class ModuleModel
 		return false;
 	}
 
-	/**
-	 * Create module
-	 *
-	 * @param $data - module Data
-	 */
+    /**
+     * Create module
+     *
+     * @param $data - module Data
+     *
+     * @throws Exception
+     */
 	public static function add($data)
 	{
 		$db = Database::get();
@@ -152,11 +157,13 @@ class ModuleModel
 		]);
 	}
 
-	/**
-	 * Update module
-	 *
-	 * @param $data - module Data
-	 */
+    /**
+     * Update module
+     *
+     * @param $data - module Data
+     *
+     * @throws Exception
+     */
 	public static function update($data)
 	{
 		$db = Database::get();
@@ -188,11 +195,13 @@ class ModuleModel
 		]);
 	}
 
-	/**
-	 * Delete module
-	 *
-	 * @param $module_id - module ID
-	 */
+    /**
+     * Delete module
+     *
+     * @param $module_id - module ID
+     *
+     * @throws Exception
+     */
 	public static function delete($module_id)
 	{
 
@@ -271,6 +280,4 @@ class ModuleModel
 
 		return true;
 	}
-
-
 }

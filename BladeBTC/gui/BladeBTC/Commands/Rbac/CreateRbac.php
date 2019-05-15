@@ -53,7 +53,7 @@ class CreateRbac extends Command
 				$table->setRows($rows);
 				$table->render();
 			} else {
-				$output->writeln('<error>Une erreur inconnue s\'est produite.</error>');
+				$output->writeln('<error>An unknown error has occurred.</error>');
 			}
 			
 

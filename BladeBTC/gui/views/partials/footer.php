@@ -11,15 +11,15 @@ use BladeBTC\GUI\Helpers\Toast;
 <!-- Main Footer -->
 <footer class="main-footer">
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2014 - 2017 <a href="<?php echo Path::root(); ?>">CMS</a></strong> -
-    Tous les droits sont réservés.
+    <strong>Copyright &copy; 2014 - 2019 <a href="<?php echo Path::root(); ?>">CMS BladeBTC</a></strong> -
+    All rights reserved.
 
 	<?php
 	if (Security::can(1)) {
 		?>
         <div class="pull-right hidden-xs">
 			<?php
-			echo "\n Généré en <strong>" . number_format(microtime(true) - $start_time, 2) . "</strong> secondes.";
+			echo "\n Generated in <strong>" . number_format(microtime(true) - $start_time, 2) . "</strong> seconds.";
 			?>
         </div>
 	<?php } ?>

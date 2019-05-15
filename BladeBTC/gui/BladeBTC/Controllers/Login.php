@@ -14,7 +14,10 @@ use Exception;
 class Login
 {
 
-	public static function login()
+    /**
+     * @throws Exception
+     */
+    public static function login()
 	{
 
 		/**
@@ -26,7 +29,7 @@ class Login
 
 
 		if (empty($username) || empty($password)) {
-			throw new Exception("Vous devez entrer un nom d'utilisateur et un mot de passe.");
+			throw new Exception("You must enter a username and password.");
 		}
 
 		/**
@@ -39,7 +42,7 @@ class Login
 		 * Validate AccountModel
 		 */
 		if (is_null($account_id)) {
-			throw new Exception("Ce nom d'utilisateur n’est pas valide.");
+			throw new Exception("This username is invalid.");
 		}
 
 		/**
@@ -47,7 +50,7 @@ class Login
 		 */
 		$login_attempt = AccountModel::getLoginAttempt($account_id);
 		if ($login_attempt >= 5) {
-			throw new Exception("Votre compte a été suspendu par mesure de sécurité.");
+			throw new Exception("Your account has been suspended for security.");
 		}
 
 
@@ -60,9 +63,9 @@ class Login
 			AccountModel::setLoginAttempt($account_id, $login_attempt + 1);
 			$remaining = 5 - AccountModel::getLoginAttempt($account_id);
 			if ($remaining == 0) {
-				throw new Exception("Votre compte a été suspendu par mesure de sécurité.");
+				throw new Exception("Your account has been suspended for security");
 			} else {
-				throw new Exception("Nom d'utilisateur ou mot de passe incorrect. <br/>Vous disposez de $remaining essais avant que votre compte soit suspendu.");
+				throw new Exception("Username or password incorrect. <br/>You have $remaining remaining trial before your account is suspended.");
 			}
 		}
 
@@ -79,7 +82,7 @@ class Login
 		 */
 		$deleted = AccountModel::isDeleted($account_id);
 		if ($deleted) {
-			throw new Exception("Ce compte est invalide.");
+			throw new Exception("This account is invalid.");
 		}
 
 		/**

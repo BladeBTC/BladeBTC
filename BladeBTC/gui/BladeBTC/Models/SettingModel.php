@@ -3,8 +3,6 @@
 namespace BladeBTC\GUI\Models;
 
 use BladeBTC\GUI\Helpers\Database;
-use Exception;
-use PDO;
 
 /**
  * Class settingModel

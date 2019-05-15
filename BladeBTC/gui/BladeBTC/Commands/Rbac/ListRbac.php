@@ -42,7 +42,7 @@ class ListRbac extends Command
 				$table->setRows($rows);
 				$table->render();
 			} else {
-				$output->writeln('<error>Il n\'existe actuellement aucune règle.</error>');
+				$output->writeln('<error>There is currently no rule.</error>');
 			}
 			
 		} catch (Exception $e) {

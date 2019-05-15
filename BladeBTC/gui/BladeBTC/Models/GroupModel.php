@@ -5,14 +5,17 @@ namespace BladeBTC\GUI\Models;
 use BladeBTC\GUI\Helpers\Database;
 use Exception;
 use PDO;
+use PDOStatement;
 
 class GroupModel
 {
-	/**
-	 * Create group
-	 *
-	 * @param $data - GroupModel Data
-	 */
+    /**
+     * Create group
+     *
+     * @param $data - GroupModel Data
+     *
+     * @throws Exception
+     */
 	public static function add($data)
 	{
 		$db = Database::get();
@@ -38,11 +41,13 @@ class GroupModel
 		]);
 	}
 
-	/**
-	 * Update group
-	 *
-	 * @param $data - GroupModel Data
-	 */
+    /**
+     * Update group
+     *
+     * @param $data - GroupModel Data
+     *
+     * @throws Exception
+     */
 	public static function update($data)
 	{
 		$db = Database::get();
@@ -64,16 +69,18 @@ class GroupModel
 		]);
 	}
 
-	/**
-	 * Delete group
-	 *
-	 * @param $group_id - MenuModel ID
-	 */
+    /**
+     * Delete group
+     *
+     * @param $group_id - MenuModel ID
+     *
+     * @throws Exception
+     */
 	public static function delete($group_id)
 	{
 
 		if ($group_id == -1) {
-			throw new Exception("La suppression de ce groupe n'est pas permise.");
+			throw new Exception("Deleting this group is not allowed.");
 		}
 
 		$db = Database::get();
@@ -87,13 +94,13 @@ class GroupModel
 				/**
 				 * Delete group
 				 */
-				"DELETE FROM gui_group WHERE group_id = $group_id",
+				"DELETE FROM `gui_group` WHERE `group_id` = $group_id",
 
 
 				/**
 				 * Remove group from account
 				 */
-				"UPDATE gui_account SET account_group = 0 WHERE account_group = $group_id",
+				"UPDATE `gui_account` SET `account_group` = 0 WHERE `account_group` = $group_id",
 			];
 
 			foreach ($statements as $statement) {
@@ -103,7 +110,7 @@ class GroupModel
 			/**
 			 * Remove group from each modules
 			 */
-			$modules = $db->query("SELECT id, access_level FROM gui_module");
+			$modules = $db->query("SELECT `id`, `access_level` FROM `gui_module`");
 			while ($module = $modules->fetchObject()) {
 				$current_access_level = explode(";", $module->access_level);
 				$new_access_level = null;
@@ -131,7 +138,7 @@ class GroupModel
 	/**
 	 * Get all group
 	 *
-	 * @return \PDOStatement
+	 * @return PDOStatement
 	 */
 	public static function getAll()
 	{
@@ -142,13 +149,15 @@ class GroupModel
 		return $groups;
 	}
 
-	/**
-	 * Get group
-	 *
-	 * @param $group_id - group id
-	 *
-	 * @return mixed
-	 */
+    /**
+     * Get group
+     *
+     * @param      $group_id - group id
+     *
+     * @param bool $fetch_assoc
+     *
+     * @return mixed
+     */
 	public static function getByGroupId($group_id, $fetch_assoc = false)
 	{
 		$db = Database::get();

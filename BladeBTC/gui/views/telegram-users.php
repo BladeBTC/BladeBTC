@@ -1,15 +1,14 @@
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . '/gui/views/partials/header.php';
 
-use Jaspersoft\Client\Client as JasperReportClient;
 use BladeBTC\GUI\Helpers\Path;
 
 ?>
     <div class="content-wrapper">
         <section class="content-header">
-            <h1 id="module">Test page</h1>
+            <h1 id="module">Users (bot)</h1>
             <ol class="breadcrumb">
-                <li><a href="<?php echo Path::module(); ?>/devtest.php"><i class="fa fa-dashboard"></i>Test page</a>
+                <li><a href="<?php echo Path::module(); ?>/telegram-users.php"><i class="fa fa-dashboard"></i>Users (bot)</a>
                 </li>
 
             </ol>
@@ -22,17 +21,14 @@ use BladeBTC\GUI\Helpers\Path;
                 <div class="col-md-12">
                     <div class="box box-warning">
                         <div class="box-header with-border">
-                            <h3 class="box-title">TEST</h3>
+                            <h3 class="box-title">Users</h3>
                         </div>
-
+                     
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-md-12">
-									<?php
 
-
-
-									?>
+                                    <!-- CONTENT HERE -->
                                 </div>
                             </div>
                         </div>

@@ -12,10 +12,10 @@ class Database
         /**
          * Credentials
          */
-        $host = getenv('HOST');
-        $username = getenv("USER");
-        $password = getenv("PASS");
-        $bdd = getenv("BDD");
+        $host = getenv("DB_HOST");
+        $username = getenv("DB_USER");
+        $password = getenv("DB_PASS");
+        $bdd = getenv("DB_DB");
         $dsn = 'mysql:host=' . $host . ';dbname=' . $bdd;
         $options = array(
             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4',

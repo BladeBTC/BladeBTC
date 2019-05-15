@@ -21,7 +21,7 @@ Security::validateAccess();
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>CMS | Portail</title>
+        <title>CMS | BladeBTC</title>
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link rel="apple-touch-icon" sizes="57x57" href="<?php echo Path::img(); ?>/apple-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="<?php echo Path::img(); ?>/apple-icon-60x60.png">
@@ -160,11 +160,11 @@ Security::validateAccess();
                             <li class="user-footer">
                                 <div class="pull-left">
                                     <a href="<?php echo Path::root(); ?>/views/profile.php"
-                                       class="btn btn-default btn-flat">Mon compte</a>
+                                       class="btn btn-default btn-flat">My account</a>
                                 </div>
                                 <div class="pull-right">
                                     <a href="<?php echo Path::root(); ?>/logout.php"
-                                       class="btn btn-danger btn-flat">Déconnexion</a>
+                                       class="btn btn-danger btn-flat">Logout</a>
                                 </div>
                             </li>
                         </ul>

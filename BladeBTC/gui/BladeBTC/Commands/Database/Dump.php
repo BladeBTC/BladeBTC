@@ -38,18 +38,18 @@ class Dump extends Command
 			/**
 			 * Command
 			 */
-			$dbhost = getenv('HOST');
-			$dbuser = getenv("USER");
-			$dbpass = getenv("PASS");
-			$dbname = getenv("BDD_NAME");
+			$dbhost = getenv("DB_HOST");
+			$dbuser = getenv("DB_USER");
+			$dbpass = getenv("DB_PASS");
+			$dbname = getenv("DB_DB");
 			$dumpFile = __DIR__ . "/Dump/" . uniqid() . ".sql";
 			$command = "$mysqldump/mysqldump --host=$dbhost --user=$dbuser --password=$dbpass $dbname > $dumpFile";
 
 			passthru($command, $return);
 			if ($return) {
-				$output->writeln("<error>Une erreur s'est produite avec l'exportation de la base de donnée.</error>");
+				$output->writeln("<error>An error occurred while exporting the database.</error>");
 			} else {
-				$output->writeln("<info>La base de données a correctement été exportée dans le fichier : $dumpFile.</info>");
+				$output->writeln("<info>The database has been successfully exported to the file: $dumpFile.</info>");
 			}
 
 		} catch (Exception $e) {

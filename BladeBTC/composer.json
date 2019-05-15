@@ -31,6 +31,7 @@
         "ext-json": "*",
         "ext-curl": "*",
         "ext-bcmath": "*",
-        "ext-pdo": "*"
+        "ext-pdo": "*",
+        "ext-dom": "*"
     }
 }

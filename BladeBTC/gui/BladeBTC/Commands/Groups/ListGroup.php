@@ -41,7 +41,7 @@ class ListGroup extends Command
 				$table->setRows($rows);
 				$table->render();
 			} else {
-				$output->writeln('<error>Il n\'existe actuellement aucun groupe.</error>');
+				$output->writeln('<error>There is currently no group.</error>');
 			}
 
 		} catch (Exception $e) {

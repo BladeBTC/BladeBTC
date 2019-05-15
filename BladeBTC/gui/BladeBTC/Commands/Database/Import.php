@@ -34,10 +34,10 @@ class Import extends Command
 			/**
 			 * Credentials
 			 */
-			$dbhost = getenv('HOST');
-			$dbuser = getenv("USER");
-			$dbpass = getenv("PASS");
-			$dbname = getenv("BDD_NAME");
+			$dbhost = getenv("DB_HOST");
+			$dbuser = getenv("DB_USER");
+			$dbpass = getenv("DB_PASS");
+			$dbname = getenv("DB_DB");
 
 
 			/**
@@ -58,9 +58,9 @@ class Import extends Command
 
 			passthru($command, $return);
 			if ($return) {
-				$output->writeln("<error>Une erreur s'est produite avec l'importation de la base de donnée.</error>");
+				$output->writeln("<error>An error occurred while importing the database.</error>");
 			} else {
-				$output->writeln("<info>La base de données a correctement été importer à partir de : $last_dump.</info>");
+				$output->writeln("<info>The database was successfully imported from: $last_dump.</info>");
 			}
 
 		} catch (Exception $e) {

@@ -11,11 +11,12 @@ use Exception;
 class ManageModule
 {
 
-	/**
-	 * Handle multiples actions in module management.
-	 *
-	 * @return null|string
-	 */
+    /**
+     * Handle multiples actions in module management.
+     *
+     * @return null|string
+     * @throws Exception
+     */
 	public static function action()
 	{
 
@@ -29,7 +30,7 @@ class ManageModule
 				$module_data = ModuleModel::getById(Request::get('id'), true);
 				Form::save($module_data, true);
 
-				$msg = "Le module a bien été chargé.";
+				$msg = "The module has been loaded.";
 
 				break;
 
@@ -40,10 +41,10 @@ class ManageModule
 				if (!ModuleModel::isDashboard($id)) {
 					ModuleModel::delete($id);
 				} else {
-					throw new Exception("Impossible de supprimer ce module puisqu'il est utilisé comme page d'accueil pour un groupe. Vous devez d'abord modifier les groupes.");
+					throw new Exception("This module can not be deleted because it is used as a home page for a group. You must first edit the groups.");
 				}
 
-				$msg = "Le module a bien été supprimé.";
+				$msg = "The module has been removed.";
 
 				break;
 
@@ -81,7 +82,7 @@ class ManageModule
 		 */
 		if (empty($description)) {
 			Form::remove('description');
-			throw new Exception("Vous devez entrer une description de module.");
+			throw new Exception("You must enter a module description.");
 		}
 
 		/**
@@ -89,12 +90,12 @@ class ManageModule
 		 */
 		if (empty($name)) {
 			Form::remove('name');
-			throw new Exception("Vous devez entrer un nom de module.");
+			throw new Exception("You must enter a module name.");
 		}
 
 		if (!empty($name) && !Database::fieldIsUnique('gui_module', 'name', $name)) {
 			Form::remove('name');
-			throw new Exception("Ce nom de module est déjà utilisé.");
+			throw new Exception("This module name is already used.");
 		}
 
 		/**
@@ -102,7 +103,7 @@ class ManageModule
 		 */
 		if ($icon == -1) {
 			Form::remove('icon');
-			throw new Exception("Vous devez entrer une icône de module.");
+			throw new Exception("You must enter a module icon.");
 		}
 
 		/**
@@ -110,7 +111,7 @@ class ManageModule
 		 */
 		if (empty($parent) && $static != 1) {
 			Form::remove('parent');
-			throw new Exception("Vous devez entrer un menu parent pour le module.");
+			throw new Exception("You must enter a parent menu for the module.");
 		}
 
 
@@ -119,7 +120,7 @@ class ManageModule
 		 */
 		if ($active == -1) {
 			Form::remove('active');
-			throw new Exception("Vous devez choisir si le module est actif.");
+			throw new Exception("You must choose if the module is active.");
 		}
 
 		/**
@@ -127,7 +128,7 @@ class ManageModule
 		 */
 		if ($static == -1) {
 			Form::remove('static');
-			throw new Exception("Vous devez choisir si le module est static.");
+			throw new Exception("You must choose if the module is static.");
 		}
 
 		/**
@@ -135,7 +136,7 @@ class ManageModule
 		 */
 		if (is_null($access_level)) {
 			Form::remove('access_level');
-			throw new Exception("Vous devez choisir au moins un groupe.");
+			throw new Exception("You must choose at least one group.");
 		}
 
 
@@ -202,7 +203,7 @@ class ManageModule
 		 */
 		if (empty($description)) {
 			Form::remove('description');
-			throw new Exception("Vous devez entrer une description de module.");
+			throw new Exception("You must enter a module description.");
 		}
 
 		/**
@@ -210,12 +211,12 @@ class ManageModule
 		 */
 		if (empty($name)) {
 			Form::remove('name');
-			throw new Exception("Vous devez entrer un nom de module.");
+			throw new Exception("You must enter a module name.");
 		}
 
 		if (!empty($name) && !Database::fieldIsUnique('gui_module', 'name', $name, [$module_id])) {
 			Form::remove('name');
-			throw new Exception("Ce nom de module est déjà utilisé.");
+			throw new Exception("This module name is already used.");
 		}
 
 		/**
@@ -223,7 +224,7 @@ class ManageModule
 		 */
 		if ($icon == -1) {
 			Form::remove('icon');
-			throw new Exception("Vous devez entrer une icône de module.");
+			throw new Exception("You must enter a module icon.");
 		}
 
 		/**
@@ -231,7 +232,7 @@ class ManageModule
 		 */
 		if (empty($parent) && $static != 1) {
 			Form::remove('parent');
-			throw new Exception("Vous devez entrer un menu parent pour le module.");
+			throw new Exception("You must enter a parent menu for the module.");
 		}
 
 
@@ -240,7 +241,7 @@ class ManageModule
 		 */
 		if ($active == -1) {
 			Form::remove('active');
-			throw new Exception("Vous devez choisir si le module est actif.");
+			throw new Exception("You must choose if the module is active.");
 		}
 
 		/**
@@ -248,7 +249,7 @@ class ManageModule
 		 */
 		if ($static == -1) {
 			Form::remove('static');
-			throw new Exception("Vous devez choisir si le module est static.");
+			throw new Exception("You must choose if the module is static.");
 		}
 
 		/**
@@ -256,7 +257,7 @@ class ManageModule
 		 */
 		if (is_null($access_level)) {
 			Form::remove('access_level');
-			throw new Exception("Vous devez choisir au moins un groupe.");
+			throw new Exception("You must choose at least one group.");
 		}
 
 

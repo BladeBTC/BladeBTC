@@ -20,7 +20,7 @@ use BladeBTC\GUI\Models\MenuModel;
                 <p><?php
 					echo AccountModel::getFullName(Session::get("account_id")) ?></p>
                 <!-- Status -->
-                <a href="#"><i class="fa fa-circle text-success"></i> En ligne</a>
+                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
 
@@ -28,7 +28,7 @@ use BladeBTC\GUI\Models\MenuModel;
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MENU</li>
             <!-- Optionally, you can add icons to the links -->
-            <li class="active"><a href="<?php echo Path::root(); ?>"><i class='fa fa-home'></i> <span>Accueil</span></a>
+            <li class="active"><a href="<?php echo Path::root(); ?>"><i class='fa fa-home'></i> <span>Dashboard</span></a>
             </li>
 			<?php
 			/**

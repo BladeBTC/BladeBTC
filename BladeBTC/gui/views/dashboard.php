@@ -6,9 +6,9 @@ use BladeBTC\GUI\Helpers\Path;
 ?>
     <div class="content-wrapper">
         <section class="content-header">
-            <h1 id="module">Accueil</h1>
+            <h1 id="module">Dashboard</h1>
             <ol class="breadcrumb">
-                <li><a href="<?php echo Path::root(); ?>"><i class="fa fa-dashboard"></i>Accueil</a>
+                <li><a href="<?php echo Path::root(); ?>"><i class="fa fa-dashboard"></i>Dashboard</a>
                 </li>
 
             </ol>
@@ -19,19 +19,15 @@ use BladeBTC\GUI\Helpers\Path;
 
             <div class="row">
                 <div class="col-md-12">
-                    <div class="box box-default">
+                    <div class="box box-warning">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Bienvenue!</h3>
+                            <h3 class="box-title">Welcome!</h3>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <p>Bienvenue dans votre nouvelle plateforme pour Ogasys.<br/>
-                                        Vous trouverez ici certains outils qui vous aideront dans votre travail durant
-                                        la
-                                        période
-                                        d'implantation d'Ogasys.</p>
+
                                 </div>
                             </div>
                         </div>

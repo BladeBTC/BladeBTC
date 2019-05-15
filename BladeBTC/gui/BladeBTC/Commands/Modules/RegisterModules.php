@@ -21,7 +21,8 @@ class RegisterModules extends Command
 
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
-		$dir = './views/*.{php}';
+
+		$dir = './gui/views/*.{php}';
 		foreach (glob($dir, GLOB_BRACE) as $file) {
 
 			$html = file_get_contents($file);
@@ -37,7 +38,7 @@ class RegisterModules extends Command
 				if (!empty($items->nodeValue)) {
 					$output->writeln("[Name] : " . pathinfo($file)['filename'] . " [Description] : " . $items->nodeValue . " - [OK]");
 				} else {
-					$output->writeln("[Name] : " . pathinfo($file)['filename'] . " [Error] : Nom de module vide - [FAILED]");
+					$output->writeln("[Name] : " . pathinfo($file)['filename'] . " [Error] : Empty Module Name - [FAILED]");
 				}
 			} else {
 				$output->writeln("[Name] : " . pathinfo($file)['filename'] . " [Description] : " . $items->nodeValue . " - [FAILED]");

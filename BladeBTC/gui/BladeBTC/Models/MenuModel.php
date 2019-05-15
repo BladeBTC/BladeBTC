@@ -4,6 +4,7 @@ namespace BladeBTC\GUI\Models;
 
 use BladeBTC\GUI\Helpers\Database;
 use Exception;
+use PDOStatement;
 
 /**
  * Class MenuModel
@@ -15,7 +16,7 @@ class MenuModel
 	/**
 	 * Get all menu elements
 	 *
-	 * @return \PDOStatement
+	 * @return PDOStatement
 	 */
 	public static function getAll()
 	{
@@ -69,13 +70,15 @@ class MenuModel
 		return $final_modules;
 	}
 
-	/**
-	 * Count childs items
-	 *
-	 * @param $menu_id
-	 *
-	 * @return mixed
-	 */
+    /**
+     * Count childs items
+     *
+     * @param $menu_id
+     *
+     * @param $group_id
+     *
+     * @return mixed
+     */
 	public static function getChildsCount($menu_id, $group_id)
 	{
 		$db = Database::get();
@@ -140,11 +143,13 @@ class MenuModel
 		return $next + 1;
 	}
 
-	/**
-	 * Create AccountModel
-	 *
-	 * @param $data - AccountModel Data
-	 */
+    /**
+     * Create AccountModel
+     *
+     * @param $data - AccountModel Data
+     *
+     * @throws Exception
+     */
 	public static function add($data)
 	{
 		$db = Database::get();
@@ -173,16 +178,18 @@ class MenuModel
 		]);
 	}
 
-	/**
-	 * Delete menu
-	 *
-	 * @param $menu_id - MenuModel ID
-	 */
+    /**
+     * Delete menu
+     *
+     * @param $menu_id - MenuModel ID
+     *
+     * @throws Exception
+     */
 	public static function delete($menu_id)
 	{
 
 		if ($menu_id == -1) {
-			throw new Exception("La suppression de ce menu n'est pas permise.");
+			throw new Exception("Deleting this menu is not allowed.");
 		}
 
 		$db = Database::get();
@@ -222,11 +229,13 @@ class MenuModel
 		}
 	}
 
-	/**
-	 * Get previous position
-	 *
-	 * @param $position - Initial position
-	 */
+    /**
+     * Get previous position
+     *
+     * @param $position - Initial position
+     *
+     * @return int
+     */
 	public static function getPrevious($position)
 	{
 
@@ -238,11 +247,13 @@ class MenuModel
 	}
 
 
-	/**
-	 * Get next position
-	 *
-	 * @param $position - Initial position
-	 */
+    /**
+     * Get next position
+     *
+     * @param $position - Initial position
+     *
+     * @return int
+     */
 	public static function getNext($position)
 	{
 
@@ -254,13 +265,15 @@ class MenuModel
 	}
 
 
-	/**
-	 * Move menu display position Up
-	 *
-	 * @param $id               - MenuModel id
-	 * @param $previous_id      - MenuModel previous id
-	 * @param $current_position - Current display position
-	 */
+    /**
+     * Move menu display position Up
+     *
+     * @param $id               - MenuModel id
+     * @param $previous_id      - MenuModel previous id
+     * @param $current_position - Current display position
+     *
+     * @throws Exception
+     */
 	public static function goUp($id, $previous_id, $current_position)
 	{
 
@@ -274,13 +287,15 @@ class MenuModel
 		Database::transaction($db, $statements);
 	}
 
-	/**
-	 * Move menu display position Down
-	 *
-	 * @param $id               - MenuModel id
-	 * @param $next_id          - MenuModel next id
-	 * @param $current_position - Current display position
-	 */
+    /**
+     * Move menu display position Down
+     *
+     * @param $id               - MenuModel id
+     * @param $next_id          - MenuModel next id
+     * @param $current_position - Current display position
+     *
+     * @throws Exception
+     */
 	public static function goDown($id, $next_id, $current_position)
 	{
 

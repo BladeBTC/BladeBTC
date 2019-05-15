@@ -3,6 +3,8 @@
 namespace BladeBTC\GUI\Models;
 
 use BladeBTC\GUI\Helpers\Database;
+use Exception;
+use PDOStatement;
 
 /**
  * Class RbacModel
@@ -12,11 +14,13 @@ use BladeBTC\GUI\Helpers\Database;
 class RbacModel
 {
 
-	/**
-	 * Get rbac items description.
-	 *
-	 * @return \PDOStatement
-	 */
+    /**
+     * Get rbac items description.
+     *
+     * @param $rbac_id
+     *
+     * @return PDOStatement
+     */
 	public static function getDescriptionById($rbac_id)
 	{
 		$db = Database::get();
@@ -53,7 +57,7 @@ class RbacModel
 	/**
 	 * Get all rbac items.
 	 *
-	 * @return \PDOStatement
+	 * @return PDOStatement
 	 */
 	public static function getItems()
 	{
@@ -64,11 +68,13 @@ class RbacModel
 		return $items;
 	}
 
-	/**
-	 * Get all rbac assignments.
-	 *
-	 * @return \PDOStatement
-	 */
+    /**
+     * Get all rbac assignments.
+     *
+     * @param string $order_by
+     *
+     * @return PDOStatement
+     */
 	public static function getAssignments($order_by = "group_id")
 	{
 		$db = Database::get();
@@ -79,13 +85,14 @@ class RbacModel
 	}
 
 
-	/**
-	 * Add rbac item
-	 *
-	 * @param $description - Item description
-	 *
-	 * @return string - Item Id
-	 */
+    /**
+     * Add rbac item
+     *
+     * @param $description - Item description
+     *
+     * @return string - Item Id
+     * @throws Exception
+     */
 	public static function addItem($description)
 	{
 		$db = Database::get();
@@ -107,12 +114,14 @@ class RbacModel
 		return $db->lastInsertId();
 	}
 
-	/**
-	 * Add rbac assigment
-	 *
-	 * @param $group_id     - GroupModel ID
-	 * @param $rbac_item_id - Item ID
-	 */
+    /**
+     * Add rbac assigment
+     *
+     * @param $group_id     - GroupModel ID
+     * @param $rbac_item_id - Item ID
+     *
+     * @throws Exception
+     */
 	public static function addAssignment($group_id, $rbac_item_id)
 	{
 		$db = Database::get();
@@ -135,12 +144,14 @@ class RbacModel
 		]);
 	}
 
-	/**
-	 * Remove rbac assignment
-	 *
-	 * @param $group_id     - GroupModel ID
-	 * @param $rbac_item_id - Item ID
-	 */
+    /**
+     * Remove rbac assignment
+     *
+     * @param $group_id     - GroupModel ID
+     * @param $rbac_item_id - Item ID
+     *
+     * @throws Exception
+     */
 	public static function removeAssignment($group_id, $rbac_item_id)
 	{
 		$db = Database::get();

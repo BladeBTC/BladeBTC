@@ -11,11 +11,12 @@ use Exception;
 class ManageMenu
 {
 
-	/**
-	 * Handle multiples actions in menu management.
-	 *
-	 * @return null|string
-	 */
+    /**
+     * Handle multiples actions in menu management.
+     *
+     * @return null|string
+     * @throws Exception
+     */
 	public static function action()
 	{
 
@@ -40,7 +41,7 @@ class ManageMenu
 
 				}
 
-				$msg = "Opération terminé.";
+				$msg = "Done!";
 
 				break;
 
@@ -54,7 +55,7 @@ class ManageMenu
 					MenuModel::goUp($menu_id, $previous_id, $current_position);
 				}
 
-				$msg = "Opération terminé.";
+				$msg = "Done!";
 
 				break;
 
@@ -69,7 +70,7 @@ class ManageMenu
 					MenuModel::goDown($menu_id, $next_id, $current_position);
 				}
 
-				$msg = "Opération terminé.";
+				$msg = "Done!";
 
 				break;
 		}
@@ -103,7 +104,7 @@ class ManageMenu
 		 */
 		if (empty($title)) {
 			Form::remove('title');
-			throw new Exception("Vous devez entrer un titre.");
+			throw new Exception("You must enter a title.");
 		}
 
 		/**
@@ -111,7 +112,7 @@ class ManageMenu
 		 */
 		if ($icon == -1) {
 			Form::remove('icon');
-			throw new Exception("Vous choisir une icône.");
+			throw new Exception("You must choose an icon.");
 		}
 
 
@@ -120,7 +121,7 @@ class ManageMenu
 		 */
 		if (!empty($title) && !Database::fieldIsUnique('gui_menu', 'title', $title)) {
 			Form::remove('title');
-			throw new Exception("Un autre menu porte déjà le même nom.");
+			throw new Exception("Another menu already has the same name.");
 		}
 
 		/**

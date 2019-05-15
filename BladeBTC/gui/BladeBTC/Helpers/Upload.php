@@ -6,12 +6,14 @@ use upload as UploadClass;
 
 class Upload
 {
-	/**
-	 * Validate and upload an profile image
-	 *
-	 * @param $file_object - Image
-	 * @param $path        - Where to upload image
-	 */
+    /**
+     * Validate and upload an profile image
+     *
+     * @param $file_object - Image
+     * @param $path        - Where to upload image
+     *
+     * @return array
+     */
 	public static function profile_image($file_object, $path)
 	{
 		$handle = new UploadClass($file_object, 'fr_FR');
@@ -49,7 +51,7 @@ class Upload
 		}
 
 		$data = [
-			"msg"      => "Erreur inconnue.",
+			"msg"      => "Unknown error",
 			"uploaded" => false,
 		];
 
@@ -97,7 +99,7 @@ class Upload
 		}
 
 		$data = [
-			"msg"      => "Erreur inconnue.",
+			"msg"      => "Unknown error",
 			"uploaded" => false,
 		];
 

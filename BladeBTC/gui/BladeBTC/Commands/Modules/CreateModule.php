@@ -36,7 +36,7 @@ class CreateModule extends Command
 			 * Prepare file content
 			 */
 			$content = "<?php
-require \$_SERVER['DOCUMENT_ROOT'] . '/views/partials/header.php';
+require \$_SERVER['DOCUMENT_ROOT'] . '/gui/views/partials/header.php';
 
 use BladeBTC\GUI\Helpers\Path;
 
@@ -56,7 +56,7 @@ use BladeBTC\GUI\Helpers\Path;
 
             <div class=\"row\">
                 <div class=\"col-md-12\">
-                    <div class=\"box box-default\">
+                    <div class=\"box box-warning\">
                         <div class=\"box-header with-border\">
                             <h3 class=\"box-title\"><!-- BOX TITLE HERE --></h3>
                         </div>
@@ -78,7 +78,7 @@ use BladeBTC\GUI\Helpers\Path;
         <!-- /.content -->
     </div>
 <?php
-require \$_SERVER['DOCUMENT_ROOT'] . '/views/partials/footer.php';";
+require \$_SERVER['DOCUMENT_ROOT'] . '/gui/views/partials/footer.php';";
 
 			/**
 			 * Create and write new module

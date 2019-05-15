@@ -25,8 +25,8 @@ class CreateModel extends Command
 		try {
 
 
-			$ns = "App\Models\\";
-			$file = "app/Models/" . $input->getArgument('name') . "Model.php";
+			$ns = "BladeBTC\GUI\Models";
+			$file = "gui/BladeBTC/Models/" . $input->getArgument('name') . "Model.php";
 
 
 			/**
@@ -44,8 +44,7 @@ class CreateModel extends Command
 namespace " . $ns . ";
 
 use BladeBTC\GUI\Helpers\Database;
-use Exception;
-use PDO;
+
 
 /**
  * Class " . $input->getArgument('name') . "Model
