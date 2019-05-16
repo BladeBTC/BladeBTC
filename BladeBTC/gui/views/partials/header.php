@@ -43,9 +43,9 @@ Security::validateAccess();
         <link rel="stylesheet" href="<?php echo Path::comp(); ?>/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="<?php echo Path::comp(); ?>/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="<?php echo Path::comp(); ?>/Ionicons/css/ionicons.min.css">
-        <link rel="stylesheet" href="<?php echo Path::css(); ?>/base.css">
-        <link rel="stylesheet" href="<?php echo Path::css(); ?>/skin.css">
-        <link rel="stylesheet" href="<?php echo Path::css(); ?>/cms.css">
+        <link rel="stylesheet" href="<?php echo Path::css(); ?>/base.css?v=<?php echo uniqid(); ?>">
+        <link rel="stylesheet" href="<?php echo Path::css(); ?>/skin.css?v=<?php echo uniqid(); ?>">
+        <link rel="stylesheet" href="<?php echo Path::css(); ?>/cms.css?v=<?php echo uniqid(); ?>">
 
         <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>

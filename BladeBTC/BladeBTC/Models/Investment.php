@@ -4,6 +4,7 @@ namespace BladeBTC\Models;
 
 
 use BladeBTC\Helpers\Database;
+use Exception;
 
 /**
  * Class Investment
@@ -13,13 +14,15 @@ use BladeBTC\Helpers\Database;
 class Investment
 {
 
-	/**
-	 * Create investment in database
-	 *
-	 * @param $telegram_id - User telegram ID
-	 * @param $amount      - Amount
-	 * @param $rate        - Rate
-	 */
+    /**
+     * Create investment in database
+     *
+     * @param $telegram_id - User telegram ID
+     * @param $amount      - Amount
+     * @param $rate        - Rate
+     *
+     * @throws Exception
+     */
 	public static function create($telegram_id, $amount, $rate)
 	{
 
@@ -43,18 +46,20 @@ class Investment
 									 NOW() + INTERVAL " . (getenv("CONTRACT_DAY")) . " DAY
 									)");
 			$db->commit();
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$db->rollBack();
-			throw new \Exception($e->getMessage());
+			throw new Exception($e->getMessage());
 		}
 	}
 
 
-	/**
-	 * Get active investment total
-	 *
-	 * @param $telegram_id - Telegram ID
-	 */
+    /**
+     * Get active investment total
+     *
+     * @param $telegram_id - Telegram ID
+     *
+     * @return int
+     */
 	public static function getActiveInvestmentTotal($telegram_id)
 	{
 		$db = Database::get();
@@ -70,11 +75,13 @@ class Investment
 	}
 
 
-	/**
-	 * Get active investment list
-	 *
-	 * @param $telegram_id - Telegram ID
-	 */
+    /**
+     * Get active investment list
+     *
+     * @param $telegram_id - Telegram ID
+     *
+     * @return array
+     */
 	public static function getActiveInvestment($telegram_id)
 	{
 		$db = Database::get();
@@ -89,11 +96,13 @@ class Investment
 
 	}
 
-	/**
-	 * Get total investment
-	 *
-	 * @param $telegram_id - Telegram ID
-	 */
+    /**
+     * Get total investment
+     *
+     * @param $telegram_id - Telegram ID
+     *
+     * @return double
+     */
 	public static function getTotalInvestment($telegram_id)
 	{
 		$db = Database::get();
@@ -108,7 +117,7 @@ class Investment
 	/**
 	 * Give interest from contract
 	 *
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public static function giveInterest()
 	{
@@ -132,9 +141,9 @@ class Investment
 
 			}
 			$db->commit();
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$db->rollBack();
-			throw new \Exception($e->getMessage());
+			throw new Exception($e->getMessage());
 		}
 	}
 

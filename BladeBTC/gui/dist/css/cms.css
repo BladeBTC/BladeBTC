@@ -4,7 +4,7 @@
  * Link color
  */
 a {
-    color: #D01716;
+    color: #ff851b;
 }
 
 a:hover {
@@ -12,10 +12,17 @@ a:hover {
 }
 
 /**
+ * Btn
+ */
+.btn {
+    margin: 1px;
+}
+
+/**
  * Table Stripped Color
  */
 .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
-    background-color: #dddddd;
+    background-color: rgb(218, 221, 218);
 }
 
 /**
@@ -42,18 +49,18 @@ a:hover {
 .nav-tabs > li > a {
     background-image: linear-gradient(to bottom, #3C3C3C 0px, #222 100%);
     color: #fff !important;
-    border-top: 2px solid #D01716;
+    border-top: 2px solid #ff851b;
 }
 
 .nav-tabs > li.active > a, .nav-tabs > li > a:hover {
     border: none;
-    color: #d01716 !important;
+    color: #ff851b !important;
     background: #fff;
 }
 
 .nav-tabs > li > a::after {
     content: "";
-    background: #d01716;
+    background: #ff851b;
     height: 2px;
     position: absolute;
     width: 100%;
@@ -68,7 +75,7 @@ a:hover {
 }
 
 .tab-nav > li > a::after {
-    background: #d01716 none repeat scroll 0 0;
+    background: #ff851b none repeat scroll 0 0;
     color: #fff;
 }
 
