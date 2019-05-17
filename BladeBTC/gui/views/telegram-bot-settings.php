@@ -57,7 +57,10 @@ use BladeBTC\GUI\Models\BotSettingModel;
                                                value="<?php echo Session::setFormId('mng-bot-setting'); ?>">
                                         <div class="row">
                                             <div class="col-sm-6 col-md-6 col-lg-6">
-                                                <label>Telegram Application ID</label>
+                                                <label>Telegram Application ID&nbsp;&nbsp;<i
+                                                            style="color: red;" class="fa fa-question-circle"
+                                                            title="This is the api key that BothFather provide you."
+                                                            data-toggle="tooltip"></i></label>
                                                 <div class="input-group"><span class="input-group-addon"><i
                                                                 class="fa fa-user"></i></span>
                                                     <input class="form-control" name="app_id" type="text"
@@ -65,7 +68,7 @@ use BladeBTC\GUI\Models\BotSettingModel;
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 col-md-6 col-lg-6">
-                                                <label>Telegram Application Name</label>
+                                                <label>Telegram Application Name (Without @)</label>
                                                 <div class="input-group"><span class="input-group-addon"><i
                                                                 class="fa fa-user"></i></span>
                                                     <input class="form-control pointer" name="app_name"
@@ -77,7 +80,10 @@ use BladeBTC\GUI\Models\BotSettingModel;
                                         <br/>
                                         <div class="row">
                                             <div class="col-sm-6 col-md-6 col-lg-6">
-                                                <label>Telegram Support Chat ID</label>
+                                                <label>Telegram Support Chat ID (Need @)&nbsp;&nbsp;<i
+                                                            style="color: red;" class="fa fa-question-circle"
+                                                            title="This is where your user contact you on Telegram."
+                                                            data-toggle="tooltip"></i></label>
                                                 <div class="input-group"><span class="input-group-addon"><i
                                                                 class="fa fa-tag"></i></span>
                                                     <input class="form-control" name="support_chat_id" type="text"
@@ -85,7 +91,10 @@ use BladeBTC\GUI\Models\BotSettingModel;
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 col-md-6 col-lg-6">
-                                                <label>Blockchain Wallet ID</label>
+                                                <label>Blockchain Wallet ID&nbsp;&nbsp;<i
+                                                            style="color: red;" class="fa fa-question-circle"
+                                                            title="This is your blockchain wallet ID. Don't put a BTC address here."
+                                                            data-toggle="tooltip"></i></label>
                                                 <div class="input-group"><span class="input-group-addon"><i
                                                                 class="fa fa-tag"></i></span>
                                                     <input class="form-control" name="wallet_id" type="text"
@@ -99,7 +108,8 @@ use BladeBTC\GUI\Models\BotSettingModel;
                                                 <label>Blockchain Wallet Password</label>
                                                 <div class="input-group"><span class="input-group-addon"><i
                                                                 class="fa fa-key"></i></span>
-                                                    <input class="form-control" name="wallet_password" type="password"
+                                                    <input id="wallet_password" class="form-control"
+                                                           name="wallet_password" type="password"
                                                            value="<?php echo BotSettingModel::getValueByName("wallet_password"); ?>">
                                                 </div>
                                             </div>
@@ -107,7 +117,8 @@ use BladeBTC\GUI\Models\BotSettingModel;
                                                 <label>Blockchain Wallet Second Password</label>
                                                 <div class="input-group"><span class="input-group-addon"><i
                                                                 class="fa fa-key"></i></span>
-                                                    <input class="form-control" name="wallet_second_password"
+                                                    <input id="wallet_second_password" class="form-control"
+                                                           name="wallet_second_password"
                                                            type="password"
                                                            value="<?php echo BotSettingModel::getValueByName("wallet_second_password"); ?>">
                                                 </div>
@@ -115,9 +126,27 @@ use BladeBTC\GUI\Models\BotSettingModel;
 
                                         </div>
                                         <br/>
+                                        <div class="row">
+                                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                                <div class="checkbox icheck">
+                                                    <label>
+                                                        <input id="showPW" type="checkbox" onclick="showPassword()">
+                                                        Show Password
+                                                    </label>
+                                                </div>
 
-                                        <input class="btn btn-success" type="submit" name="save-bot-setting"
-                                               value="Save">
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                                <input class="btn btn-success btn-block" type="submit"
+                                                       name="save-bot-setting"
+                                                       value="Save">
+                                            </div>
+                                        </div>
+
+
                                     </form>
                                 </div>
                             </div>
@@ -131,5 +160,30 @@ use BladeBTC\GUI\Models\BotSettingModel;
         </section>
         <!-- /.content -->
     </div>
+
+    <script type="text/javascript">
+        function showPassword() {
+            var x = document.getElementById("wallet_password");
+            var y = document.getElementById("wallet_second_password");
+
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+
+            if (y.type === "password") {
+                y.type = "text";
+            } else {
+                y.type = "password";
+            }
+        }
+
+        $("#showPW").on('ifClicked', function (ev) {
+            $(ev.target).click()
+        })
+
+    </script>
+
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . '/gui/views/partials/footer.php';

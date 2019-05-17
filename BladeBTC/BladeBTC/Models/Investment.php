@@ -43,7 +43,7 @@ class Investment
 									 " . $db->quote($telegram_id) . ",
 									 " . $db->quote($amount) . ",
 									 " . $db->quote($rate) . ",
-									 NOW() + INTERVAL " . (getenv("CONTRACT_DAY")) . " DAY
+									 NOW() + INTERVAL " . (InvestmentPlan::getValueByName("contract_day")) . " DAY
 									)");
 			$db->commit();
 		} catch (Exception $e) {
@@ -129,7 +129,7 @@ class Investment
 			$contracts = $db->query("SELECT * FROM `investment` WHERE contract_end_date > NOW()");
 			while ($contract = $contracts->fetchObject()) {
 
-				$interest = ($contract->rate / (24 / getenv("TIMER_TIME_HOUR"))) * $contract->amount / 100;
+				$interest = ($contract->rate / (24 / InvestmentPlan::getValueByName("timer_time_hour"))) * $contract->amount / 100;
 				$db->query("   UPDATE
                                               `users`
                                             SET 

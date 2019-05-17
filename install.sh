@@ -3,6 +3,9 @@
 #SQL PATH
 SQL_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
 
+#JWT SECRET
+NEW_UUID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1)
+
 ####################################################################################
 ################################## VARIABLES #######################################
 ####################################################################################
@@ -49,19 +52,19 @@ SUPPORT_CHAT_ID=""
 
 clear
 
-echo "============================================================================="
-echo " Welcome - Install Script"
-echo "============================================================================="
+echo -e "\e[92m=============================================================================\e[0m"
+echo -e "\e[92mWelcome - Install Script\e[0m"
+echo -e "\e[92m=============================================================================\e[0m"
+echo -e "\e[92m"
+echo -e "\e[92mBefore we start installation, we need to collect some information.\e[0m"
+echo -e "\e[92mWe're now going to start to collect all information needed by this installer!\e[0m"
 echo ""
-echo "Before we start installation, we need to collect some information."
-echo "We're now going to start to collect all information needed by this installer!"
-echo ""
-echo -e "[IMPORTANT] The database username will be \e[92mroot\e[0m"
-echo "============================================================================="
+echo -e "\e[92m[IMPORTANT] The database username will be \e[31;3mroot\e[0m"
+echo -e "\e[92m=============================================================================\e[0m"
 
 #check for root access
 if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root"
+   echo -e "\e[31;4mThis script must be run as root\e[0m"
    exit 1
 fi
 
@@ -91,7 +94,7 @@ make_install(){
 
     #install some other package
 	echo -e "\e[92mInstalling all needed package ... [PLEASE WAIT]\e[0m"
-	apt-get install unzip apache2 php php-bcmath libapache2-mod-php htop webmin nodejs build-essential software-properties-common python-certbot-apache -y
+	apt-get install unzip apache2 php php-common php-json php-curl php-pdo php-dompdf php-bcmath libapache2-mod-php htop webmin nodejs build-essential software-properties-common python-certbot-apache -y
 	echo -e "\e[92mInstalling all needed package ... [DONE]\e[0m"
 
     #install mariadb
@@ -259,87 +262,19 @@ make_install(){
 	if ! echo '
 		#DEBUG
 		DEBUG='${DEBUG}'
-		MAIL="'$MAIL'"
 
 		#DATABASE
 		HOST="'${HOST}'"
 		USER="'${USER}'"
 		PASS="'${PASS}'"
-		BDD="'${DB}'"
-
-		#TELEGRAM
-		APP_ID="'${APP_ID}'"
-		APP_NAME="'${APP_NAME}'"
-
-		#CHAINBLOCK
-		WALLET_ID="'${WALLET_ID}'"
-		WALLET_PASSWORD="'${WALLET_PASSWORD}'"
-		WALLET_PASSWORD_SECOND="'${WALLET_PASSWORD_SECOND}'"
-
-		#RULES
-		MINIMUM_INVEST="'${MINIMUM_INVEST}'"
-		MINIMUM_REINVEST="'${MINIMUM_REINVEST}'"
-		MINIMUM_PAYOUT="'${MINIMUM_PAYOUT}'"
-		BASE_RATE="'${BASE_RATE}'"
-		CONTRACT_DAY="'${CONTRACT_DAY}'"
-		COMMISSION_RATE="'${COMMISSION_RATE}'"
-		TIMER_TIME_HOUR="'${TIMER_TIME_HOUR}'"
-		REQUIRED_CONFIRMATIONS="'${REQUIRED_CONFIRMATIONS}'"
-		INTEREST_ON_REINVEST="'${INTEREST_ON_REINVEST}'"
-		WITHDRAW_FEE="'${WITHDRAW_FEE}'"
-		
-		#SUPPORT
-		SUPPORT_CHAT_ID="'${SUPPORT_CHAT_ID}'"' > /var/www/bot/.env
+		BDD="'${DB}'"' > /var/www/bot/.env
 	then
 		echo -e "\e[31mWriting application configuration ... [FAILED]\e[0m"
 	else
 		echo -e "\e[92mWriting application configuration ... [DONE]\e[0m"
 	fi
 
-	#create gui application config
-
-	NEW_UUID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-
-	echo -e "\e[92mWriting application configuration ... [PLEASE WAIT]\e[0m"
-	if ! echo '
-		#########################################
-        ####              Debug              ####
-        #########################################
-
-        DEBUG=0
-
-        #########################################
-        ####               BDD               ####
-        #########################################
-
-		BDD_HOST="'${HOST}'"
-		BDD_USER="'${USER}'"
-		BDD_PASS="'${PASS}'"
-		BDD_BDD="'${DB}'"
-
-        #########################################
-        ####               JWT               ####
-        #########################################
-
-        ISSUER="CMS"
-        AUDIENCE=All
-        JWT_KEY='${NEW_UUID}'
-
-        #########################################
-        ####               SMTP              ####
-        #########################################
-
-        SMTP_HOST=127.0.0.1
-        SMTP_PORT=25
-        EMAIL_DOMAIN='${DOMAIN}'
-        EMAIL_NAME="'${PASS}' - No-Reply"' > /var/www/bot/gui/.env
-	then
-		echo -e "\e[31mWriting application configuration ... [FAILED]\e[0m"
-	else
-		echo -e "\e[92mWriting application configuration ... [DONE]\e[0m"
-	fi
-
-	# enable website
+	#enable website
 	echo -e "\e[92mPut website ON ... [PLEASE WAIT]\e[0m"
 	a2dissite 000-default
 	a2ensite ${DOMAIN}
@@ -362,14 +297,6 @@ make_install(){
 	cd /var/www/bot/
 	curl -sS https://getcomposer.org/installer |  php -- --install-dir=/usr/local/bin --filename=composer
 	composer install
-	echo -e "\e[92mRunning composer install ... [DONE]\e[0m"
-
-	#composer install gui
-	echo -e "\e[92mRunning composer install ... [PLEASE WAIT]\e[0m"
-	cd /var/www/bot/gui
-	curl -sS https://getcomposer.org/installer |  php -- --install-dir=/usr/local/bin --filename=composer
-	composer install
-	cd /var/www/bot/
 	echo -e "\e[92mRunning composer install ... [DONE]\e[0m"
 	
 	#check right
@@ -396,7 +323,6 @@ make_install(){
 	usermod -a -G root ${ORIGINAL_USER}
 	usermod -a -G www-data ${ORIGINAL_USER}
 
-	
 	#cron 1
 	echo -e "\e[92mCreating CRON Job ... [PLEASE WAIT]\e[0m"
 	(crontab -l 2>/dev/null; echo "0,5,10,15,20,25,30,35,40,45,50,55 * * * * curl https://$DOMAIN/cron_deposit.php") | crontab -
@@ -411,8 +337,7 @@ make_install(){
 		fi
 	done
 	(crontab -l 2>/dev/null; echo "0 $CRON_HOUR * * * curl https://$DOMAIN/cron_interest.php") | crontab -
-	
-	
+
 	#cron 3
 	(crontab -l 2>/dev/null; echo "@monthly certbot renew") | crontab -
 	echo -e "\e[92mCreating CRON Job ... [DONE]\e[0m"

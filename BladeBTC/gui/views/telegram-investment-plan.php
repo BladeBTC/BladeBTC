@@ -172,31 +172,13 @@ use BladeBTC\GUI\Models\InvestmentPlansModel;
                                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                                         <label>Interest Interval (Hours)&nbsp;&nbsp;<i
                                                                     style="color: red;" class="fa fa-question-circle"
-                                                                    title="Indicate the interval to give interest to all user under contract with this investment plan."
+                                                                    title="Never manually edit this value. All the system is build to give interest to all users on an interval of 4 hours. Changing the value in the database will break the system."
                                                                     data-toggle="tooltip"></i></label>
                                                         <div class="input-group"><span class="input-group-addon"><i
                                                                         class="fa fa-user"></i></span>
-                                                            <select name="timer_time_hour" class="form-control">
-                                                                <option value="null" selected>Select an option</option>
-                                                                <option value="2" <?php echo(Form::getReturn('timer_time_hour') == 2 ? 'selected' : null) ?>>
-                                                                    2
-                                                                </option>
-                                                                <option value="4" <?php echo(Form::getReturn('timer_time_hour') == 4 ? 'selected' : null) ?>>
-                                                                    4
-                                                                </option>
-                                                                <option value="6" <?php echo(Form::getReturn('timer_time_hour') == 6 ? 'selected' : null) ?>>
-                                                                    6
-                                                                </option>
-                                                                <option value="8" <?php echo(Form::getReturn('timer_time_hour') == 8 ? 'selected' : null) ?>>
-                                                                    8
-                                                                </option>
-                                                                <option value="12" <?php echo(Form::getReturn('timer_time_hour') == 12 ? 'selected' : null) ?>>
-                                                                    12
-                                                                </option>
-                                                                <option value="24" <?php echo(Form::getReturn('timer_time_hour') == 24 ? 'selected' : null) ?>>
-                                                                    24
-                                                                </option>
-                                                            </select>
+                                                            <input class="form-control pointer" name="timer_time_hour"
+                                                                   type="text"
+                                                                   value="4">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -262,8 +244,13 @@ use BladeBTC\GUI\Models\InvestmentPlansModel;
                                                     </div>
                                                 </div>
                                                 <br/>
-                                                <input class="btn btn-success" type="submit" name="save-plan"
-                                                       value="Save">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <input class="btn btn-success btn-block" type="submit" name="save-plan"
+                                                               value="Save">
+                                                    </div>
+                                                </div>
+
                                             </form>
                                         </div>
                                     </div>
@@ -274,6 +261,7 @@ use BladeBTC\GUI\Models\InvestmentPlansModel;
                     </div>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="box box-warning">
@@ -285,7 +273,7 @@ use BladeBTC\GUI\Models\InvestmentPlansModel;
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="alert alert-info"><i class="fa fa-check-circle fa-fw"></i> Please note that modifying the investment plans only affects the contracts that will be contracted after this change. All active contracts remain unchanged. To modify an active contract you must consult the user section.</div>
+                                    <div class="alert bg-black-gradient"><i class="fa fa-check-circle fa-fw"></i> Please note that modifying the investment plans only affects the contracts that will be contracted after this change. All active contracts remain unchanged. To modify an active contract you must consult the user section.</div>
                                 </div>
                             </div>
 

@@ -10,10 +10,9 @@ use BladeBTC\GUI\Models\RbacModel;
 ?>
     <div class="content-wrapper">
         <section class="content-header">
-            <h1 id="module">Gestion des permissions</h1>
+            <h1 id="module">Permissions management (RBAC)</h1>
             <ol class="breadcrumb">
-                <li><a href="<?php echo Path::module(); ?>/manage-rbac.php"><i class="fa fa-dashboard"></i>Gestion des
-                        permissions</a>
+                <li><a href="<?php echo Path::module(); ?>/manage-rbac.php"><i class="fa fa-dashboard"></i>Permissions management (RBAC)</a>
                 </li>
 
             </ol>
@@ -40,7 +39,7 @@ use BladeBTC\GUI\Models\RbacModel;
                 <div class="col-md-12">
                     <div class="box box-warning">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Édition des permissions</h3>
+                            <h3 class="box-title">Permissions management (RBAC)</h3>
                         </div>
 
                         <div class="box-body">
@@ -51,7 +50,7 @@ use BladeBTC\GUI\Models\RbacModel;
 										$groups = GroupModel::getAll();
 										while ($group = $groups->fetchObject()) {
 											?>
-                                            <h4><?php echo $group->group_name; ?></h4>
+                                            <h4>Group <strong><?php echo $group->group_name; ?></strong></h4>
                                             <table class="table">
                                                 <tr>
 													<?php
@@ -106,7 +105,7 @@ use BladeBTC\GUI\Models\RbacModel;
 
             function save(mode, group, rbac) {
                 $.ajax({
-                    url: '<?php echo Path::root();?>/app/Ajax/ManageRbac.php',
+                    url: '<?php echo Path::root();?>/BladeBTC/REST/ManageRBAC.php',
                     type: 'POST',
                     data: {
                         group_id: group,
@@ -117,11 +116,11 @@ use BladeBTC\GUI\Models\RbacModel;
 
                     success: function (msg) {
 
-                        var modeText = mode === "add" ? "ajouté au" : "supprimé du";
+                        var modeText = mode === "add" ? "added to" : "deleted from";
 
                         document.querySelector('#good-box').classList.remove("hidden");
                         document.querySelector('#bad-box').classList.add("hidden");
-                        document.querySelector('#good-msg').innerText = "La permission #" + rbac + " a bien été " + modeText + " groupe #" + group;
+                        document.querySelector('#good-msg').innerText = "Permission #" + rbac + " has been " + modeText + " group #" + group;
 
                         if (msg.status !== 200) {
                             document.querySelector('#good-box').classList.add("hidden");
@@ -132,7 +131,7 @@ use BladeBTC\GUI\Models\RbacModel;
                     error: function () {
                         document.querySelector('#good-box').classList.add("hidden");
                         document.querySelector('#bad-box').classList.remove("hidden");
-                        document.querySelector('#bad-msg').innerText = "Une erreur inattendu s'est produite.";
+                        document.querySelector('#bad-msg').innerText = "An unexpected error has occurred.";
                     }
                 });
             }

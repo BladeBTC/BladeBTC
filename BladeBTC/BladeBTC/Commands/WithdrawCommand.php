@@ -4,6 +4,7 @@
 namespace BladeBTC\Commands;
 
 use BladeBTC\Helpers\Btc;
+use BladeBTC\Models\InvestmentPlan;
 use BladeBTC\Models\Users;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
@@ -81,7 +82,7 @@ class WithdrawCommand extends Command
 <b>" . $user->getWalletAddress() . "</b>\n
 Use command /out AMOUNT, for example: /out 1.2
 Specified amount will be delivered to your address ASAP.
-(Usually during one or two hours - min: " . getenv("MINIMUM_PAYOUT") . "BTC).",
+(Usually during one or two hours - min: " . InvestmentPlan::getValueByName("minimum_payout") . "BTC).",
 					'reply_markup' => $reply_markup,
 					'parse_mode'   => 'HTML',
 				]);

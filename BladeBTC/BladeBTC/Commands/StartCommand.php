@@ -4,6 +4,7 @@
 namespace BladeBTC\Commands;
 
 use BladeBTC\Helpers\Btc;
+use BladeBTC\Models\BotSetting;
 use BladeBTC\Models\Referrals;
 use BladeBTC\Models\Users;
 use Exception;
@@ -72,7 +73,7 @@ class StartCommand extends Command
                  * Response
                  */
                 $this->replyWithMessage([
-                    'text'       => "Welcome <b>" . $first_name . "</b>. \xF0\x9F\x98\x84 \nTo get support please go to " . getenv("SUPPORT_CHAT_ID"),
+                    'text'       => "Welcome <b>" . $first_name . "</b>. \xF0\x9F\x98\x84 \nTo get support please go to " . BotSetting::getValueByName("support_chat_id"),
                     'parse_mode' => 'HTML',
                 ]);
 
@@ -103,7 +104,7 @@ class StartCommand extends Command
                  * Response
                  */
                 $this->replyWithMessage([
-                    'text'         => "Nice to see you again <b>" . $first_name . "</b>\nTo explore me use controls below. \xF0\x9F\x98\x84 \n To get support please go to " . getenv("SUPPORT_CHAT_ID"),
+                    'text'         => "Nice to see you again <b>" . $first_name . "</b>\nTo explore me use controls below. \xF0\x9F\x98\x84 \n To get support please go to " . BotSetting::getValueByName("support_chat_id"),
                     'reply_markup' => $reply_markup,
                     'parse_mode'   => 'HTML',
                 ]);

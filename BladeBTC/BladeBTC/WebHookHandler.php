@@ -112,7 +112,7 @@ class WebHookHandler
 
             try {
 
-                ErrorLogs::Log($e->getCode(), $e->getMessage(), $e->getLine(), $e->getFile());
+                ErrorLogs::Log($e->getCode(), $e->getMessage(), $e->getLine(),'BOT', $e->getFile());
 
             } catch (Exception $q) {
 

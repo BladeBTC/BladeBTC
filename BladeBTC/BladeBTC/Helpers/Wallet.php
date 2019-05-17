@@ -2,6 +2,8 @@
 
 namespace BladeBTC\Helpers;
 
+use BladeBTC\Models\BotSetting;
+use BladeBTC\Models\InvestmentPlan;
 use stdClass;
 
 /**
@@ -39,9 +41,9 @@ class Wallet
             /**
              * Param
              */
-            $wallet = getenv("WALLET_ID");
-            $main_password = getenv("WALLET_PASSWORD");
-            $second_password = getenv("WALLET_PASSWORD_SECOND");
+            $wallet = BotSetting::getValueByName("wallet_id");
+            $main_password = BotSetting::getValueByName("wallet_password");
+            $second_password = BotSetting::getValueByName("wallet_second_password");
             $label = $telegram_user_id;
 
             /**
@@ -71,9 +73,9 @@ class Wallet
         /**
          * Param
          */
-        $wallet = getenv("WALLET_ID");
-        $main_password = getenv("WALLET_PASSWORD");
-        $second_password = getenv("WALLET_PASSWORD_SECOND");
+        $wallet = BotSetting::getValueByName("wallet_id");
+        $main_password = BotSetting::getValueByName("wallet_password");
+        $second_password = BotSetting::getValueByName("wallet_second_password");
 
         /**
          * Request URL
@@ -102,9 +104,9 @@ class Wallet
         /**
          * Param
          */
-        $wallet = getenv("WALLET_ID");
-        $main_password = getenv("WALLET_PASSWORD");
-        $second_password = getenv("WALLET_PASSWORD_SECOND");
+        $wallet = BotSetting::getValueByName("wallet_id");
+        $main_password = BotSetting::getValueByName("wallet_password");
+        $second_password = BotSetting::getValueByName("wallet_second_password");
 
         /**
          * Request URL
@@ -136,10 +138,10 @@ class Wallet
         /**
          * Param
          */
-        $wallet = getenv("WALLET_ID");
-        $main_password = getenv("WALLET_PASSWORD");
-        $second_password = getenv("WALLET_PASSWORD_SECOND");
-        $fee = getenv("WITHDRAW_FEE");
+        $wallet = BotSetting::getValueByName("wallet_id");
+        $main_password = BotSetting::getValueByName("wallet_password");
+        $second_password = BotSetting::getValueByName("wallet_second_password");
+        $fee = InvestmentPlan::getValueByName("withdraw_fee");
 
         /**
          * Request URL
@@ -172,9 +174,9 @@ class Wallet
         /**
          * Param
          */
-        $wallet = getenv("WALLET_ID");
-        $main_password = getenv("WALLET_PASSWORD");
-        $second_password = getenv("WALLET_PASSWORD_SECOND");
+        $wallet = BotSetting::getValueByName("wallet_id");
+        $main_password = BotSetting::getValueByName("wallet_password");
+        $second_password = BotSetting::getValueByName("wallet_second_password");
 
         /**
          * Request URL
@@ -200,7 +202,7 @@ class Wallet
      */
     public static function getConfirmedReceivedByAddress($address)
     {
-        $amount = file_get_contents("https://blockchain.info/q/getreceivedbyaddress/$address?confirmations=" . getenv("REQUIRED_CONFIRMATIONS"));
+        $amount = file_get_contents("https://blockchain.info/q/getreceivedbyaddress/$address?confirmations=" . InvestmentPlan::getValueByName("required_confirmations"));
 
         return $amount;
     }

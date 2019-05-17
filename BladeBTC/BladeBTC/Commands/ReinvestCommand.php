@@ -4,6 +4,7 @@
 namespace BladeBTC\Commands;
 
 use BladeBTC\Helpers\Btc;
+use BladeBTC\Models\InvestmentPlan;
 use BladeBTC\Models\Users;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
@@ -49,7 +50,7 @@ class ReinvestCommand extends Command
 		} else {
 
 
-			if ($user->getBalance() < getenv("MINIMUM_REINVEST")) {
+			if ($user->getBalance() < InvestmentPlan::getValueByName("minimum_reinvest")) {
 
 				/**
 				 * Keyboard
@@ -72,7 +73,7 @@ class ReinvestCommand extends Command
 				 * Response
 				 */
 				$this->replyWithMessage([
-					'text'         => "Sorry to tell you that, but your balance is not high enough for that!\n<b>Min: " . getenv("MINIMUM_REINVEST") . " BTC</b>",
+					'text'         => "Sorry to tell you that, but your balance is not high enough for that!\n<b>Min: " . InvestmentPlan::getValueByName("minimum_reinvest") . " BTC</b>",
 					'reply_markup' => $reply_markup,
 					'parse_mode'   => 'HTML',
 				]);

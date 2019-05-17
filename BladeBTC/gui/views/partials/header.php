@@ -160,11 +160,11 @@ Security::validateAccess();
                             <li class="user-footer">
                                 <div class="pull-left">
                                     <a href="<?php echo Path::root(); ?>/views/profile.php"
-                                       class="btn btn-default btn-flat">My account</a>
+                                       class="btn btn-default">My account</a>
                                 </div>
                                 <div class="pull-right">
                                     <a href="<?php echo Path::root(); ?>/logout.php"
-                                       class="btn btn-danger btn-flat">Logout</a>
+                                       class="btn btn-danger">Logout</a>
                                 </div>
                             </li>
                         </ul>

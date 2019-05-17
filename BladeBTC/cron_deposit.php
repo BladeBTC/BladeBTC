@@ -6,6 +6,7 @@ use BladeBTC\Helpers\Btc;
 use BladeBTC\Helpers\Database;
 use BladeBTC\Helpers\Wallet;
 use BladeBTC\Models\Investment;
+use BladeBTC\Models\InvestmentPlan;
 use BladeBTC\Models\Transactions;
 use BladeBTC\Models\Users;
 
@@ -100,9 +101,9 @@ try {
                             if (is_object($referent_id) && !empty($referent_id->telegram_id_referent)) {
 
                                 /**
-                                 * Calculate commision
+                                 * Calculate commission
                                  */
-                                $rate = getenv("COMMISSION_RATE");
+                                $rate = InvestmentPlan::getValueByName("commission_rate");
                                 $commission = (Btc::SatoshiToBitcoin($address['total_received']) - $user->getLastConfirmed()) * $rate / 100;
 
                                 $db->query("   UPDATE

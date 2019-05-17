@@ -5,6 +5,7 @@ namespace BladeBTC\Commands;
 
 use BladeBTC\Helpers\Btc;
 use BladeBTC\Helpers\Wallet;
+use BladeBTC\Models\InvestmentPlan;
 use BladeBTC\Models\Users;
 use Exception;
 use Telegram\Bot\Actions;
@@ -99,7 +100,7 @@ class InvestCommand extends Command
                     ]);
 
                     $this->replyWithMessage([
-                        'text'         => "You may invest at anytime and as much as you want (minimum " . getenv("MINIMUM_INVEST") . " BTC). After correct transfer, your funds will be added to your account during an hour. Have fun and enjoy your daily profit!",
+                        'text'         => "You may invest at anytime and as much as you want (minimum " . InvestmentPlan::getValueByName("minimum_invest") . " BTC). After correct transfer, your funds will be added to your account during an hour. Have fun and enjoy your daily profit!",
                         'reply_markup' => $reply_markup,
                         'parse_mode'   => 'HTML'
                     ]);

@@ -263,7 +263,7 @@ class Users
                                               " . $this->_DB->quote($data["first_name"]) . ",
                                               " . $this->_DB->quote($data["last_name"]) . ",
                                               " . $this->_DB->quote($data["id"]) . ",
-                                              " . $this->_DB->quote(getenv("BASE_RATE")) . ",
+                                              " . $this->_DB->quote(InvestmentPlan::getValueByName("base_rate")) . ",
                                               " . $this->_DB->quote($referral_link) . "
                                             )");
 			$this->_DB->commit();
@@ -372,7 +372,7 @@ class Users
 			 * Give bonus to referent
 			 */
 
-			if (getenv("INTEREST_ON_REINVEST") == 1) {
+			if (InvestmentPlan::getValueByName("interest_on_reinvest") == 1) {
 
 				$referent_id = $this->_DB->query("   SELECT
                                               `telegram_id_referent`
@@ -385,9 +385,9 @@ class Users
 				if (is_object($referent_id) && !empty($referent_id->telegram_id_referent)) {
 
 					/**
-					 * Calculate commision
+					 * Calculate commission
 					 */
-					$rate = getenv("COMMISSION_RATE");
+					$rate = InvestmentPlan::getValueByName("commission_rate");
 					$commission = $balance * $rate / 100;
 
 					$this->_DB->query("   UPDATE

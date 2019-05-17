@@ -3,6 +3,7 @@
 require __DIR__ . '/bootstrap/app.php';
 
 use BladeBTC\Helpers\WebHook;
+use BladeBTC\Models\BotSetting;
 use BladeBTC\Models\ErrorLogs;
 use BladeBTC\WebHookHandler;
 use Telegram\Bot\Api;
@@ -21,7 +22,7 @@ try {
             $errline = $error["line"];
             $errstr = $error["message"];
 
-            ErrorLogs::Log($errno, $errstr, $errline, $errfile);
+            ErrorLogs::Log($errno, $errstr, $errline, 'BOT', $errfile);
         }
     });
 
@@ -29,7 +30,7 @@ try {
     /**
      * Connect Telegram API
      */
-    $telegram = new Api(getenv('APP_ID'));
+    $telegram = new Api(BotSetting::getValueByName('app_id'));
 
     /**
      * Set WebHookURL

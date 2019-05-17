@@ -4,6 +4,7 @@
 namespace BladeBTC\Commands;
 
 use BladeBTC\Helpers\Btc;
+use BladeBTC\Models\BotSetting;
 use BladeBTC\Models\Referrals;
 use BladeBTC\Models\Users;
 use Telegram\Bot\Actions;
@@ -72,7 +73,7 @@ class ReferralCommand extends Command
 Use the following link to refer your friends and you will get a 10% bonus on the first investment and on their reinvestment.
 
 <b>Your referral link to share with your friends:</b>
-https://t.me/" . getenv("APP_NAME") . "?start=" . $user->getReferralLink() . "
+https://t.me/" . BotSetting::getValueByName("app_name") . "?start=" . $user->getReferralLink() . "
 
 <b>My Stats</b>
 

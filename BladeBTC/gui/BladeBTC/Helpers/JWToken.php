@@ -1,6 +1,7 @@
 <?php
 namespace BladeBTC\GUI\Helpers;
 
+use BladeBTC\Models\BotSetting;
 use Exception;
 use Firebase\JWT\JWT;
 
@@ -11,10 +12,10 @@ class JWToken
 	{
 
 		//Prepare data
-		$issuer = getenv("ISSUER");
+		$issuer = BotSetting::getValueByName("jwt_issuer");
 		$issuedAt = time();
 		$expire = $issuedAt + $expire_time;
-		$audience = getenv("AUDIENCE");
+		$audience = BotSetting::getValueByName("jwt_audience");
 		$subject = $membre_id;
 		$name = $membre_name;
 
@@ -34,7 +35,7 @@ class JWToken
 		$data = array_merge($data, $custom_data);
 
 		//Get secret key
-		$secretKey = base64_decode(getenv("JWT_KEY"));
+		$secretKey = BotSetting::getValueByName("jwt_key");
 
 		/*
 		 * Encode the array to a JWT string.
@@ -49,21 +50,19 @@ class JWToken
 	}
 
 
-	/**
-	 * Valid if token is valid and return data or error.
-	 *
-	 * @param      $jwt      - Json Web Token
-	 * @param      $key      - Signing Key
-	 * @param int  $leeway   - Leeway time in secondes
-	 * @param bool $to_array - Return array instead of object
-	 *
-	 * @return array|object
-	 */
+    /**
+     * Valid if token is valid and return data or error.
+     *
+     * @param      $jwt      - Json Web Token
+     * @param int  $leeway   - Leeway time in seconds
+     * @param bool $to_array - Return array instead of object
+     *
+     * @return array|object
+     */
 	public static function decode($jwt, $leeway = 0, $to_array = false)
 	{
 		try {
-			//Get secret key
-			$secretKey = base64_decode(getenv("JWT_KEY"));
+			$secretKey = BotSetting::getValueByName("jwt_key");
 
 			JWT::$leeway = $leeway;
 			$decoded = JWT::decode($jwt, $secretKey, ['HS512']);

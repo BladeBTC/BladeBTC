@@ -79,10 +79,6 @@ class GroupModel
 	public static function delete($group_id)
 	{
 
-		if ($group_id == -1) {
-			throw new Exception("Deleting this group is not allowed.");
-		}
-
 		$db = Database::get();
 
 		try {

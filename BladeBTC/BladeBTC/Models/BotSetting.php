@@ -10,13 +10,13 @@ use PDO;
  *
  * @package BladeBTC\Models
  */
-class BotSettingModel
+class BotSetting
 {
 
     /**
      * Get setting value by name
      *
-     * @param $settings
+     * @param      $settings
      *
      * @return mixed
      */

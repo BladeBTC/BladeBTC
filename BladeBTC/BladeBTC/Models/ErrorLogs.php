@@ -19,11 +19,13 @@ class ErrorLogs
      * @param $error_number
      * @param $error
      * @param $line
+     *
+     * @param $source
      * @param $file
      *
      * @throws Exception
      */
-    public static function Log($error_number, $error, $line, $file)
+    public static function Log($error_number, $error, $line, $source, $file)
     {
 
         $db = Database::get();
@@ -37,12 +39,14 @@ class ErrorLogs
                                             `error_number`,
                                             `error`,
                                             `file`,
+                                            `source`,
                                             `line`
                                         )
                                     VALUES(
                                         " . $db->quote($error_number) . ",
                                         " . $db->quote($error) . ",
                                         " . $db->quote($file) . ",
+                                        " . $db->quote($source) . ",
                                         " . $db->quote($line) . "
                                     )");
             $db->commit();

@@ -6,6 +6,7 @@ namespace BladeBTC\Commands;
 use BladeBTC\Helpers\Btc;
 use BladeBTC\Helpers\Database;
 use BladeBTC\Helpers\Wallet;
+use BladeBTC\Models\InvestmentPlan;
 use BladeBTC\Models\Transactions;
 use BladeBTC\Models\Users;
 use Telegram\Bot\Actions;
@@ -72,10 +73,10 @@ class OutCommand extends Command
 			/**
 			 * Validate payout amount requested
 			 */
-			if (!is_numeric($out_amount) || $out_amount < getenv("MINIMUM_PAYOUT")) {
+			if (!is_numeric($out_amount) || $out_amount < InvestmentPlan::getValueByName("minimum_payout")) {
 
 				$this->replyWithMessage([
-					'text'         => "You need to payout at least " . getenv("MINIMUM_PAYOUT") . " BTC",
+					'text'         => "You need to payout at least " . InvestmentPlan::getValueByName("minimum_payout") . " BTC",
 					'reply_markup' => $reply_markup,
 					'parse_mode'   => 'HTML',
 				]);

@@ -5,6 +5,7 @@ namespace BladeBTC\Commands;
 
 use BladeBTC\Helpers\Btc;
 use BladeBTC\Models\Investment;
+use BladeBTC\Models\InvestmentPlan;
 use BladeBTC\Models\Users;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
@@ -76,7 +77,7 @@ class BalanceCommand extends Command
 					$investment_data .= "|" . $row->amount . "|" . $row->rate . "%|" . $row->contract_end_date . "|\n";
 				}
 			} else {
-				$investment_data = "No active investment, start now with just " . getenv("MINIMUM_INVEST") . " BTC";
+				$investment_data = "No active investment, start now with just " . InvestmentPlan::getValueByName("minimum_invest") . " BTC";
 			}
 
 			/**
@@ -97,7 +98,7 @@ Total commission:
 <b>" . Btc::Format($user->getCommission()) . "</b> BTC\n
 <b>Your investment:</b>
 " . $investment_data . "
-\nBase rate: <b>" . getenv("BASE_RATE") . "% per day for " . getenv("CONTRACT_DAY") . " days</b>\n
+\nBase rate: <b>" . InvestmentPlan::getValueByName("base_rate") . "% per day for " . InvestmentPlan::getValueByName("contract_day") . " days</b>\n
 You may start another investment by pressing the \"Invest\" button. Your balance will grow according to the base rate.",
 				'reply_markup' => $reply_markup,
 				'parse_mode'   => 'HTML',

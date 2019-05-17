@@ -142,8 +142,15 @@ use BladeBTC\GUI\Models\ModuleModel;
                                                     </div>
                                                 </div>
                                                 <br/>
-                                                <input class="btn bg-orange"
-                                                       type="submit" name="save-group" value="Save">
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <input class="btn btn-success btn-block"
+                                                               type="submit" name="save-group" value="Save">
+                                                    </div>
+                                                </div>
+
+
                                             </form>
 
                                             <!-- Tableau -->
@@ -172,15 +179,15 @@ use BladeBTC\GUI\Models\ModuleModel;
                                                             <td>' . $group->dashboard . '</td>
                                                             <td>
                                                             <a  class="btn btn-success btn-xs" 
-                                                                title="Modifier le groupe" 
+                                                                title="Edit group" 
                                                                 data-toggle="tooltip"
                                                                 href="' . $vim . '">
                                                                 <i class="fa fa-pencil"></i>
                                                             </a>
                                                             <a  class="btn btn-danger btn-xs" 
-                                                                title="Supprimer le groupe" 
+                                                                title="Delete group" 
                                                                 data-toggle="tooltip"
-                                                                onclick="return iconfirm(\'Attention!\',\'Êtes-vous de vouloir supprimer ce groupe\', this.href)" 
+                                                                onclick="return iconfirm(\'Attention!\',\'Are you sure you want to delete this group?\', this.href)" 
                                                                 href="' . $rm . '">
                                                                 <i class="fa fa-trash-o"></i>
                                                             </a>
@@ -288,8 +295,12 @@ use BladeBTC\GUI\Models\ModuleModel;
                                                     </div>
                                                 </div>
                                                 <br/>
-                                                <input class="btn bg-orange" type="submit" name="save-account"
-                                                       value="Save">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <input class="btn btn-success btn-block"
+                                                               type="submit" name="save-account" value="Save">
+                                                    </div>
+                                                </div>
                                             </form>
                                         </div>
                                     </div>
