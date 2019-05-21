@@ -26,7 +26,7 @@ DB="telegram_bot"
 APP_ID=""
 APP_NAME=""
 
-#CHAINBLOCK
+#BLOCKCHAIN
 WALLET_ID=""
 WALLET_PASSWORD=""
 WALLET_PASSWORD_SECOND=""
@@ -312,6 +312,9 @@ make_install(){
     chmod 550 ${SQL_PATH}/base.sql
     mysql --user=${USER} --password=${PASS} < ${SQL_PATH}/base.sql
 	echo -e "\e[92mCreating Database ... [DONE]\e[0m"
+
+	#Insert settings in database
+	mysql -u ${USER} -p${PASS} -D ${DB} -e "INSERT INTO `bot_setting` (`id`, `app_id`, `app_name`, `support_chat_id`, `wallet_id`, `wallet_password`, `wallet_second_password`, `jwt_issuer`, `jwt_audience`, `jwt_key`) VALUES (1, '${APP_ID}', '${APP_NAME}', '${SUPPORT_CHAT_ID}', '${WALLET_ID}', '${WALLET_PASSWORD}', '${WALLET_PASSWORD_SECOND}', 'CMS', 'All', '${NEW_UUID}');"
 
 	#Set WebHook
 	echo -e "\e[92mSet Telegram Webhook ... [PLEASE WAIT]\e[0m"
