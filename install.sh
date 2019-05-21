@@ -84,7 +84,7 @@ make_install(){
 	#webmin source
 	echo -e "\n\n\e[92mAdding source for Webmin ... [PLEASE WAIT]\e[0m"
 	wget -O- http://www.webmin.com/jcameron-key.asc | sudo apt-key add -
-	echo "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
+	echo -e "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
 	echo -e "\e[92mAdd source for Webmin ... [DONE]\e[0m"
 
     #certbot source
@@ -102,8 +102,8 @@ make_install(){
     apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
     add-apt-repository 'deb [arch=amd64,arm64,ppc64el] http://mirror.its.dal.ca/mariadb/repo/10.3/ubuntu bionic main'
     apt update -y
-    echo "mariadb-server-10.3 mysql-server/root_password password $PASS" | debconf-set-selections
-    echo "mariadb-server-10.3 mysql-server/root_password_again password $PASS" | debconf-set-selections
+    echo -e "mariadb-server-10.3 mysql-server/root_password password $PASS" | debconf-set-selections
+    echo -e "mariadb-server-10.3 mysql-server/root_password_again password $PASS" | debconf-set-selections
 
     echo -e "\e[92mInstalling MariaDB ... [PLEASE WAIT]\e[0m"
 	apt install mariadb-server-10.3 mariadb-client-10.3 -y
@@ -111,11 +111,11 @@ make_install(){
 	echo -e "\e[92mInstalling MariaDB ... [DONE]\e[0m"
 
     #install phpmyadmin
-    echo "phpmyadmin phpmyadmin/dbconfig-install boolean false" | debconf-set-selections
-    echo "phpmyadmin phpmyadmin/app-password-confirm password $PASS" | debconf-set-selections
-    echo "phpmyadmin phpmyadmin/mysql/admin-pass password $PASS" | debconf-set-selections
-    echo "phpmyadmin phpmyadmin/mysql/app-pass password $PASS" | debconf-set-selections
-    echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | debconf-set-selections
+    echo -e "phpmyadmin phpmyadmin/dbconfig-install boolean false" | debconf-set-selections
+    echo -e "phpmyadmin phpmyadmin/app-password-confirm password $PASS" | debconf-set-selections
+    echo -e "phpmyadmin phpmyadmin/mysql/admin-pass password $PASS" | debconf-set-selections
+    echo -e "phpmyadmin phpmyadmin/mysql/app-pass password $PASS" | debconf-set-selections
+    echo -e "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | debconf-set-selections
 
     echo -e "\e[92mInstalling all needed package ... [PLEASE WAIT]\e[0m"
 	apt install phpmyadmin -y
@@ -141,7 +141,7 @@ make_install(){
 	
     #write server name
 	echo -e "\e[92mWriting apache2 configuration ... [PLEASE WAIT]\e[0m"
-	echo "ServerName ServerName" >> /etc/apache2/apache2.conf
+	echo -e "ServerName ServerName" >> /etc/apache2/apache2.conf
 
 	#APACHE Config
 	sitesAvailable='/etc/apache2/sites-available/'
@@ -159,7 +159,7 @@ make_install(){
 		cp -r ./BladeBTC /var/www/bot
 
 		#creating vhost
-		if ! echo "
+		if ! echo -e "
 			<VirtualHost *:80>
 			
 				#general
@@ -201,7 +201,7 @@ make_install(){
 	else
 
 	    #creating SSL vhost
-		if ! echo "
+		if ! echo -e "
 			<IfModule mod_ssl.c>
 				<VirtualHost *:443>
 
@@ -250,7 +250,7 @@ make_install(){
 
     ### Add domain in /etc/hosts
     echo -e "\e[92mWriting host file configuration ... [PLEASE WAIT]\e[0m"
-    if ! echo "127.0.0.1	$DOMAIN" >> /etc/hosts
+    if ! echo -e "127.0.0.1	$DOMAIN" >> /etc/hosts
     then
         echo -e "\e[31mWriting host file configuration ... [FAILED]\e[0m"
     else
@@ -314,7 +314,7 @@ make_install(){
 	echo -e "\e[92mCreating Database ... [DONE]\e[0m"
 
 	#Insert settings in database
-	mysql -u ${USER} -p${PASS} -D ${DB} -e "INSERT INTO `bot_setting` (`id`, `app_id`, `app_name`, `support_chat_id`, `wallet_id`, `wallet_password`, `wallet_second_password`, `jwt_issuer`, `jwt_audience`, `jwt_key`) VALUES (1, '${APP_ID}', '${APP_NAME}', '${SUPPORT_CHAT_ID}', '${WALLET_ID}', '${WALLET_PASSWORD}', '${WALLET_PASSWORD_SECOND}', 'CMS', 'All', '${NEW_UUID}');"
+	mysql -u ${USER} -p${PASS} -D ${DB} -e "INSERT INTO bot_setting (id, app_id, app_name, support_chat_id, wallet_id, wallet_password, wallet_second_password, jwt_issuer, jwt_audience, jwt_key) VALUES (1, '${APP_ID}', '${APP_NAME}', '${SUPPORT_CHAT_ID}', '${WALLET_ID}', '${WALLET_PASSWORD}', '${WALLET_PASSWORD_SECOND}', 'CMS', 'All', '${NEW_UUID}');"
 
 	#Set WebHook
 	echo -e "\e[92mSet Telegram Webhook ... [PLEASE WAIT]\e[0m"
@@ -328,7 +328,7 @@ make_install(){
 
 	#cron 1
 	echo -e "\e[92mCreating CRON Job ... [PLEASE WAIT]\e[0m"
-	(crontab -l 2>/dev/null; echo "0,5,10,15,20,25,30,35,40,45,50,55 * * * * curl https://$DOMAIN/cron_deposit.php") | crontab -
+	(crontab -l 2>/dev/null; echo -e "0,5,10,15,20,25,30,35,40,45,50,55 * * * * curl https://$DOMAIN/cron_deposit.php") | crontab -
 	
 	#cron 2
 	for (( i=0; i < 24; i=$i+$TIMER_TIME_HOUR ))
@@ -339,10 +339,10 @@ make_install(){
 				CRON_HOUR="$i"
 		fi
 	done
-	(crontab -l 2>/dev/null; echo "0 $CRON_HOUR * * * curl https://$DOMAIN/cron_interest.php") | crontab -
+	(crontab -l 2>/dev/null; echo -e "0 $CRON_HOUR * * * curl https://$DOMAIN/cron_interest.php") | crontab -
 
 	#cron 3
-	(crontab -l 2>/dev/null; echo "@monthly certbot renew") | crontab -
+	(crontab -l 2>/dev/null; echo -e "@monthly certbot renew") | crontab -
 	echo -e "\e[92mCreating CRON Job ... [DONE]\e[0m"
 
 	#blockchain start and respawn
@@ -373,9 +373,9 @@ make_install(){
 	echo -e "\e[92mInstallation Process [DONE]\e[0m"
 	echo ""
 	echo ""
-	echo "=========================================================================================="
-	echo "=================           SERVER IS GOING DOWN FOR REBOOT         ======================"
-	echo "=========================================================================================="
+	echo -e "=========================================================================================="
+	echo -e "=================           SERVER IS GOING DOWN FOR REBOOT         ======================"
+	echo -e "=========================================================================================="
 
 	reboot
 
@@ -450,39 +450,26 @@ done
 clear
 
 #validate parameters
-echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo -e "\e[92m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\e[0m"
 echo ""
-echo -e "This is all the parameters you choose for this installation:"
+echo -e "\e[92mThis is all the parameters you choose for this installation:\e[0m"
 echo ""
-echo "DOMAIN: $DOMAIN"
-echo "DEBUG: $DEBUG"
-echo "HOST: $HOST"
-echo "USER: $USER"
-echo "PASS: ******"
-echo "BDD: $DB"
-echo "APP_ID: $APP_ID"
-echo "APP_NAME: $APP_NAME"
-echo "WALLET_ID: $WALLET_ID"
-echo "WALLET_PASSWORD: $WALLET_PASSWORD"
-echo "MINIMUM_INVEST: $MINIMUM_INVEST Bitcoin"
-echo "MINIMUM_REINVEST: $MINIMUM_REINVEST Bitcoin"
-echo "MINIMUM_PAYOUT: $MINIMUM_PAYOUT Bitcoin"
-echo "BASE_RATE: $BASE_RATE%"
-echo "CONTRACT_DAY: $CONTRACT_DAY days"
-echo "COMMISSION_RATE: $COMMISSION_RATE%"
-echo "TIMER_TIME_HOUR: $TIMER_TIME_HOUR hours"
-echo "REQUIRED_CONFIRMATIONS: $REQUIRED_CONFIRMATIONS confirmations"
-echo "INTEREST_ON_REINVEST: $INTEREST_ON_REINVEST%"
-echo "WITHDRAW_FEE: $WITHDRAW_FEE satoshi"
-echo "SUPPORT_CHAT_ID: $SUPPORT_CHAT_ID"
+echo -e "DOMAIN:                    $DOMAIN"
+echo -e "PASS:                      ******"
+echo -e "APP_ID:                    $APP_ID"
+echo -e "APP_NAME:                  $APP_NAME"
+echo -e "WALLET_ID:                 $WALLET_ID"
+echo -e "WALLET_PASSWORD:           ******"
+echo -e "WALLET_SECOND_PASSWORD:    ******"
+echo -e "SUPPORT_CHAT_ID:           $SUPPORT_CHAT_ID"
 echo ""
-echo "===================================================================================="
-echo "		BE SURE TO OPEN PORT : 80, 443, 10000 BEFORE STARTING THIS INSTALLATION"
-echo "===================================================================================="
+echo -e "\e[92m====================================================================================\e[0m"
+echo -e "\e[92m		BE SURE TO OPEN PORT : 80, 443, 10000 BEFORE STARTING THIS INSTALLATION\e[0m"
+echo -e "\e[92m====================================================================================\e[0m"
 echo ""
-echo "If all these values are good press [Y] else press [N] and restart this installation."
+echo -e "\e[92mIf all these values are good press [Y] else press [N] and restart this installation.\e[0m"
 echo ""
-echo -e "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n"
+echo -e "\e[92m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\e[0m"
 
 while true; do
     read -p "Do you wish to install this program? : " -n 1 yn
