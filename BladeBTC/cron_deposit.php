@@ -3,8 +3,9 @@
 require __DIR__ . '/bootstrap/app.php';
 
 use BladeBTC\Helpers\Btc;
-use BladeBTC\Helpers\Database;
 use BladeBTC\Helpers\Wallet;
+use BladeBTC\Models\BotSetting;
+use BladeBTC\Models\ErrorLogs;
 use BladeBTC\Models\Investment;
 use BladeBTC\Models\InvestmentPlan;
 use BladeBTC\Models\Transactions;
@@ -15,13 +16,8 @@ try {
     /**
      * Load .env file
      */
-    $dotenv = new Dotenv\Dotenv(__DIR__);
-    $dotenv->load();
-
-
-    /*
-     * ===========================================  HANDLE DEPOSIT ==========================================
-     */
+    $env = new Dotenv\Dotenv(__DIR__);
+    $env->load();
 
     /**
      * Recover all address
@@ -29,124 +25,118 @@ try {
     $addresses = Wallet::listAddress();
     foreach ($addresses['addresses'] as $address) {
 
-        echo '<pre>';
-        print_r($address);
-
         /**
          * Check if address have balance
          */
         if ($address['total_received'] > 0) {
 
 
-            /**
-             * Build user object
+            /***
+             * Validate Label User ID
              */
-            $user = new Users($address['label']);
+            if (Users::checkExistByLabelNumber($address['label'])) {
 
 
-            /**
-             * Check if transaction have 6 confirmation
-             */
-            $check_address = $address['address'];
-            if (Wallet::getConfirmedReceivedByAddress($check_address) > $user->getLastConfirmed()) {
+                /**
+                 * Build user object
+                 */
+                $user = new Users($address['label']);
 
-                $db = Database::get();
 
-                try {
+                /**
+                 * Calculate BTC on this address
+                 */
+                $userLastConfirmedInBTC = $user->getLastConfirmed();
+                $totalConfirmedForThisAddressInBTC = Btc::SatoshiToBitcoin($address['total_received']);
+                $confirmedNewDepositInBtc = $totalConfirmedForThisAddressInBTC - $userLastConfirmedInBTC;
 
-                    $db->beginTransaction();
+
+                /**
+                 * Check if transaction have confirmation
+                 */
+                if ($confirmedNewDepositInBtc > 0) {
 
 
                     /**
-                     * Check if is a new transaction
+                     * Set last confirmed
                      */
-                    if (Btc::SatoshiToBitcoin($address['total_received']) != $user->getLastConfirmed()) {
+                    $user->setLastConfirmed($totalConfirmedForThisAddressInBTC);
+
+
+                    /**
+                     * Create investment
+                     */
+                    Investment::create($user->getTelegramId(), $confirmedNewDepositInBtc);
+
+
+                    /**
+                     * Update invested
+                     */
+                    $newInvested = $user->getInvested() + $confirmedNewDepositInBtc;
+                    $user->setInvested($newInvested);
+
+
+                    /**
+                     * Give bonus to referent - First invest only
+                     */
+                    if ($user->getNumberOfInvestment() == 1) {
+
 
                         /**
-                         * Set last confirmed
+                         * Get referent Id
                          */
-                        $user->setLastConfirmed(Btc::SatoshiToBitcoin($address['total_received']));
-
-                        /**
-                         * Create investment
-                         */
-                        Investment::create($user->getTelegramId(), (Btc::SatoshiToBitcoin($address['total_received']) - $user->getLastConfirmed()), $user->getUserRate());
+                        $referent_id = $user->getReferentId();
 
 
                         /**
-                         * Update invested
+                         * Give commission
                          */
-                        $db->query("   UPDATE
-                                              `users`
-                                            SET 
-                                              `invested` = `invested` + " . $db->quote(Btc::SatoshiToBitcoin($address['total_received']) - $user->getLastConfirmed()) . "
-                                            WHERE
-                                                `telegram_id` = " . $user->getTelegramId() . "
-                                            ");
+                        if (!is_null($referent_id)) {
 
-                        /**
-                         * Give bonus to referent - First invest only
-                         */
-
-                        if (Investment::getTotalInvestment($user->getTelegramId()) == 1) {
-                            $referent_id = $db->query("   SELECT
-                                              `telegram_id_referent`
-                                            FROM 
-                                              `referrals`
-                                            WHERE
-                                                `telegram_id_referred` = " . $user->getTelegramId() . "
-                                            ")->fetchObject();
-
-
-                            if (is_object($referent_id) && !empty($referent_id->telegram_id_referent)) {
-
-                                /**
-                                 * Calculate commission
-                                 */
-                                $rate = InvestmentPlan::getValueByName("commission_rate");
-                                $commission = (Btc::SatoshiToBitcoin($address['total_received']) - $user->getLastConfirmed()) * $rate / 100;
-
-                                $db->query("   UPDATE
-                                              `users`
-                                            SET 
-                                              `commission` = `commission` + " . $db->quote($commission) . ",
-                                              `balance` = `balance` + " . $db->quote($commission) . "
-                                            WHERE
-                                                `telegram_id` = " . $referent_id->telegram_id_referent . "
-                                            ");
-
-                            }
+                            $rate = InvestmentPlan::getValueByName("commission_rate");
+                            $commission = ($confirmedNewDepositInBtc * $rate) / 100;
+                            Users::giveCommission($referent_id, $commission);
                         }
-
-                        /**
-                         * Log transaction
-                         */
-                        Transactions::log([
-                            "telegram_id" => $user->getTelegramId(),
-                            "amount" => (Btc::SatoshiToBitcoin($address['total_received']) - $user->getLastConfirmed()),
-                            "withdraw_address" => "",
-                            "message" => "",
-                            "tx_hash" => "",
-                            "notice" => "",
-                            "status" => 1,
-                            "type" => "deposit",
-                        ]);
                     }
 
-                    $db->commit();
+                    /**
+                     * Log transaction
+                     */
+                    Transactions::log([
+                        "telegram_id" => $user->getTelegramId(),
+                        "amount" => $confirmedNewDepositInBtc,
+                        "withdraw_address" => "",
+                        "message" => "",
+                        "tx_hash" => "",
+                        "notice" => "",
+                        "status" => 1,
+                        "type" => "deposit",
+                    ]);
 
-                } catch (\Exception $e) {
-                    $db->rollBack();
-                    throw new \Exception($e->getMessage());
+
+                    /**
+                     * Send user message - Notification of deposit
+                     */
+                    $apiToken = BotSetting::getValueByName('app_id');
+                    $data = [
+                        'chat_id' => $user->getTelegramId(),
+                        'text' => 'Your deposit of <b>' . $confirmedNewDepositInBtc . '</b> is now accepted and invested. You will recover this amount with interest in your balance at the end of your contract.'
+                    ];
+                    $response = file_get_contents("https://api.telegram.org/bot$apiToken/sendMessage?" . http_build_query($data));
+
                 }
             }
         }
     }
 
-
 } catch (Exception $e) {
+    try {
 
-    if (getenv("DEBUG") == 1) {
-        mail(getenv("MAIL"), "BOT ERROR", $e->getMessage() . "\n" . $e->getFile() . "[" . $e->getLine() . "]");
+        ErrorLogs::Log($e->getCode(), $e->getMessage(), $e->getLine(), 'CRON DEPOSIT', $e->getFile());
+        error_log($e->getMessage() . " on line " . $e->getLine() . " in file " . $e->getFile());
+
+    } catch (Exception $q) {
+
+        error_log($q->getMessage() . " on line " . $q->getLine() . " in file " . $q->getFile());
     }
 }

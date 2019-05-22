@@ -98,7 +98,7 @@ Security::validateAccess();
 
         <!-- Debug Bar -->
 		<?php
-		if (Security::can(3)) {
+		if (Security::can(2)) {
 			Debugbar::getHeaderHTML();
 		}
 		?>

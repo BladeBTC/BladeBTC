@@ -72,13 +72,14 @@ class BalanceCommand extends Command
 			 */
 			$investment = Investment::getActiveInvestment($user->getTelegramId());
 			if (count($investment) > 0) {
-				$investment_data = "\n|   Amount   |   Rate   |   End   |\n";
+				$investment_data = "\n<b>|   Amount   |   Rate   |   End   |</b>\n";
 				foreach ($investment as $row) {
-					$investment_data .= "|" . $row->amount . "|" . $row->rate . "%|" . $row->contract_end_date . "|\n";
+					$investment_data .= "|" . $row->amount . "|" . InvestmentPlan::getValueByName('base_rate') . "%|" . $row->contract_end_date . "|\n";
 				}
 			} else {
 				$investment_data = "No active investment, start now with just " . InvestmentPlan::getValueByName("minimum_invest") . " BTC";
 			}
+
 
 			/**
 			 * Response

@@ -52,7 +52,7 @@ use BladeBTC\GUI\Helpers\Toast;
 
 <!-- Debug Bar -->
 <?php
-if (Security::can(3)) {
+if (Security::can(2)) {
 	Debugbar::getBodyHTML();
 }
 

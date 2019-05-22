@@ -4,6 +4,7 @@ namespace BladeBTC\Models;
 
 
 use BladeBTC\Helpers\Database;
+use Exception;
 
 /**
  * Users model
@@ -19,7 +20,7 @@ class Transactions
 	 *
 	 * @param $data - Transaction data
 	 *
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public static function log($data)
 	{
@@ -52,9 +53,9 @@ class Transactions
 									" . $db->quote($data["type"]) . "
 									)");
 			$db->commit();
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$db->rollBack();
-			throw new \Exception($e->getMessage());
+			throw new Exception($e->getMessage());
 		}
 	}
 }

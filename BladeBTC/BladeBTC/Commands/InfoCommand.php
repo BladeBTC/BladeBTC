@@ -99,7 +99,7 @@ Your perfect start.
 
 ✏️ Feels free to payout your available account balance at any time once all 24 hours. The minimum to withdraw is " . InvestmentPlan::getValueByName("minimum_payout") . " BTC.
 
-✏️ Before pushing \"Withdraw\" paste your personal Wallet-ID into the chat window and press enter to setup your Wallet-ID.
+✏️ Before pushing \"Withdraw\" use the <b>/set wallet_address</b> command into the chat window and press enter to setup your Wallet-ID. Replace wallet_address by a valid bitcoin address.
 
 ✏️ Your wallet is now registered and connected with your Telegram account. Now choose the amount you want to payout as follows. Type into your chat the command: /out 0.08 (the 0.08 are just an example). As soon as you press enter now and your balance is high enough for the payout, you will get the immediate confirmation. Your money is now on the way to your personal BTC wallet within normally two hours.
 

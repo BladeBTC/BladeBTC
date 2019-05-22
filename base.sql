@@ -69,11 +69,11 @@ DROP TABLE IF EXISTS `error_logs`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `error_logs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `error_number` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `error_number` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `error` text CHARACTER SET utf8mb4 DEFAULT NULL,
   `file` text CHARACTER SET utf8mb4 DEFAULT NULL,
-  `line` varchar(50) CHARACTER SET utf8mb4 DEFAULT NULL,
-  `source` varchar(5) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `line` text CHARACTER SET utf8mb4 DEFAULT NULL,
+  `source` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date` timestamp NULL DEFAULT current_timestamp(),
   `deleted` int(1) NOT NULL DEFAULT 0,
   `deleted_account_id` int(11) DEFAULT NULL,

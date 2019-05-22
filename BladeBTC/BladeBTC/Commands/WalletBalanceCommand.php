@@ -70,7 +70,7 @@ class WalletBalanceCommand extends Command
 			 * Response
 			 */
 			$this->replyWithMessage([
-				'text'         => "Your wallet balance: " . Btc::SatoshiToBitcoin(Wallet::getBalance()) . " BTC",
+				'text'         => "Your wallet balance: " . Btc::SatoshiToBitcoin(Wallet::getWalletBalance()) . " BTC",
 				'reply_markup' => $reply_markup,
 				'parse_mode'   => 'HTML',
 			]);

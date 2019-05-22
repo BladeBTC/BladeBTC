@@ -19,38 +19,35 @@ class Investment
      *
      * @param $telegram_id - User telegram ID
      * @param $amount      - Amount
-     * @param $rate        - Rate
      *
      * @throws Exception
      */
-	public static function create($telegram_id, $amount, $rate)
-	{
+    public static function create($telegram_id, $amount)
+    {
 
-		$db = Database::get();
+        $db = Database::get();
 
-		try {
+        try {
 
-			$db->beginTransaction();
-			$db->query("	INSERT
+            $db->beginTransaction();
+            $db->query("	INSERT
 									INTO
 									  `investment`(
 										`telegram_id`,
 										`amount`,
-										`rate`,
 										`contract_end_date`
 									  )
 									VALUES(
 									 " . $db->quote($telegram_id) . ",
 									 " . $db->quote($amount) . ",
-									 " . $db->quote($rate) . ",
 									 NOW() + INTERVAL " . (InvestmentPlan::getValueByName("contract_day")) . " DAY
 									)");
-			$db->commit();
-		} catch (Exception $e) {
-			$db->rollBack();
-			throw new Exception($e->getMessage());
-		}
-	}
+            $db->commit();
+        } catch (Exception $e) {
+            $db->rollBack();
+            throw new Exception($e->getMessage());
+        }
+    }
 
 
     /**
@@ -60,19 +57,19 @@ class Investment
      *
      * @return int
      */
-	public static function getActiveInvestmentTotal($telegram_id)
-	{
-		$db = Database::get();
+    public static function getActiveInvestmentTotal($telegram_id)
+    {
+        $db = Database::get();
 
-		$total = 0;
-		$investment = $db->query("	SELECT `amount` FROM `investment` WHERE contract_end_date > NOW() AND `telegram_id` = " . $telegram_id);
-		while ($row = $investment->fetchObject()) {
-			$total += $row->amount;
-		}
+        $total = 0;
+        $investment = $db->query("	SELECT `amount` FROM `investment` WHERE contract_end_date > NOW() AND `telegram_id` = " . $telegram_id);
+        while ($row = $investment->fetchObject()) {
+            $total += $row->amount;
+        }
 
-		return $total;
+        return $total;
 
-	}
+    }
 
 
     /**
@@ -82,37 +79,59 @@ class Investment
      *
      * @return array
      */
-	public static function getActiveInvestment($telegram_id)
-	{
-		$db = Database::get();
+    public static function getActiveInvestment($telegram_id)
+    {
+        $db = Database::get();
 
-		$investment = [];
-		$investment_qry = $db->query("	SELECT * FROM `investment` WHERE contract_end_date > NOW() AND `telegram_id` = " . $telegram_id);
-		while ($row = $investment_qry->fetchObject()) {
-			$investment[] = $row;
-		}
+        $investment = [];
+        $investment_qry = $db->query("	SELECT * FROM `investment` WHERE contract_end_date > NOW() AND `telegram_id` = " . $telegram_id);
+        while ($row = $investment_qry->fetchObject()) {
+            $investment[] = $row;
+        }
 
-		return $investment;
+        return $investment;
 
-	}
+    }
 
     /**
-     * Get total investment
+     * Remove contract end put investment in balance
      *
-     * @param $telegram_id - Telegram ID
-     *
-     * @return double
+     * @throws Exception
      */
-	public static function getTotalInvestment($telegram_id)
-	{
-		$db = Database::get();
+    public static function endContract()
+    {
 
+        $db = Database::get();
 
-		$count = $db->query("	SELECT COUNT(*) AS `C` FROM `investment` WHERE `telegram_id` = " . $telegram_id)->fetchObject()->C;
+        try {
+            $db->beginTransaction();
+            $contracts = $db->query("SELECT * FROM `investment` WHERE contract_end_date <= NOW()");
+            while ($contract = $contracts->fetchObject()) {
 
-		return $count;
+                /**
+                 * Refund investment into balance
+                 */
+                $db->query("   UPDATE
+                                              `users`
+                                            SET 
+                                              `balance` = `balance` + " . $contract->amount . "
+                                            WHERE
+                                                `telegram_id` = " . $contract->telegram_id . "
+                                            ");
 
-	}
+                /**
+                 * Delete contract
+                 */
+                $db->query("DELETE FROM `investment` WHERE `id` = " . $contract->id);
+
+            }
+            $db->commit();
+        } catch (Exception $e) {
+            $db->rollBack();
+            throw new Exception($e->getMessage());
+        }
+    }
+
 
 	/**
 	 * Give interest from contract
@@ -129,7 +148,7 @@ class Investment
 			$contracts = $db->query("SELECT * FROM `investment` WHERE contract_end_date > NOW()");
 			while ($contract = $contracts->fetchObject()) {
 
-				$interest = ($contract->rate / (24 / InvestmentPlan::getValueByName("timer_time_hour"))) * $contract->amount / 100;
+				$interest = (InvestmentPlan::getValueByName("base_rate") / (24 / InvestmentPlan::getValueByName("timer_time_hour"))) * $contract->amount / 100;
 				$db->query("   UPDATE
                                               `users`
                                             SET 
@@ -139,12 +158,37 @@ class Investment
                                                 `telegram_id` = " . $contract->telegram_id . "
                                             ");
 
+                $db->query("   INSERT
+									INTO
+									  `transactions`(
+										`telegram_id`,
+										`amount`,
+										`withdraw_address`,
+										`message`,
+										`tx_hash`,
+										`notice`,
+										`status`,
+										`type`
+									  )
+									VALUES(
+									" . $db->quote($contract->telegram_id) . ",
+									" . $db->quote($interest) . ",
+									" . $db->quote("") . ",
+									" . $db->quote("") . ",
+									" . $db->quote("") . ",
+									" . $db->quote("") . ",
+									" . $db->quote(1) . ",
+									" . $db->quote("interest") . "
+									)");
+
 			}
 			$db->commit();
 		} catch (Exception $e) {
 			$db->rollBack();
 			throw new Exception($e->getMessage());
 		}
-	}
 
+
+
+    }
 }

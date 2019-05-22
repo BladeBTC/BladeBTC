@@ -2,7 +2,6 @@
 
 namespace BladeBTC;
 
-use BladeBTC\Helpers\AddressValidator;
 use BladeBTC\Models\ErrorLogs;
 use Exception;
 use Telegram\Bot\Api;
@@ -44,10 +43,12 @@ class WebHookHandler
                 Commands\InfoCommand::class,
             ]);
 
+
             /**
              * Get updates data
              */
             $updates = $telegram->getWebhookUpdates();
+
 
             /**
              * Count updates to avoid error if user go to the application index by itself.
@@ -56,55 +57,71 @@ class WebHookHandler
 
 
                 /**
-                 * Get current updates text
+                 * Log message in log files
                  */
-                $text = $updates->getMessage()->getText();
+                if (getenv('DEBUG') == 1){
+                    error_log("update :" . $updates->getMessage(), 0);
+                }
 
 
                 /**
-                 * Check if user send a bitcoin address and update is wallet
+                 * Get current updates message
                  */
-                if (AddressValidator::isValid($text)) {
+                $message = $updates->getMessage();
+
+
+                /**
+                 * Skip empty message
+                 */
+                if (empty($message)) {
+                    return 1;
+                }
+
+
+                /**
+                 * Get current updates message
+                 */
+                $text = $message->getText();
+
+
+                /**
+                 * Handle command
+                 */
+                if (preg_match("/\bBalance\b/i", $text)) {
+                    $telegram->getCommandBus()->handler('/balance', $updates);
+                }
+                elseif (preg_match("/\bInvest\b/i", $text)) {
+                    $telegram->getCommandBus()->handler('/invest', $updates);
+                }
+                elseif (preg_match("/\bWithdraw\b/i", $text)) {
+                    $telegram->getCommandBus()->handler('/withdraw', $updates);
+                }
+                elseif (preg_match("/\bReinvest\b/i", $text)) {
+                    $telegram->getCommandBus()->handler('/reinvest', $updates);
+                }
+                elseif (preg_match("/\bBack\b/i", $text)) {
+                    $telegram->getCommandBus()->handler('/back', $updates);
+                }
+                elseif (preg_match("/\bTeam\b/i", $text)) {
+                    $telegram->getCommandBus()->handler('/referral', $updates);
+                }
+                elseif (preg_match("/\bHelp\b/i", $text)) {
+                    $telegram->getCommandBus()->handler('/info', $updates);
+                }
+                elseif (preg_match("/\/out/", $text)) {
+                    $telegram->getCommandBus()->handler('/out', $updates);
+                }
+                elseif (preg_match("/\/set/", $text)) {
                     $telegram->getCommandBus()->handler('/update_wallet', $updates);
                 }
+                elseif (preg_match("/\/gwb/", $text)) {
+                    $telegram->getCommandBus()->handler('/gwb', $updates);
+                }
+                elseif (preg_match("/\/start/", $text)) {
+                    $telegram->getCommandBus()->handler('/start', $updates);
+                }
                 else {
-
-                    if (preg_match("/\bRevenue\b/i", $text)) {
-                        $telegram->getCommandBus()->handler('/revenue', $updates);
-                    }
-                    elseif (preg_match("/\bBalance\b/i", $text)) {
-                        $telegram->getCommandBus()->handler('/balance', $updates);
-                    }
-                    elseif (preg_match("/\bInvest\b/i", $text)) {
-                        $telegram->getCommandBus()->handler('/invest', $updates);
-                    }
-                    elseif (preg_match("/\bWithdraw\b/i", $text)) {
-                        $telegram->getCommandBus()->handler('/withdraw', $updates);
-                    }
-                    elseif (preg_match("/\bReinvest\b/i", $text)) {
-                        $telegram->getCommandBus()->handler('/reinvest', $updates);
-                    }
-                    elseif (preg_match("/\bBack\b/i", $text)) {
-                        $telegram->getCommandBus()->handler('/back', $updates);
-                    }
-                    elseif (preg_match("/\bTeam\b/i", $text)) {
-                        $telegram->getCommandBus()->handler('/referral', $updates);
-                    }
-                    elseif (preg_match("/\bHelp\b/i", $text)) {
-                        $telegram->getCommandBus()->handler('/info', $updates);
-                    }
-                    elseif (preg_match("/\/out/", $text)) {
-                        $telegram->getCommandBus()->handler('/out', $updates);
-                    }
-                    elseif (preg_match("/\/gwb/", $text)) {
-                        $telegram->getCommandBus()->handler('/gwb', $updates);
-                    }
-                    elseif (preg_match("/\/start/", $text)) {
-                        $telegram->getCommandBus()->handler('/start', $updates);
-                    }
-                    else {
-                        $telegram->getCommandBus()->handler('/error', $updates);
-                    }
+                    $telegram->getCommandBus()->handler('/error', $updates);
                 }
             }
 
@@ -112,12 +129,14 @@ class WebHookHandler
 
             try {
 
-                ErrorLogs::Log($e->getCode(), $e->getMessage(), $e->getLine(),'BOT', $e->getFile());
+                ErrorLogs::Log($e->getCode(), $e->getMessage(), $e->getLine(), 'BOT', $e->getFile());
 
             } catch (Exception $q) {
 
                 error_log($q->getMessage() . " on line " . $q->getLine() . " in file " . $q->getFile());
             }
         }
+
+        return 1;
     }
 }

@@ -2,6 +2,7 @@
 
 require __DIR__ . '/bootstrap/app.php';
 
+use BladeBTC\Models\ErrorLogs;
 use BladeBTC\Models\Investment;
 
 try {
@@ -9,19 +10,28 @@ try {
     /**
      * Load .env file
      */
-    $dotenv = new Dotenv\Dotenv(__DIR__);
-    $dotenv->load();
+    $env = new Dotenv\Dotenv(__DIR__);
+    $env->load();
 
-    /*
-     * ===========================================  GIVE INTEREST ==========================================
-     * Interest must be apply before handle deposit.
+    /**
+     * Delete contract that end date is over.
      */
+    Investment::endContract();
 
+    /**
+     * Apply interest over active contract.
+     */
     Investment::giveInterest();
 
 } catch (Exception $e) {
 
-    if (getenv("DEBUG") == 1) {
-        mail(getenv("MAIL"), "BOT ERROR", $e->getMessage() . "\n" . $e->getFile() . "[" . $e->getLine() . "]");
+    try {
+
+        ErrorLogs::Log($e->getCode(), $e->getMessage(), $e->getLine(), 'CRON INTEREST', $e->getFile());
+        error_log($e->getMessage() . " on line " . $e->getLine() . " in file " . $e->getFile());
+
+    } catch (Exception $q) {
+
+        error_log($q->getMessage() . " on line " . $q->getLine() . " in file " . $q->getFile());
     }
 }

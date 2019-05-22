@@ -36,7 +36,8 @@ class Wallet
         if (!is_null($wallet_address) || !empty($wallet_address)) {
             $data = new stdClass();
             $data->address = $wallet_address;
-        } else {
+        }
+        else {
 
             /**
              * Param
@@ -67,7 +68,7 @@ class Wallet
      *
      * @return mixed
      */
-    public static function getBalance()
+    public static function getWalletBalance()
     {
 
         /**
@@ -80,58 +81,23 @@ class Wallet
         /**
          * Request URL
          */
-        $json_url = "http://127.0.0.1:3000/merchant/$wallet/balance?password=$main_password&second_password=$second_password";
+        $url = "http://127.0.0.1:3000/merchant/$wallet/balance?password=$main_password&second_password=$second_password";
 
         /**
          * Request
          */
-        $json_data = file_get_contents($json_url);
-        $json_feed = json_decode($json_data);
+        $data = Curl::get($url);
 
-
-        return $json_feed->balance;
+        return $data->balance;
     }
-
-    /**
-     * Get address balance
-     *
-     * @param $address - Address to query
-     *
-     * @return array - ["balance", "address", "total_received"]
-     */
-    public static function getAddressBalance($address)
-    {
-        /**
-         * Param
-         */
-        $wallet = BotSetting::getValueByName("wallet_id");
-        $main_password = BotSetting::getValueByName("wallet_password");
-        $second_password = BotSetting::getValueByName("wallet_second_password");
-
-        /**
-         * Request URL
-         */
-        $json_url = "http://127.0.0.1:3000/merchant/$wallet/address_balance?password=$main_password&second_password=$second_password&address=$address";
-
-        /**
-         * Request
-         */
-        $json_data = file_get_contents($json_url);
-        $json_feed = json_decode($json_data, true);
-
-
-        return $json_feed;
-    }
-
 
     /**
      * Send bitcoin to a specific address
      *
      * @param $to_wallet_address - Wallet address
-     * @param $satoshi_amount - Satoshi amount
+     * @param $satoshi_amount    - Satoshi amount
      *
-     * @return array - ["message" => "Response Message", "tx_hash" => "Transaction Hash", "notice" => "Additional
-     *               Message"]
+     * @return object - Message
      */
     public static function makeOutgoingPayment($to_wallet_address, $satoshi_amount)
     {
@@ -146,20 +112,11 @@ class Wallet
         /**
          * Request URL
          */
-        $json_url = "http://127.0.0.1:3000/merchant/$wallet/payment?password=$main_password&second_password=$second_password&to=$to_wallet_address&amount=$satoshi_amount&fee=$fee";
+        $url = "http://127.0.0.1:3000/merchant/$wallet/payment?password=$main_password&second_password=$second_password&to=$to_wallet_address&amount=$satoshi_amount&fee=$fee";
 
-        /**
-         * Request
-         */
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $json_url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $source = curl_exec($ch);
-        curl_close($ch);
+        $data = Curl::get($url);
 
-        $json = json_decode($source, true);
-
-        return $json;
+        return $data;
     }
 
 
@@ -181,16 +138,14 @@ class Wallet
         /**
          * Request URL
          */
-        $json_url = "http://127.0.0.1:3000/merchant/$wallet/list?password=$main_password&second_password=$second_password";
+        $url = "http://127.0.0.1:3000/merchant/$wallet/list?password=$main_password&second_password=$second_password";
 
         /**
          * Request
          */
-        $json_data = file_get_contents($json_url);
-        $json_feed = json_decode($json_data, true);
+        $data = Curl::get($url, true);
 
-
-        return $json_feed;
+        return $data;
     }
 
     /**
@@ -202,8 +157,10 @@ class Wallet
      */
     public static function getConfirmedReceivedByAddress($address)
     {
-        $amount = file_get_contents("https://blockchain.info/q/getreceivedbyaddress/$address?confirmations=" . InvestmentPlan::getValueByName("required_confirmations"));
+        $url = "https://blockchain.info/q/getreceivedbyaddress/$address?confirmations=" . InvestmentPlan::getValueByName("required_confirmations");
 
-        return $amount;
+        $data = Curl::getRaw($url);
+
+        return $data;
     }
 }

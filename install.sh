@@ -264,10 +264,10 @@ make_install(){
 		DEBUG='${DEBUG}'
 
 		#DATABASE
-		HOST="'${HOST}'"
-		USER="'${USER}'"
-		PASS="'${PASS}'"
-		BDD="'${DB}'"' > /var/www/bot/.env
+		DB_HOST="'${HOST}'"
+		DB_USER="'${USER}'"
+		DB_PASS="'${PASS}'"
+		DB_DB="'${DB}'"' > /var/www/bot/.env
 	then
 		echo -e "\e[31mWriting application configuration ... [FAILED]\e[0m"
 	else

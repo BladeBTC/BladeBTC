@@ -15,247 +15,229 @@ use Exception;
 class Users
 {
 
-	private $_DB = null;
-	private $_USER = null;
+    private $_DB = null;
+    private $_USER = null;
 
-	/**
-	 * Users constructor.
-	 */
-	public function __construct($telegramId)
-	{
-		$this->_DB = Database::get();
-		$data = $this->_DB->query("SELECT * FROM users WHERE telegram_id = " . $telegramId);
-		if ($data->rowCount() > 0) {
-			$this->_USER = $data->fetchObject();
-		}
-	}
+    /**
+     * Users constructor.
+     *
+     * @param $telegramId
+     */
+    public function __construct($telegramId)
+    {
+        $this->_DB = Database::get();
+        $data = $this->_DB->query("SELECT * FROM `users` WHERE `telegram_id` = " . $telegramId);
+        if ($data->rowCount() > 0) {
+            $this->_USER = $data->fetchObject();
+        }
+    }
 
-	/**
-	 * Get all chat id
-	 */
-	public static function getAllChatId()
-	{
-		$db = Database::get();
-		$data = $db->query("SELECT telegram_id FROM users");
+    /**
+     * Check if address label match user in database.
+     *
+     * @param $labelNumber
+     *
+     * @return bool
+     */
+    public static function checkExistByLabelNumber($labelNumber)
+    {
+        $db = Database::get();
 
-		$id = null;
-		while ($row = $data->fetchObject()) {
-			$id[] = $row->telegram_id;
-		}
+        $data = $db->query("SELECT * FROM `users` WHERE `telegram_id` = " . $labelNumber);
+        if ($data->rowCount() > 0) {
+            return true;
+        }
 
-		return $id;
-	}
+        return false;
+    }
 
+    /**
+     * Refresh user data
+     */
+    public function Refresh()
+    {
+        $data = $this->_DB->query("SELECT * FROM `users` WHERE `telegram_id` = " . $this->getTelegramId());
+        if ($data->rowCount() > 0) {
+            $this->_USER = $data->fetchObject();
+        }
+    }
 
-	/**
-	 * Refresh user data
-	 */
-	public function Refresh()
-	{
-		$data = $this->_DB->query("SELECT * FROM users WHERE telegram_id = " . $this->getTelegramId());
-		if ($data->rowCount() > 0) {
-			$this->_USER = $data->fetchObject();
-		}
-	}
+    /**
+     * Get Telegram ID
+     *
+     * @return mixed
+     */
+    public function getTelegramId()
+    {
+        return $this->_USER->telegram_id;
+    }
 
-	/**
-	 * Get Telegram ID
-	 *
-	 * @return mixed
-	 */
-	public function getTelegramId()
-	{
-		return $this->_USER->telegram_id;
-	}
+    /**
+     * Check if user exist
+     */
+    public function exist()
+    {
+        if (is_null($this->_USER)) {
+            return false;
+        }
 
-	/**
-	 * Check if user exist
-	 */
-	public function exist()
-	{
-		if (is_null($this->_USER)) {
-			return false;
-		}
+        return true;
+    }
 
-		return true;
-	}
+    /**
+     * Get account balance
+     *
+     * @return mixed
+     */
+    public function getBalance()
+    {
+        return $this->_USER->balance;
+    }
 
-	/**
-	 * Get database ID
-	 *
-	 * @return mixed
-	 */
-	public function getId()
-	{
-		return $this->_USER->id;
-	}
+    /**
+     * Get account invested
+     *
+     * @return mixed
+     */
+    public function getInvested()
+    {
+        return $this->_USER->invested;
+    }
 
-	/**
-	 * Get Telegram username
-	 *
-	 * @return mixed
-	 */
-	public function getTelegramUsername()
-	{
-		return $this->_USER->telegram_username;
-	}
+    /**
+     * Get profit
+     *
+     * @return mixed
+     */
+    public function getProfit()
+    {
+        return $this->_USER->profit;
+    }
 
-	/**
-	 * Get Telegram first name
-	 *
-	 * @return mixed
-	 */
-	public function getTelegramFirstName()
-	{
-		return $this->_USER->telegram_first;
-	}
+    /**
+     * Get commission
+     *
+     * @return mixed
+     */
+    public function getCommission()
+    {
+        return $this->_USER->commission;
+    }
 
-	/**
-	 * Get Telegram last name
-	 *
-	 * @return mixed
-	 */
-	public function getTelegramLastName()
-	{
-		return $this->_USER->telegram_last;
-	}
+    /**
+     * Get payout
+     *
+     * @return mixed
+     */
+    public function getPayout()
+    {
+        return $this->_USER->payout;
+    }
 
-	/**
-	 * Get account balance
-	 *
-	 * @return mixed
-	 */
-	public function getBalance()
-	{
-		return $this->_USER->balance;
-	}
+    /**
+     * Get last confirmed
+     *
+     * @return mixed
+     */
+    public function getLastConfirmed()
+    {
+        return $this->_USER->last_confirmed;
+    }
 
-	/**
-	 * Get account invested
-	 *
-	 * @return mixed
-	 */
-	public function getInvested()
-	{
-		return $this->_USER->invested;
-	}
-
-	/**
-	 * Get profit
-	 *
-	 * @return mixed
-	 */
-	public function getProfit()
-	{
-		return $this->_USER->profit;
-	}
-
-	/**
-	 * Get commission
-	 *
-	 * @return mixed
-	 */
-	public function getCommission()
-	{
-		return $this->_USER->commission;
-	}
-
-	/**
-	 * Get payout
-	 *
-	 * @return mixed
-	 */
-	public function getPayout()
-	{
-		return $this->_USER->payout;
-	}
-
-	/**
-	 * Get Investment Address
-	 *
-	 * @return mixed
-	 */
-	public function getInvestmentAddress()
-	{
-		return $this->_USER->investment_address;
-	}
-
-	/**
-	 * Get last confirmed
-	 *
-	 * @return mixed
-	 */
-	public function getLastConfirmed()
-	{
-		return $this->_USER->last_confirmed;
-	}
-
-	/**
-	 * Store last confirmed
-	 */
-	public function setLastConfirmed($amount)
-	{
-		try {
-			$this->_DB->beginTransaction();
-			$this->_DB->query("   UPDATE
+    /**
+     * Store last confirmed
+     *
+     * @param $amount
+     *
+     * @throws Exception
+     */
+    public function setLastConfirmed($amount)
+    {
+        try {
+            $this->_DB->beginTransaction();
+            $this->_DB->query("   UPDATE
                                               `users`
                                             SET 
                                               `last_confirmed` = " . $this->_DB->quote($amount) . "
                                             WHERE
                                                 `telegram_id` = " . $this->getTelegramId() . "
                                             ");
-			$this->_DB->commit();
-		} catch (Exception $e) {
-			$this->_DB->rollBack();
-			throw new Exception($e->getMessage());
-		}
-	}
+            $this->_DB->commit();
+        } catch (Exception $e) {
+            $this->_DB->rollBack();
+            throw new Exception($e->getMessage());
+        }
+    }
 
-	/**
-	 * Get wallet address
-	 *
-	 * @return mixed
-	 */
-	public function getWalletAddress()
-	{
-		return $this->_USER->wallet_address;
-	}
+    /**
+     * Store invested
+     *
+     * @param $amount
+     *
+     * @throws Exception
+     */
+    public function setInvested($amount)
+    {
+        try {
+            $this->_DB->beginTransaction();
+            $this->_DB->query("   UPDATE
+                                              `users`
+                                            SET 
+                                              `invested` = " . $this->_DB->quote($amount) . "
+                                            WHERE
+                                                `telegram_id` = " . $this->getTelegramId() . "
+                                            ");
+            $this->_DB->commit();
+        } catch (Exception $e) {
+            $this->_DB->rollBack();
+            throw new Exception($e->getMessage());
+        }
+    }
 
-	/**
-	 * Get referral link
-	 *
-	 * @return mixed
-	 */
-	public function getReferralLink()
-	{
-		return $this->_USER->referral_link;
-	}
+    /**
+     * Get wallet address
+     *
+     * @return mixed
+     */
+    public function getWalletAddress()
+    {
+        return $this->_USER->wallet_address;
+    }
 
-	/**
-	 * Create user
-	 *
-	 * @param $data - Data user
-	 *
-	 * @throws Exception
-	 */
-	public function create($data)
-	{
-		try {
-			$this->_DB->beginTransaction();
+    /**
+     * Get referral link
+     *
+     * @return mixed
+     */
+    public function getReferralLink()
+    {
+        return $this->_USER->referral_link;
+    }
 
-			/**
-			 * Generate referral link
-			 */
-			$referral_link = uniqid();
+    /**
+     * Create user
+     *
+     * @param $data - Data user
+     *
+     * @throws Exception
+     */
+    public function create($data)
+    {
+        try {
+            $this->_DB->beginTransaction();
 
-			$this->_DB->query("   INSERT
+            /**
+             * Generate referral link
+             */
+            $referral_link = uniqid();
+
+            $this->_DB->query("   INSERT
                                             INTO
                                               `users`(
                                                 `telegram_username`,
                                                 `telegram_first`,
                                                 `telegram_last`,
                                                 `telegram_id`,
-                                                `rate`,
                                                 `referral_link`
                                               )
                                             VALUES(
@@ -263,75 +245,80 @@ class Users
                                               " . $this->_DB->quote($data["first_name"]) . ",
                                               " . $this->_DB->quote($data["last_name"]) . ",
                                               " . $this->_DB->quote($data["id"]) . ",
-                                              " . $this->_DB->quote(InvestmentPlan::getValueByName("base_rate")) . ",
                                               " . $this->_DB->quote($referral_link) . "
                                             )");
-			$this->_DB->commit();
-		} catch (Exception $e) {
-			$this->_DB->rollBack();
-			throw new Exception($e->getMessage());
-		}
-	}
+            $this->_DB->commit();
+        } catch (Exception $e) {
+            $this->_DB->rollBack();
+            throw new Exception($e->getMessage());
+        }
+    }
 
     /**
      * Store investment address
+     *
      * @param $investment_address
+     *
      * @throws Exception
      */
-	public function setInvestmentAddress($investment_address)
-	{
-		try {
-			$this->_DB->beginTransaction();
-			$this->_DB->query("   UPDATE
+    public function setInvestmentAddress($investment_address)
+    {
+        try {
+            $this->_DB->beginTransaction();
+            $this->_DB->query("   UPDATE
                                               `users`
                                             SET 
                                               `investment_address` = " . $this->_DB->quote($investment_address) . "
                                             WHERE
                                                 `telegram_id` = " . $this->getTelegramId() . "
                                             ");
-			$this->_DB->commit();
-		} catch (Exception $e) {
-			$this->_DB->rollBack();
-			throw new Exception($e->getMessage());
-		}
-	}
+            $this->_DB->commit();
+        } catch (Exception $e) {
+            $this->_DB->rollBack();
+            throw new Exception($e->getMessage());
+        }
+    }
 
-	/**
-	 * Store wallet address
-	 */
-	public function setWalletAddress($wallet_address)
-	{
-		try {
-			$this->_DB->beginTransaction();
-			$this->_DB->query("   UPDATE
+    /**
+     * Store wallet address
+     *
+     * @param $wallet_address
+     *
+     * @throws Exception
+     */
+    public function setWalletAddress($wallet_address)
+    {
+        try {
+            $this->_DB->beginTransaction();
+            $this->_DB->query("   UPDATE
                                               `users`
                                             SET 
                                               `wallet_address` = " . $this->_DB->quote($wallet_address) . "
                                             WHERE
                                                 `telegram_id` = " . $this->getTelegramId() . "
                                             ");
-			$this->_DB->commit();
-		} catch (Exception $e) {
-			$this->_DB->rollBack();
-			throw new Exception($e->getMessage());
-		}
-	}
+            $this->_DB->commit();
+        } catch (Exception $e) {
+            $this->_DB->rollBack();
+            throw new Exception($e->getMessage());
+        }
+    }
 
-	/**
-	 * Reinvest all account balance
-	 *
-	 * @throws Exception
-	 */
-	public function Reinvest()
-	{
-		try {
-			$this->_DB->beginTransaction();
+    /**
+     * Reinvest all account balance
+     *
+     * @throws Exception
+     */
+    public function Reinvest()
+    {
+        try {
+            $this->_DB->beginTransaction();
 
 
-			/**
-			 * Recover balance
-			 */
-			$balance = $this->_DB->query("    SELECT 
+            /**
+             * Recover balance
+             */
+            $balance = $this->_DB->query("    SELECT 
 															`balance`
 														FROM
 															`users`
@@ -339,16 +326,16 @@ class Users
 															`telegram_id` = " . $this->getTelegramId() . "
 														")->fetchObject()->balance;
 
-			/**
-			 * Create investment
-			 */
-			Investment::create($this->getTelegramId(), $balance, $this->getUserRate());
+            /**
+             * Create investment
+             */
+            Investment::create($this->getTelegramId(), $balance);
 
 
-			/**
-			 * Put balance to 0
-			 */
-			$this->_DB->query("   UPDATE
+            /**
+             * Put balance to 0
+             */
+            $this->_DB->query("   UPDATE
                                               `users`
                                             SET 
                                               `balance` = " . $this->_DB->quote(0) . "
@@ -357,10 +344,10 @@ class Users
                                             ");
 
 
-			/**
-			 * Update invested
-			 */
-			$this->_DB->query("   UPDATE
+            /**
+             * Update invested
+             */
+            $this->_DB->query("   UPDATE
                                               `users`
                                             SET 
                                               `invested` = `invested` + " . $this->_DB->quote($balance) . "
@@ -368,13 +355,13 @@ class Users
                                                 `telegram_id` = " . $this->getTelegramId() . "
                                             ");
 
-			/**
-			 * Give bonus to referent
-			 */
+            /**
+             * Give bonus to referent
+             */
 
-			if (InvestmentPlan::getValueByName("interest_on_reinvest") == 1) {
+            if (InvestmentPlan::getValueByName("interest_on_reinvest") == 1) {
 
-				$referent_id = $this->_DB->query("   SELECT
+                $referent_id = $this->_DB->query("   SELECT
                                               `telegram_id_referent`
                                             FROM 
                                               `referrals`
@@ -382,15 +369,15 @@ class Users
                                                 `telegram_id_referred` = " . $this->getTelegramId() . "
                                             ")->fetchObject();
 
-				if (is_object($referent_id) && !empty($referent_id->telegram_id_referent)) {
+                if (is_object($referent_id) && !empty($referent_id->telegram_id_referent)) {
 
-					/**
-					 * Calculate commission
-					 */
-					$rate = InvestmentPlan::getValueByName("commission_rate");
-					$commission = $balance * $rate / 100;
+                    /**
+                     * Calculate commission
+                     */
+                    $rate = InvestmentPlan::getValueByName("commission_rate");
+                    $commission = $balance * $rate / 100;
 
-					$this->_DB->query("   UPDATE
+                    $this->_DB->query("   UPDATE
                                               `users`
                                             SET 
                                               `commission` = `commission` + " . $this->_DB->quote($commission) . ",
@@ -399,33 +386,178 @@ class Users
                                                 `telegram_id` = " . $referent_id->telegram_id_referent . "
                                             ");
 
-				}
-			}
+                }
+            }
+
+            $this->_DB->query("   INSERT
+									INTO
+									  `transactions`(
+										`telegram_id`,
+										`amount`,
+										`withdraw_address`,
+										`message`,
+										`tx_hash`,
+										`notice`,
+										`status`,
+										`type`
+									  )
+									VALUES(
+									" . $this->_DB->quote($this->getTelegramId()) . ",
+									" . $this->_DB->quote($balance) . ",
+									" . $this->_DB->quote("") . ",
+									" . $this->_DB->quote("") . ",
+									" . $this->_DB->quote("") . ",
+									" . $this->_DB->quote("") . ",
+									" . $this->_DB->quote(1) . ",
+									" . $this->_DB->quote("reinvest") . "
+									)");
 
 
-			/**
-			 * Log transaction
-			 */
-			Transactions::log([
-				"telegram_id"      => $this->getTelegramId(),
-				"amount"           => $balance,
-				"withdraw_address" => "",
-				"message"          => "",
-				"tx_hash"          => "",
-				"notice"           => "",
-				"status"           => 1,
-				"type"             => "reinvest",
-			]);
+            $this->_DB->commit();
+        } catch (Exception $e) {
+            $this->_DB->rollBack();
+            throw new Exception($e->getMessage());
+        }
+    }
 
-			$this->_DB->commit();
-		} catch (Exception $e) {
-			$this->_DB->rollBack();
-			throw new Exception($e->getMessage());
-		}
-	}
+    /**
+     * Update balance and payout
+     *
+     * @param $out_amount
+     *
+     * @param $transaction
+     *
+     * @throws Exception
+     */
+    public function updateBalance($out_amount, $transaction)
+    {
 
-	public function getUserRate()
-	{
-		return $this->_USER->rate;
-	}
+        try {
+            $this->_DB->query("   UPDATE
+                                              `users`
+                                            SET 
+                                              `balance` = `balance` - " . $this->_DB->quote($out_amount) . ",
+                                              `payout` = `payout` + " . $this->_DB->quote($out_amount) . "
+                                            WHERE
+                                                `telegram_id` = " . self::getTelegramId() . "
+                                            ");
+
+            $this->_DB->query("   INSERT
+									INTO
+									  `transactions`(
+										`telegram_id`,
+										`amount`,
+										`withdraw_address`,
+										`message`,
+										`tx_hash`,
+										`notice`,
+										`status`,
+										`type`
+									  )
+									VALUES(
+									" . $this->_DB->quote(self::getTelegramId()) . ",
+									" . $this->_DB->quote($out_amount) . ",
+									" . $this->_DB->quote(self::getWalletAddress()) . ",
+									" . $this->_DB->quote($transaction->message) . ",
+									" . $this->_DB->quote($transaction->tx_hash) . ",
+									" . $this->_DB->quote($transaction->notice) . ",
+									" . $this->_DB->quote(1) . ",
+									" . $this->_DB->quote("withdraw") . "
+									)");
+
+
+            $this->_DB->commit();
+        } catch (Exception $e) {
+
+            $this->_DB->rollBack();
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * Get total investment
+     *
+     * @return double
+     */
+    public function getNumberOfInvestment()
+    {
+        $db = Database::get();
+
+        $count = $db->query("	SELECT COUNT(*) AS `C` FROM `investment` WHERE `telegram_id` = " . $this->getTelegramId())->fetchObject()->C;
+
+        return $count;
+
+    }
+
+
+    /**
+     * Get total investment
+     *
+     * @return double
+     */
+    public function getReferentId()
+    {
+        $db = Database::get();
+
+        $telegram_id_referent = $db->query("SELECT `telegram_id_referent` FROM `referrals` WHERE `telegram_id_referred` = " . $this->getTelegramId())->fetchObject();
+
+        return is_object($telegram_id_referent) ? $telegram_id_referent->telegram_id_referent : null;
+    }
+
+    /**
+     * Give commission to referent
+     *
+     * @param $telegram_referent_id - Id of the referent
+     *
+     * @param $commission           - Commission to give
+     *
+     * @throws Exception
+     */
+    public static function giveCommission($telegram_referent_id, $commission)
+    {
+        $db = Database::get();
+
+        try {
+            $db->beginTransaction();
+
+            $db->query("   UPDATE
+                                        `users`
+                                     SET 
+                                        `commission` = `commission` + " . $db->quote($commission) . ",
+                                        `balance` = `balance` + " . $db->quote($commission) . "
+                                     WHERE
+                                        `telegram_id` = " . $telegram_referent_id);
+
+
+            $db->query("   INSERT
+									INTO
+									  `transactions`(
+										`telegram_id`,
+										`amount`,
+										`withdraw_address`,
+										`message`,
+										`tx_hash`,
+										`notice`,
+										`status`,
+										`type`
+									  )
+									VALUES(
+									" . $db->quote($telegram_referent_id) . ",
+									" . $db->quote($commission) . ",
+									" . $db->quote("") . ",
+									" . $db->quote("") . ",
+									" . $db->quote("") . ",
+									" . $db->quote("") . ",
+									" . $db->quote(1) . ",
+									" . $db->quote("commission") . "
+									)");
+
+
+            $db->commit();
+        } catch (Exception $e) {
+
+            $db->rollBack();
+            throw new Exception($e->getMessage());
+        }
+    }
 }
