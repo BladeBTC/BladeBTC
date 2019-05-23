@@ -361,30 +361,19 @@ class Users
 
             if (InvestmentPlan::getValueByName("interest_on_reinvest") == 1) {
 
-                $referent_id = $this->_DB->query("   SELECT
-                                              `telegram_id_referent`
-                                            FROM 
-                                              `referrals`
-                                            WHERE
-                                                `telegram_id_referred` = " . $this->getTelegramId() . "
-                                            ")->fetchObject();
+                /**
+                 * Get referent ID
+                 */
+                $referent_id = self::getReferentId();
 
-                if (is_object($referent_id) && !empty($referent_id->telegram_id_referent)) {
+                if (!is_null($referent_id)) {
 
                     /**
                      * Calculate commission
                      */
                     $rate = InvestmentPlan::getValueByName("commission_rate");
                     $commission = $balance * $rate / 100;
-
-                    $this->_DB->query("   UPDATE
-                                              `users`
-                                            SET 
-                                              `commission` = `commission` + " . $this->_DB->quote($commission) . ",
-                                              `balance` = `balance` + " . $this->_DB->quote($commission) . "
-                                            WHERE
-                                                `telegram_id` = " . $referent_id->telegram_id_referent . "
-                                            ");
+                    Users::giveCommission($referent_id, $commission);
 
                 }
             }

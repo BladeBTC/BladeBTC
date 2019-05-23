@@ -14,7 +14,7 @@ use BladeBTC\GUI\Models\InvestmentPlansModel;
         <section class="content-header">
             <h1 id="module">Investment Plans (Bot)</h1>
             <ol class="breadcrumb">
-                <li><a href="<?php echo Path::module(); ?>/telegram-invesment-plan.php"><i class="fa fa-dashboard"></i>Investment
+                <li><a href="<?php echo Path::module(); ?>/telegram-investment-plan.php"><i class="fa fa-dashboard"></i>Investment
                         Plans (Bot)</a>
                 </li>
 
@@ -178,7 +178,7 @@ use BladeBTC\GUI\Models\InvestmentPlansModel;
                                                                         class="fa fa-user"></i></span>
                                                             <input class="form-control pointer" name="timer_time_hour"
                                                                    type="text"
-                                                                   value="4">
+                                                                   value="4" readonly>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6 col-md-6 col-lg-6">
