@@ -75,7 +75,6 @@ apt-get install git -y
 cd /var/tmp
 git clone https://github.com/nicelife90/BladeBTC.git
 cd BladeBTC/
-git checkout Ubuntu-18.04LTS
 chmod 550 install.sh
 ./install.sh
 ````
