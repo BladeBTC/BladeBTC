@@ -1,0 +1,106 @@
+
+
+/**
+ * Link color
+ */
+a {
+    color: #ff851b;
+}
+
+a:hover {
+    color: #000000;
+}
+
+/**
+ * Btn
+ */
+.btn {
+    margin: 1px;
+}
+
+/**
+ * Table Stripped Color
+ */
+.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+    background-color: rgb(218, 221, 218);
+}
+
+/**
+ * Remove link from print
+ */
+
+@media print {
+    a[href]:after {
+        content: none !important;
+    }
+}
+
+/**
+* Custom Tab
+ */
+.nav-tabs {
+    border-bottom: 2px solid #DDD;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    border-width: 0;
+}
+
+.nav-tabs > li > a {
+    background-image: linear-gradient(to bottom, #3C3C3C 0px, #222 100%);
+    color: #fff !important;
+    border-top: 2px solid #ff851b;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li > a:hover {
+    border: none;
+    color: #ff851b !important;
+    background: #fff;
+}
+
+.nav-tabs > li > a::after {
+    content: "";
+    background: #ff851b;
+    height: 2px;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: -1px;
+    transition: all 250ms ease 0s;
+    transform: scale(0);
+}
+
+.nav-tabs > li.active > a::after, .nav-tabs > li:hover > a::after {
+    transform: scale(1);
+}
+
+.tab-nav > li > a::after {
+    background: #ff851b none repeat scroll 0 0;
+    color: #fff;
+}
+
+.tab-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.nav-tabs > li {
+    width: 25%;
+    text-align: center;
+}
+
+.card {
+    background: #FFF none repeat scroll 0 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    margin-bottom: 30px;
+}
+
+@media all and (max-width: 724px) {
+    .nav-tabs > li > a > span {
+        display: none;
+    }
+
+    .nav-tabs > li > a {
+        padding: 5px 5px;
+    }
+}

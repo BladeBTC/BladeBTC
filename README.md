@@ -1,70 +1,115 @@
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/nicelife90/BladeBTC.svg)](http://isitmaintained.com/project/nicelife90/BladeBTC "Average time to resolve an issue")
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/nicelife90/BladeBTC.svg)](http://isitmaintained.com/project/nicelife90/BladeBTC "Percentage of issues still open")
 
-# BladeBTC
-This application is a telegram bot. The goal of this bot is to create a Bitcoin exchange platform. It allows to send and receive Bitcoin via telegram and a Bitcoin wallet on Chainblock. It guarantees a profit on investments. Users can invest, reinvest and withdraw their Bitcoin at any time via the telegram interface.
+# BladeBTC (UBUNTU 18.04.2 LTS)
+This application is a telegram bot. The goal of this bot is to create a Bitcoin exchange platform. It allows to send and receive Bitcoin via telegram and a Bitcoin wallet on Blockchain. It guarantees a profit on investments. Users can invest, reinvest and withdraw their Bitcoin at any time via the telegram interface.
 
 ## Prerequisites 
 
 This application is designed to be installed on a Linux server on which you have administrator access.
-This application and the installation script have been tried on a Ubuntu 14.04 LTS server.
+This application and the installation script have been tried on a Ubuntu 18.04 LTS server.
 
-- Linux server (Ubuntu 14.04 LTS).
+- PHP 7.x
+- Linux server (Ubuntu 18.04.2 LTS).
 - Root privileges.
-- Public / Private static IP on this server (recommended).
+- Static IP (Public & Private).
 - Open ports 80, 443, 10000 (Before using the install script).
-- Latest release of this application. [Download Here](https://github.com/nicelife90/BladeBTC/releases)
 
-> This script will only work for Debian based Linux distributions.
+```diff
+- This script will only work for Debian based Linux distributions.
+```
 
-> Most recent version of Ubuntu may not work because of PHP 7.1 
-
-> If you forget to open ports before running the install script, the installation will fail.
-
-> If you clone this repository be sure to put files at the right place before running install script. Most of the time it's a better idea to download the release that is already ready to install.
+```diff
+- Don't forget to open ports before running the install script otherwise the installation will fail.
+```
 
 ## Installation
 
 #### Telegram Bot
 
 - Use BotFather on Telegram to create new bot. [BotFather](https://telegram.me/BotFather)
-- Customize and put your new bot inline with BotFather.
+
+Use this commande in BotFather chat to create new Bot:
+
+```sh
+/newbot
+```
+
+- Save your Telegram Bot API Key for later.
+
+Your API Key should look like this:
+
+```sh
+801650799:AAEYIthu4KWV14ZzKauXb5KdF8cKHRzluRE
+```
 
 #### Blockchain Wallet
 
 - Create new Wallet on Blockchain website. [BlockChain](https://blockchain.info/fr/wallet/#/signup)
 - In Settings / Security - Setup second password for your wallet.
 - In Settings / Security / Advance settings - Withelist your public IP.
+- Save your Wallet ID for later.
 
-#### Domain Name / No-IP
-
-- Register new domain name at [GoDaddy](https://ca.godaddy.com/) or any registrar.
-- Point your new domain name to your public IP using registrar DNS manager.
-
-> If you don't want to pay for a domaine name you could use [No-IP](https://www.noip.com/) to create free host.
-
-#### Server
-
-> Make sure you already have opened the following port to your server - 80, 443, 10000
-
-On a fresh install of Ubuntu 14.04.5 LTS do the following commands :
-
-- Upload install.zip to ``/var/tmp``
-
-> Use apache2 when the installer.sh ask you for a choice!
+Your wallet ID should look like this:
 
 ```sh
-$ cd /var/tmp
-$ sudo apt-get install -y unzip dos2unix
-$ unzip install.zip
-$ cd install/
-$ dos2unix installer.sh
-$ chmod 777 installer.sh
-$ sudo ./installer.sh
+cd6c4470-1195-4c44-83d7-7b223a2f8ggd
+```
+
+#### No-IP
+
+- Register new free hostname at [No-IP](https://www.noip.com/) pointing on your server public IP.
+
+#### Server (Installation)
+
+- Download and Install [UBUNTU 18.04.2 LTS](https://www.ubuntu.com/download/server/thank-you?version=18.04.2&architecture=amd64)
+> During the installation process of Ubuntu only select the SSH package.
+
+```diff
+- Make sure to open the following port to your server - 80, 443, 10000 before running the install script.
+```
+
+On your fresh install of Ubuntu 18.04.2 LTS do the following commands :
+
+```sh
+sudo -s
+apt-get install git -y
+cd /var/tmp
+git clone https://github.com/nicelife90/BladeBTC.git
+cd BladeBTC/
+git checkout Ubuntu-18.04LTS
+chmod 550 install.sh
+./install.sh
 ````
 
 - Follow the script instruction and give all the required data.
-- Reboot your server.
+
+```diff
+- IMPORTANT - Go to your blockchain wallet and withelist your server IP. 
+```
+
+## GUI / ADMIN PANEL
+
+The install script enable multiple admin tool to help you to manage your server.
+
+#### Webmin
+From Webmin you can manage everything about your server.
+
+**URL:** https://[your_domain]:10000
+
+#### PHPMyAdmin
+From PHPMyAdmin you can manage all database required by your bot and by the GUI.
+
+**URL:** https://[your_domain]/phpmyadmin
+
+#### BladeBTC GUI
+From BladeBTC GUI you can manage multiple options about your Bot.
+
+- User
+- Rates
+- Investment Plan
+- Ban
+- Logs
+
+**URL:** https://[your_domain]/gui
 
 ## Hidden commands
 
