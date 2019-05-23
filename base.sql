@@ -377,7 +377,7 @@ CREATE TABLE `transactions` (
   `withdraw_address` tinytext DEFAULT NULL,
   `message` text DEFAULT NULL,
   `tx_hash` text DEFAULT NULL,
-  `notice` text DEFAULT NULL,
+  `tx_id` text DEFAULT NULL,
   `status` int(1) DEFAULT NULL,
   `type` varchar(50) DEFAULT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp(),

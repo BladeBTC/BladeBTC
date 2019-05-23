@@ -134,7 +134,7 @@ class OutCommand extends Command
                          * Response
                          */
                         $this->replyWithMessage([
-                            'text' => "Message :\n<b>" . $transaction->message . "</b>\n" . "Transaction ID:\n<b>" . $transaction->tx_hash . "</b>\n" . "Notice:\n<b>" . $transaction->notice . "</b>",
+                            'text' => "Message :\n<b>" . $transaction->message . "</b>\n" . "Transaction ID:\n<b>" . $transaction->txid . "</b>\n" . "Transaction Hash:\n<b>" . $transaction->tx_hash . "</b>",
                             'reply_markup' => $reply_markup,
                             'parse_mode' => 'HTML',
                         ]);

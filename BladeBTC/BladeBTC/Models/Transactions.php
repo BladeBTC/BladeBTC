@@ -38,7 +38,7 @@ class Transactions
 										`withdraw_address`,
 										`message`,
 										`tx_hash`,
-										`notice`,
+										`tx_id`,
 										`status`,
 										`type`
 									  )

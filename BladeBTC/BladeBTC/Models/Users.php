@@ -386,7 +386,7 @@ class Users
 										`withdraw_address`,
 										`message`,
 										`tx_hash`,
-										`notice`,
+										`tx_id`,
 										`status`,
 										`type`
 									  )
@@ -422,6 +422,9 @@ class Users
     {
 
         try {
+
+            $this->_DB->beginTransaction();
+
             $this->_DB->query("   UPDATE
                                               `users`
                                             SET 
@@ -439,7 +442,7 @@ class Users
 										`withdraw_address`,
 										`message`,
 										`tx_hash`,
-										`notice`,
+										`tx_id`,
 										`status`,
 										`type`
 									  )
@@ -449,7 +452,7 @@ class Users
 									" . $this->_DB->quote(self::getWalletAddress()) . ",
 									" . $this->_DB->quote($transaction->message) . ",
 									" . $this->_DB->quote($transaction->tx_hash) . ",
-									" . $this->_DB->quote($transaction->notice) . ",
+									" . $this->_DB->quote($transaction->txid) . ",
 									" . $this->_DB->quote(1) . ",
 									" . $this->_DB->quote("withdraw") . "
 									)");
@@ -526,7 +529,7 @@ class Users
 										`withdraw_address`,
 										`message`,
 										`tx_hash`,
-										`notice`,
+										`tx_id`,
 										`status`,
 										`type`
 									  )

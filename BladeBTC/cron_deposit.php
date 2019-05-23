@@ -108,7 +108,7 @@ try {
                         "withdraw_address" => "",
                         "message" => "",
                         "tx_hash" => "",
-                        "notice" => "",
+                        "tx_id" => "",
                         "status" => 1,
                         "type" => "deposit",
                     ]);
@@ -120,7 +120,6 @@ try {
                     $apiToken = BotSetting::getValueByName('app_id');
                     $data = [
                         'chat_id' => $user->getTelegramId(),
-                        'parse_mode' => 'HTML',
                         'text' => 'Your deposit of <b>' . $confirmedNewDepositInBtc . '</b> is now accepted and invested. You will recover this amount with interest in your balance at the end of your contract.'
                     ];
                     $response = file_get_contents("https://api.telegram.org/bot$apiToken/sendMessage?" . http_build_query($data));
