@@ -11,7 +11,7 @@ This application and the installation script have been tried on a Ubuntu 18.04 L
 - Linux server (Ubuntu 18.04.2 LTS).
 - Root privileges.
 - Static IP (Public & Private).
-- Open ports 80, 443, 10000 (Before using the install script).
+- Open ports 80, 443 (Before using the install script).
 
 ```diff
 - This script will only work for Debian based Linux distributions.
@@ -64,7 +64,7 @@ cd6c4470-1195-4c44-83d7-7b223a2f8ggd
 > During the installation process of Ubuntu only select the SSH package.
 
 ```diff
-- Make sure to open the following port to your server - 80, 443, 10000 before running the install script.
+- Make sure to open the following port to your server - 80, 443 before running the install script.
 ```
 
 On your fresh install of Ubuntu 18.04.2 LTS do the following commands :
@@ -90,11 +90,6 @@ chmod 550 install.sh
 
 The install script enable multiple admin tool to help you to manage your server.
 
-#### Webmin
-From Webmin you can manage everything about your server.
-
-**URL:** https://[your_domain]:10000
-
 #### PHPMyAdmin
 From PHPMyAdmin you can manage all database required by your bot and by the GUI.
 
@@ -114,7 +109,6 @@ From BladeBTC GUI you can manage multiple options about your Bot.
 ## Hidden commands
 
 - /gwb - To get current blockchain wallet balance.
-- /sms [your message without brace] - To send a Telegram message to all account.
 
 ## Warnings and Disclaimers 
 

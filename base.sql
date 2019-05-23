@@ -17,15 +17,15 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
----
---- Create Database
----
+--
+-- Create Database
+--
 CREATE DATABASE telegram_bot;
 
 
----
---- Create Database
----
+--
+-- Create Database
+--
 USE telegram_bot;
 
 

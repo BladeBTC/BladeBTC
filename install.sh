@@ -81,12 +81,6 @@ make_install(){
 	apt-get upgrade -y
 	echo -e "\e[92mUpdating server ... [DONE]\e[0m"
 
-	#webmin source
-	echo -e "\n\n\e[92mAdding source for Webmin ... [PLEASE WAIT]\e[0m"
-	wget -O- http://www.webmin.com/jcameron-key.asc | sudo apt-key add -
-	echo -e "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
-	echo -e "\e[92mAdd source for Webmin ... [DONE]\e[0m"
-
     #certbot source
     echo -e "\e[92mAdding source for Certbot ... [PLEASE WAIT]\e[0m"
     add-apt-repository ppa:certbot/certbot -y
@@ -94,7 +88,7 @@ make_install(){
 
     #install some other package
 	echo -e "\e[92mInstalling all needed package ... [PLEASE WAIT]\e[0m"
-	apt-get install unzip apache2 php php-common php-json php-curl php-pdo php-dompdf php-bcmath libapache2-mod-php htop webmin nodejs build-essential software-properties-common python-certbot-apache -y
+	apt-get install unzip apache2 php php-common php-json php-curl php-pdo php-dompdf php-bcmath libapache2-mod-php htop nodejs build-essential software-properties-common python-certbot-apache -y
 	echo -e "\e[92mInstalling all needed package ... [DONE]\e[0m"
 
     #install mariadb
@@ -450,7 +444,7 @@ done
 clear
 
 #validate parameters
-echo -e "\e[92m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\e[0m"
+echo -e "\e[92m====================================================================================\e[0m"
 echo ""
 echo -e "\e[92mThis is all the parameters you choose for this installation:\e[0m"
 echo ""
@@ -464,12 +458,12 @@ echo -e "WALLET_SECOND_PASSWORD:    ******"
 echo -e "SUPPORT_CHAT_ID:           $SUPPORT_CHAT_ID"
 echo ""
 echo -e "\e[92m====================================================================================\e[0m"
-echo -e "\e[92m		BE SURE TO OPEN PORT : 80, 443, 10000 BEFORE STARTING THIS INSTALLATION\e[0m"
+echo -e "\e[92m		BE SURE TO OPEN PORT : 80, 443 BEFORE STARTING THIS INSTALLATION\e[0m"
 echo -e "\e[92m====================================================================================\e[0m"
 echo ""
 echo -e "\e[92mIf all these values are good press [Y] else press [N] and restart this installation.\e[0m"
 echo ""
-echo -e "\e[92m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\e[0m"
+echo -e "\e[92m====================================================================================\e[0m"
 
 while true; do
     read -p "Do you wish to install this program? : " -n 1 yn
