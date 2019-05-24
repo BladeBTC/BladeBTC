@@ -31,99 +31,105 @@ try {
         if ($address['total_received'] > 0) {
 
 
-            /***
-             * Validate Label User ID
+            /**
+             * Check if address label is valid
              */
-            if (Users::checkExistByLabelNumber($address['label'])) {
+            if (!empty($address['label'])) {
 
-
-                /**
-                 * Build user object
+                /***
+                 * Validate Label User ID
                  */
-                $user = new Users($address['label']);
-
-
-                /**
-                 * Calculate BTC on this address
-                 */
-                $userLastConfirmedInBTC = $user->getLastConfirmed();
-                $totalConfirmedForThisAddressInBTC = Btc::SatoshiToBitcoin($address['total_received']);
-                $confirmedNewDepositInBtc = $totalConfirmedForThisAddressInBTC - $userLastConfirmedInBTC;
-
-
-                /**
-                 * Check if transaction have confirmation
-                 */
-                if ($confirmedNewDepositInBtc > 0) {
+                if (Users::checkExistByLabelNumber($address['label'])) {
 
 
                     /**
-                     * Set last confirmed
+                     * Build user object
                      */
-                    $user->setLastConfirmed($totalConfirmedForThisAddressInBTC);
+                    $user = new Users($address['label']);
 
 
                     /**
-                     * Create investment
+                     * Calculate BTC on this address
                      */
-                    Investment::create($user->getTelegramId(), $confirmedNewDepositInBtc);
+                    $userLastConfirmedInBTC = $user->getLastConfirmed();
+                    $totalConfirmedForThisAddressInBTC = Btc::SatoshiToBitcoin($address['total_received']);
+                    $confirmedNewDepositInBtc = $totalConfirmedForThisAddressInBTC - $userLastConfirmedInBTC;
 
 
                     /**
-                     * Update invested
+                     * Check if transaction have confirmation
                      */
-                    $newInvested = $user->getInvested() + $confirmedNewDepositInBtc;
-                    $user->setInvested($newInvested);
-
-
-                    /**
-                     * Give bonus to referent - First invest only
-                     */
-                    if ($user->getNumberOfInvestment() == 1) {
+                    if ($confirmedNewDepositInBtc > 0) {
 
 
                         /**
-                         * Get referent Id
+                         * Set last confirmed
                          */
-                        $referent_id = $user->getReferentId();
+                        $user->setLastConfirmed($totalConfirmedForThisAddressInBTC);
 
 
                         /**
-                         * Give commission
+                         * Create investment
                          */
-                        if (!is_null($referent_id)) {
+                        Investment::create($user->getTelegramId(), $confirmedNewDepositInBtc);
 
-                            $rate = InvestmentPlan::getValueByName("commission_rate");
-                            $commission = ($confirmedNewDepositInBtc * $rate) / 100;
-                            Users::giveCommission($referent_id, $commission);
+
+                        /**
+                         * Update invested
+                         */
+                        $newInvested = $user->getInvested() + $confirmedNewDepositInBtc;
+                        $user->setInvested($newInvested);
+
+
+                        /**
+                         * Give bonus to referent - First invest only
+                         */
+                        if ($user->getNumberOfInvestment() == 1) {
+
+
+                            /**
+                             * Get referent Id
+                             */
+                            $referent_id = $user->getReferentId();
+
+
+                            /**
+                             * Give commission
+                             */
+                            if (!is_null($referent_id)) {
+
+                                $rate = InvestmentPlan::getValueByName("commission_rate");
+                                $commission = ($confirmedNewDepositInBtc * $rate) / 100;
+                                Users::giveCommission($referent_id, $commission);
+                            }
                         }
+
+                        /**
+                         * Log transaction
+                         */
+                        Transactions::log([
+                            "telegram_id" => $user->getTelegramId(),
+                            "amount" => $confirmedNewDepositInBtc,
+                            "withdraw_address" => "",
+                            "message" => "",
+                            "tx_hash" => "",
+                            "tx_id" => "",
+                            "status" => 1,
+                            "type" => "deposit",
+                        ]);
+
+
+                        /**
+                         * Send user message - Notification of deposit
+                         */
+                        $apiToken = BotSetting::getValueByName('app_id');
+                        $data = [
+                            'chat_id' => $user->getTelegramId(),
+                            'text' => 'Your deposit of <b>' . $confirmedNewDepositInBtc . '</b> is now accepted and invested. You will recover this amount with interest in your balance at the end of your contract.'
+                        ];
+                        $response = file_get_contents("https://api.telegram.org/bot$apiToken/sendMessage?" . http_build_query($data));
+
                     }
-
-                    /**
-                     * Log transaction
-                     */
-                    Transactions::log([
-                        "telegram_id" => $user->getTelegramId(),
-                        "amount" => $confirmedNewDepositInBtc,
-                        "withdraw_address" => "",
-                        "message" => "",
-                        "tx_hash" => "",
-                        "tx_id" => "",
-                        "status" => 1,
-                        "type" => "deposit",
-                    ]);
-
-
-                    /**
-                     * Send user message - Notification of deposit
-                     */
-                    $apiToken = BotSetting::getValueByName('app_id');
-                    $data = [
-                        'chat_id' => $user->getTelegramId(),
-                        'text' => 'Your deposit of <b>' . $confirmedNewDepositInBtc . '</b> is now accepted and invested. You will recover this amount with interest in your balance at the end of your contract.'
-                    ];
-                    $response = file_get_contents("https://api.telegram.org/bot$apiToken/sendMessage?" . http_build_query($data));
-
                 }
             }
         }

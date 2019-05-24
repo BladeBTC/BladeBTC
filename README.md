@@ -97,10 +97,15 @@ From PHPMyAdmin you can manage all database required by your bot and by the GUI.
 #### BladeBTC GUI
 From BladeBTC GUI you can manage multiple options about your Bot.
 
-- User
-- Rates
+
+```diff
+- Default Username: bladebtc
+- Default Password: bladebtc
+```
+
+- User (ToDo)
 - Investment Plan
-- Ban
+- Ban (ToDo)
 - Logs
 
 **URL:** https://[your_domain]/gui
