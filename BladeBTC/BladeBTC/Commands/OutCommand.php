@@ -77,7 +77,7 @@ class OutCommand extends Command
                 /**
                  * Check if out amount is empty
                  */
-                if (empty($out_amount)){
+                if (empty($out_amount)) {
 
                     $this->replyWithMessage([
                         'text' => "You need to enter an amount after the /out command. The amount received by our server was empty.",
@@ -119,22 +119,16 @@ class OutCommand extends Command
                  */
                 else {
 
-                    $transaction = Wallet::makeOutgoingPayment($user->getWalletAddress(), Btc::BtcToSatoshi($out_amount));
-
-                    if (!empty($transaction) && empty($transaction->error)) {
-
-
-                        /**
-                         * Update user balance
-                         */
-                        $user->updateBalance($out_amount, $transaction);
-
+                    /**
+                     * Check if the withdraw is possible
+                     */
+                    if ($out_amount - InvestmentPlan::getValueByName('withdraw_fee') <= 0) {
 
                         /**
                          * Response
                          */
                         $this->replyWithMessage([
-                            'text' => "Message :\n<b>" . $transaction->message . "</b>\n" . "Transaction ID:\n<b>" . $transaction->txid . "</b>\n" . "Transaction Hash:\n<b>" . $transaction->tx_hash . "</b>",
+                            'text' => "The minimum withdraw amount is " . BTC::Format((InvestmentPlan::getValueByName('withdraw_fee') + 0.00000100)) . "BTC. This will give you a refund of 0.00000100 BTC. This is because of the withdraw fee of " . BTC::Format(InvestmentPlan::getValueByName('withdraw_fee')) . " BTC.",
                             'reply_markup' => $reply_markup,
                             'parse_mode' => 'HTML',
                         ]);
@@ -142,22 +136,47 @@ class OutCommand extends Command
                     }
                     else {
 
-                        /**
-                         * Response
-                         */
-                        $this->replyWithMessage([
-                            'text' => "An error occurred while withdrawing your BTC.\n<b>[Error] " . $transaction->error . "</b>. \xF0\x9F\x98\x96",
-                            'reply_markup' => $reply_markup,
-                            'parse_mode' => 'HTML',
-                        ]);
+
+                        $transaction = Wallet::makeOutgoingPayment($user->getWalletAddress(), Btc::BtcToSatoshi($out_amount));
+
+                        if (!empty($transaction) && empty($transaction->error)) {
+
+
+                            /**
+                             * Update user balance
+                             */
+                            $user->updateBalance($out_amount, $transaction);
+
+
+                            /**
+                             * Response
+                             */
+                            $this->replyWithMessage([
+                                'text' => "Message :\n<b>" . $transaction->message . "</b>\n" . "Transaction ID:\n<b>" . $transaction->txid . "</b>\n" . "Transaction Hash:\n<b>" . $transaction->tx_hash . "</b>",
+                                'reply_markup' => $reply_markup,
+                                'parse_mode' => 'HTML',
+                            ]);
+
+                        }
+                        else {
+
+                            /**
+                             * Response
+                             */
+                            $this->replyWithMessage([
+                                'text' => "An error occurred while withdrawing your BTC.\n<b>[Error] " . $transaction->error . "</b>. \xF0\x9F\x98\x96",
+                                'reply_markup' => $reply_markup,
+                                'parse_mode' => 'HTML',
+                            ]);
+                        }
                     }
                 }
-            } catch (Exception $e){
+            } catch (Exception $e) {
 
                 $this->replyWithMessage([
-                    'text'         => "An error occurred during withdraw process.\n" . $e->getMessage() . ". \xF0\x9F\x98\x96",
+                    'text' => "An error occurred during withdraw process.\n" . $e->getMessage() . ". \xF0\x9F\x98\x96",
                     'reply_markup' => $reply_markup,
-                    'parse_mode'   => 'HTML'
+                    'parse_mode' => 'HTML'
                 ]);
             }
         }
