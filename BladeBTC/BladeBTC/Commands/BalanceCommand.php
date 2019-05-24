@@ -97,6 +97,10 @@ Total Payout:
 <b>" . Btc::Format($user->getPayout()) . "</b> BTC\n
 Total commission:
 <b>" . Btc::Format($user->getCommission()) . "</b> BTC\n
+Total deposit (confirmed):
+<b>" . Btc::Format($user->getLastConfirmed()) . "</b> BTC\n
+Total balance of deposit (Lower than minimum invest):
+<b>" . Btc::Format($user->getLastConfirmed() - $user->getInvested()) . "</b> BTC\n
 <b>Your investment:</b>
 " . $investment_data . "
 \nBase rate: <b>" . InvestmentPlan::getValueByName("base_rate") . "% per day for " . InvestmentPlan::getValueByName("contract_day") . " days</b>\n
@@ -107,3 +111,4 @@ You may start another investment by pressing the \"Invest\" button. Your balance
 		}
 	}
 }
+

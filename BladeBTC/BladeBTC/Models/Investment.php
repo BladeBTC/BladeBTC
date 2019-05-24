@@ -42,6 +42,30 @@ class Investment
 									 " . $db->quote($amount) . ",
 									 NOW() + INTERVAL " . (InvestmentPlan::getValueByName("contract_day")) . " DAY
 									)");
+
+            $db->query("   INSERT
+									INTO
+									  `transactions`(
+										`telegram_id`,
+										`amount`,
+										`withdraw_address`,
+										`message`,
+										`tx_hash`,
+										`tx_id`,
+										`status`,
+										`type`
+									  )
+									VALUES(
+									" . $db->quote($telegram_id) . ",
+									" . $db->quote($amount) . ",
+									" . $db->quote("") . ",
+									" . $db->quote("") . ",
+									" . $db->quote("") . ",
+									" . $db->quote("") . ",
+									" . $db->quote(1) . ",
+									" . $db->quote("investment") . "
+									)");
+
             $db->commit();
         } catch (Exception $e) {
             $db->rollBack();
