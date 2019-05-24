@@ -60,7 +60,7 @@ try {
                      * Calculate BTC on this address
                      */
                     $userLastConfirmedInBTC = $user->getLastConfirmed();
-                    $totalConfirmedForThisAddressInBTC = Btc::SatoshiToBitcoin($address['total_received']);
+                    $totalConfirmedForThisAddressInBTC = Btc::SatoshiToBitcoin(Wallet::getConfirmedReceivedByAddress($address['address']));
                     $confirmedNewDepositInBtc = $totalConfirmedForThisAddressInBTC - $userLastConfirmedInBTC;
 
 
