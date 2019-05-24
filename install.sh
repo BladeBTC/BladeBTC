@@ -142,6 +142,13 @@ make_install(){
 	sitesAvailabledomain=${sitesAvailable}${DOMAIN}.conf
 	sslSitesAvailabledomain=${sitesAvailable}"ssl_"${DOMAIN}.conf
 	
+	#install website
+	if [ -d "/var/www/bot" ]; then
+		rm -rf /var/www/bot
+	fi
+	
+	cp -r ./BladeBTC /var/www/bot
+	
 	#Check if config exist
 	if [[ -e ${sitesAvailabledomain} ]]; then
 		
@@ -149,9 +156,6 @@ make_install(){
 	
 	else
 		
-		#install website
-		cp -r ./BladeBTC /var/www/bot
-
 		#creating vhost
 		if ! echo -e "
 			<VirtualHost *:80>
