@@ -140,7 +140,7 @@ try {
                             $data = [
                                 'parse_mode' => 'HTML',
                                 'chat_id' => $user->getTelegramId(),
-                                'text' => 'Your deposit of <b>' . $confirmedNewDepositInBtc . '</b> is now accepted and your balance of ' . $balanceConfirmed . ' is invested. You will recover this amount with interest in your balance at the end of your contract.'
+                                'text' => 'Your deposit of <b>' . BTC::Format($confirmedNewDepositInBtc) . '</b> is now accepted and your balance of ' . BTC::Format($balanceConfirmed) . ' is invested. You will recover this amount with interest in your balance at the end of your contract.'
                             ];
                             $response = file_get_contents("https://api.telegram.org/bot$apiToken/sendMessage?" . http_build_query($data));
                         }
@@ -167,7 +167,7 @@ try {
                             $data = [
                                 'parse_mode' => 'HTML',
                                 'chat_id' => $user->getTelegramId(),
-                                'text' => 'Your deposit of <b>' . $confirmedNewDepositInBtc . '</b> is now accepted but is not higher to invest. You have now an amount of ' . $balanceConfirmed . ' BTC. The minimum invest is ' . InvestmentPlan::getValueByName('minimum_invest') . ' BTC.'
+                                'text' => 'Your deposit of <b>' . BTC::Format($confirmedNewDepositInBtc) . '</b> is now accepted but is not higher to invest. You have now an amount of ' . BTC::Format($balanceConfirmed) . ' BTC. The minimum invest is ' . BTC::Format(InvestmentPlan::getValueByName('minimum_invest')) . ' BTC.'
                             ];
                             $response = file_get_contents("https://api.telegram.org/bot$apiToken/sendMessage?" . http_build_query($data));
                         }
