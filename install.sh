@@ -64,11 +64,11 @@ clear
 
 echo -e "\e[92mUpdating server ... [PLEASE WAIT]\e[0m"
 
+mv /var/www/bot/.env /var/www/.env.bck
+
 if [ -d "/var/www/bot" ]; then
 	rm -rf /var/www/bot
 fi
-
-mv /var/www/bot/.env /var/www/.env.bck
 
 if [ -d "/var/tmp/update" ]; then
 	rm -rf /var/www/update
@@ -81,6 +81,15 @@ git clone https://github.com/nicelife90/BladeBTC.git update
 cp -r ./update/BladeBTC /var/www/bot
 
 mv /var/www/.env.bck /var/www/bot/.env
+
+cd /var/www/bot/
+curl -sS https://getcomposer.org/installer |  php -- --install-dir=/usr/local/bin --filename=composer
+composer install
+
+chmod -R 770 /var/www/bot
+chown -R www-data:www-data /var/www/bot
+chmod -R g+s /var/www/bot
+chmod -R u+s /var/www/bot
 
 echo -e "\e[92mUpdating server ... [DONE]\e[0m"
 
