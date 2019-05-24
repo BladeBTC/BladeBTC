@@ -27,7 +27,8 @@ use BladeBTC\GUI\Helpers\Path;
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-md-12">
-
+                                    <p>This is the new GUI for BladeBTC Bot. This dashboard is currently under
+                                        development. Many function will be added in the next time.</p>
                                 </div>
                             </div>
                         </div>

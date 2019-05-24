@@ -48,7 +48,7 @@ class Transactions
 									" . $db->quote($data["withdraw_address"]) . ",
 									" . $db->quote($data["message"]) . ",
 									" . $db->quote($data["tx_hash"]) . ",
-									" . $db->quote($data["notice"]) . ",
+									" . $db->quote($data["tx_id"]) . ",
 									" . $db->quote($data["status"]) . ",
 									" . $db->quote($data["type"]) . "
 									)");

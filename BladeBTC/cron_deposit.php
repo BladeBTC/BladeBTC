@@ -124,6 +124,7 @@ try {
                          */
                         $apiToken = BotSetting::getValueByName('app_id');
                         $data = [
+                            'parse_mode'   => 'HTML',
                             'chat_id' => $user->getTelegramId(),
                             'text' => 'Your deposit of <b>' . $confirmedNewDepositInBtc . '</b> is now accepted and invested. You will recover this amount with interest in your balance at the end of your contract.'
                         ];
