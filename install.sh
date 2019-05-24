@@ -88,7 +88,7 @@ make_install(){
 
     #install some other package
 	echo -e "\e[92mInstalling all needed package ... [PLEASE WAIT]\e[0m"
-	apt-get install unzip apache2 php php-common php-json php-curl php-pdo php-dompdf php-bcmath libapache2-mod-php htop nodejs build-essential software-properties-common python-certbot-apache -y
+	apt-get install curl unzip apache2 php php-common php-json php-curl php-pdo php-dompdf php-bcmath libapache2-mod-php htop nodejs build-essential software-properties-common python-certbot-apache -y
 	echo -e "\e[92mInstalling all needed package ... [DONE]\e[0m"
 
     #install mariadb
