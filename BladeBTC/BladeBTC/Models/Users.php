@@ -33,23 +33,41 @@ class Users
     }
 
     /**
-     * Check if address label match user in database.
+     * Check if investment address exist
      *
-     * @param $labelNumber
+     * @param $address
      *
      * @return bool
      */
-    public static function checkExistByLabelNumber($labelNumber)
+    public static function checkExistByInvestmentAddress($address)
     {
         $db = Database::get();
 
-        $data = $db->query("SELECT * FROM `users` WHERE `telegram_id` = " . $labelNumber);
+        $data = $db->query("SELECT * FROM `users` WHERE `investment_address` = '".$address."'");
         if ($data->rowCount() > 0) {
             return true;
         }
 
         return false;
     }
+
+
+    /**
+     * Get telegram ID from address
+     *
+     * @param $address
+     *
+     * @return string
+     */
+    public static function getTelegramIDByInvestmentAddress($address)
+    {
+        $db = Database::get();
+
+        $data = $db->query("SELECT `telegram_id` FROM `users` WHERE `investment_address` = '".$address."'")->fetchObject();
+
+        return is_object($data) ? $data->telegram_id : null;
+    }
+
 
     /**
      * Refresh user data

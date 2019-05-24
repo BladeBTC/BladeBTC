@@ -414,13 +414,14 @@ CREATE TABLE `users` (
   `profit` double(15,8) NOT NULL DEFAULT 0.00000000,
   `commission` double(15,8) NOT NULL DEFAULT 0.00000000,
   `payout` double(15,8) NOT NULL DEFAULT 0.00000000,
-  `investment_address` tinytext DEFAULT NULL,
+  `investment_address` varchar(500) DEFAULT NULL,
   `last_confirmed` double(15,8) DEFAULT NULL,
   `wallet_address` tinytext DEFAULT NULL,
   `referral_link` tinytext DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
-  UNIQUE KEY `telegram_id` (`telegram_id`)
+  UNIQUE KEY `telegram_id` (`telegram_id`),
+  UNIQUE KEY `investment_address` (`investment_address`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

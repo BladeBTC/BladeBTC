@@ -25,27 +25,35 @@ try {
     $addresses = Wallet::listAddress();
     foreach ($addresses['addresses'] as $address) {
 
+
         /**
          * Check if address have balance
          */
         if ($address['total_received'] > 0) {
 
 
-            /**
-             * Check if address label is valid
+            /***
+             * Validate Label User ID
              */
-            if (!empty($address['label'])) {
+            if (Users::checkExistByInvestmentAddress($address['address'])) {
 
-                /***
-                 * Validate Label User ID
+
+                /**
+                 * Try go get user telegram ID from address
                  */
-                if (Users::checkExistByLabelNumber($address['label'])) {
+                $telegram_id = Users::getTelegramIDByInvestmentAddress($address['address']);
+
+
+                /**
+                 * Verify if we found telegram ID
+                 */
+                if (!is_null($telegram_id)) {
 
 
                     /**
                      * Build user object
                      */
-                    $user = new Users($address['label']);
+                    $user = new Users($telegram_id);
 
 
                     /**
@@ -124,7 +132,7 @@ try {
                          */
                         $apiToken = BotSetting::getValueByName('app_id');
                         $data = [
-                            'parse_mode'   => 'HTML',
+                            'parse_mode' => 'HTML',
                             'chat_id' => $user->getTelegramId(),
                             'text' => 'Your deposit of <b>' . $confirmedNewDepositInBtc . '</b> is now accepted and invested. You will recover this amount with interest in your balance at the end of your contract.'
                         ];
