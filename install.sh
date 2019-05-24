@@ -71,7 +71,7 @@ if [ -d "/var/www/bot" ]; then
 fi
 
 if [ -d "/var/tmp/update" ]; then
-	rm -rf /var/www/update
+	rm -rf /var/tmp/update
 fi
 
 cd /var/tmp
