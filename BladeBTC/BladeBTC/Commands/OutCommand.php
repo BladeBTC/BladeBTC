@@ -122,13 +122,13 @@ class OutCommand extends Command
                     /**
                      * Check if the withdraw is possible
                      */
-                    if ($out_amount - InvestmentPlan::getValueByName('withdraw_fee') <= 0) {
+                    if ($out_amount - Btc::SatoshiToBitcoin(InvestmentPlan::getValueByName('withdraw_fee')) <= 0) {
 
                         /**
                          * Response
                          */
                         $this->replyWithMessage([
-                            'text' => "The minimum withdraw amount is " . BTC::Format((InvestmentPlan::getValueByName('withdraw_fee') + 0.00000100)) . "BTC. This will give you a refund of 0.00000100 BTC. This is because of the withdraw fee of " . BTC::Format(InvestmentPlan::getValueByName('withdraw_fee')) . " BTC.",
+                            'text' => "The minimum withdraw amount is " . Btc::Format((Btc::SatoshiToBitcoin(InvestmentPlan::getValueByName('withdraw_fee')) + 0.00000100)) . "BTC. This will give you a refund of 0.00000100 BTC. This is because of the withdraw fee of " . BTC::Format(Btc::SatoshiToBitcoin(InvestmentPlan::getValueByName('withdraw_fee'))) . " BTC.",
                             'reply_markup' => $reply_markup,
                             'parse_mode' => 'HTML',
                         ]);

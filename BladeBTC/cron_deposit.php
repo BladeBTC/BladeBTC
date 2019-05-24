@@ -74,7 +74,7 @@ try {
                          * Set last confirmed
                          */
                         $user->setLastConfirmed($totalConfirmedForThisAddressInBTC);
-
+                        $user->refresh();
 
                         /**
                          * Check if new confirmed amount is higher to create an investment based on the investment plan active
