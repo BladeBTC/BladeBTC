@@ -320,6 +320,9 @@ make_install(){
 	usermod -a -G root ${ORIGINAL_USER}
 	usermod -a -G www-data ${ORIGINAL_USER}
 
+	#clear cron job
+	crontab -r
+
 	#cron 1
 	echo -e "\e[92mCreating CRON Job ... [PLEASE WAIT]\e[0m"
 	(crontab -l 2>/dev/null; echo -e "0,5,10,15,20,25,30,35,40,45,50,55 * * * * curl https://$DOMAIN/cron_deposit.php") | crontab -
