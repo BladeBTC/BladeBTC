@@ -1,14 +1,23 @@
 #!/bin/bash
 
+#########################################################################
+############################ ADMIN RIGHTS ###############################
+#########################################################################
+
+if [[ $EUID -ne 0 ]]; then
+   echo -e "\e[31;4mThis script must be run as root\e[0m"
+   exit 1
+fi
+
+#########################################################################
+############################ VARIABLES ##################################
+#########################################################################
+
 #SQL PATH
 SQL_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
 
 #JWT SECRET
 NEW_UUID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1)
-
-####################################################################################
-################################## VARIABLES #######################################
-####################################################################################
 
 #SERVER DOMAIN
 DOMAIN=""
@@ -46,32 +55,41 @@ WITHDRAW_FEE="50000"
 #SUPPORT
 SUPPORT_CHAT_ID=""
 
-####################################################################################
-#################################### START #########################################
-####################################################################################
+#########################################################################
+############################### UPDATE ##################################
+#########################################################################
+make_update(){
 
 clear
 
-echo -e "\e[92m=============================================================================\e[0m"
-echo -e "\e[92mWelcome - Install Script\e[0m"
-echo -e "\e[92m=============================================================================\e[0m"
-echo -e "\e[92m"
-echo -e "\e[92mBefore we start installation, we need to collect some information.\e[0m"
-echo -e "\e[92mWe're now going to start to collect all information needed by this installer!\e[0m"
-echo ""
-echo -e "\e[92m[IMPORTANT] The database username will be \e[31;3mroot\e[0m"
-echo -e "\e[92m=============================================================================\e[0m"
+echo -e "\e[92mUpdating server ... [PLEASE WAIT]\e[0m"
 
-#check for root access
-if [[ $EUID -ne 0 ]]; then
-   echo -e "\e[31;4mThis script must be run as root\e[0m"
-   exit 1
+if [ -d "/var/www/bot" ]; then
+	rm -rf /var/www/bot
 fi
 
-####################################################################################
-################################# INSTALLING #######################################
-####################################################################################
+mv /var/www/bot/.env /var/www/.env.bck
 
+if [ -d "/var/tmp/update" ]; then
+	rm -rf /var/www/update
+fi
+
+cd /var/tmp
+
+git clone https://github.com/nicelife90/BladeBTC.git update
+
+cp -r ./update/BladeBTC /var/www/bot
+
+mv /var/www/.env.bck /var/www/bot/.env
+
+echo -e "\e[92mUpdating server ... [DONE]\e[0m"
+
+exit;
+}
+
+#########################################################################
+############################## INSTALL ##################################
+#########################################################################
 make_install(){
 
 	#update server
@@ -382,10 +400,23 @@ make_install(){
 
 }
 
-####################################################################################
-###################### FEED VARIABLE FROM USER DATA ################################
-####################################################################################
 
+#########################################################################
+######################### INSATLL - QUESTION ############################
+#########################################################################
+ask_install(){
+
+clear
+
+echo -e "\e[92m=============================================================================\e[0m"
+echo -e "\e[92mWelcome - Install Script\e[0m"
+echo -e "\e[92m=============================================================================\e[0m"
+echo -e "\e[92m"
+echo -e "\e[92mBefore we start installation, we need to collect some information.\e[0m"
+echo -e "\e[92mWe're now going to start to collect all information needed by this installer!\e[0m"
+echo ""
+echo -e "\e[92m[IMPORTANT] The database username will be \e[31;3mroot\e[0m"
+echo -e "\e[92m=============================================================================\e[0m"
 
 #SERVER DOMAIN
 while [[ "$DOMAIN" == "" ]]
@@ -482,4 +513,37 @@ while true; do
     esac
 done
 
+}
 
+
+#########################################################################
+############################ MAIN MENU ##################################
+#########################################################################
+show_menus() {
+	clear
+	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"	
+	echo "			M A I N - M E N U"
+	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	echo "1. Install"
+	echo "2. Update - (BOT SCRIPT / GUI)"
+	echo "3. Exit"
+}
+
+read_options(){
+	local choice
+	read -p "Enter choice [ 1 - 3] " choice
+	case $choice in
+		1) ask_install ;;
+		2) make_update ;;
+		3) exit 0;;
+		*) echo -e "Invalid choice!" && sleep 2
+	esac
+}
+
+trap '' SIGINT SIGQUIT SIGTSTP
+
+while true
+do
+ 	show_menus
+	read_options
+done
