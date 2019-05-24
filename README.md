@@ -79,10 +79,29 @@ chmod 550 install.sh
 ./install.sh
 ````
 
+```diff
+- Select option 1 - Install
+```
+
 - Follow the script instruction and give all the required data.
 
 ```diff
 - IMPORTANT - Go to your blockchain wallet and withelist your server IP. 
+```
+
+
+## Updating / Bot file & GUI file
+
+When the bot was installed for the first time you can now get update from github like this:
+
+```sh
+sudo -s
+cd /var/tmp/BladeBTC
+./install.sh
+````
+
+```diff
+- Select option 2 - Update
 ```
 
 ## GUI / ADMIN PANEL
