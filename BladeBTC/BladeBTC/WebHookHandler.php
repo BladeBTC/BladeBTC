@@ -86,6 +86,31 @@ class WebHookHandler
 
                 /**
                  * Handle command
+                 *
+                 * NOTICE:
+                 *
+                 * HERE WE'RE USING A PREG MATCH ON TEXT RECEIVED FROM UPDATE
+                 * AND WE ADD HANDLER FOR EACH INDIVIDUAL COMMAND BECAUSE WE ARE
+                 * USING ICON ON OUR BUTTON. SO THE COMMAND RECEIVED BY THE WEBHOOK
+                 * IS NOT AUTOMATICALLY FOUND BY THE COMMAND HANDLER.
+                 *
+                 * ALSO THIS IS WHY WE'RE ARE NOT USING THE DEFAULT ARGUMENT HANDLER
+                 * BECAUSE THE VARIABLE $ARGUMENT WAS EMPTY WHILE WE SEND ONLY THE
+                 * COMMAND IN MESSAGE PARAMETERS OF THE HANDLER COMMAND AS TEXT.
+                 *
+                 * TO GET COMMAND AND ARGUMENT CORRECTLY PARSED WE NEED TO REMOVE BUTTON
+                 * ICON AND PASS $TEXT AS ARGUMENT TO THE HANDLER COMMAND LIKE THIS:
+                 *
+                 * $telegram->getCommandBus()->handler($text, $updates);
+                 *
+                 * THIS WAY ONLY ONE HANDLER WOULD BE NEEDED COMMAND AND ARGUMENT ARE CORRECTLY
+                 * PARSED.
+                 *
+                 * LIKE WE WOULD LIKE TO KEEP ICON ON OUR BUTTON WE WILL USE THIS WAY FOR NOW.
+                 *
+                 * THE ONLY EXCEPTION IS THE START COMMAND WILE WE'RE NOT USING ICON FOR THIS
+                 * COMMAND AND WE WOULD LIKE TO CORRECTLY PARSE ARGUMENT DUE TO THE REFERRAL SYSTEM.
+                 *
                  */
                 if (preg_match("/\bBalance\b/i", $text)) {
                     $telegram->getCommandBus()->handler('/balance', $updates);
