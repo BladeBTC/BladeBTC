@@ -59,7 +59,7 @@ class WebHookHandler
                 /**
                  * Log message in log files
                  */
-                if (getenv('DEBUG') == 1){
+                if (getenv('DEBUG') == 1) {
                     error_log("update :" . $updates->getMessage(), 0);
                 }
 
@@ -118,7 +118,7 @@ class WebHookHandler
                     $telegram->getCommandBus()->handler('/gwb', $updates);
                 }
                 elseif (preg_match("/\/start/", $text)) {
-                    $telegram->getCommandBus()->handler('/start', $updates);
+                    $telegram->getCommandBus()->handler($text, $updates);
                 }
                 else {
                     $telegram->getCommandBus()->handler('/error', $updates);
