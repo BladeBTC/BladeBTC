@@ -71,6 +71,7 @@ class ReferralCommand extends Command
 				'text'         => "<b>Referral System:</b>
 
 Use the following link to refer your friends and you will get a 10% bonus on the first investment and on their reinvestment.
+Enjoy Your Profits.
 
 <b>Your referral link to share with your friends:</b>
 https://t.me/" . BotSetting::getValueByName("app_name") . "?start=" . $user->getReferralLink() . "
