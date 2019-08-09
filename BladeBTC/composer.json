@@ -1,0 +1,37 @@
+{
+    "name": "nicelife90/blade-btc",
+    "description": "This is a little application to respond to request in telegram.",
+    "type": "project",
+    "homepage": "https://github.com/nicelife90/BladeBTC",
+    "authors": [
+        {
+            "name": "Yanick Lafontaine",
+            "email": "yanicklafontaine@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "BladeBTC\\": "BladeBTC/",
+            "BladeBTC\\GUI\\": "gui/BladeBTC/"
+        }
+    },
+    "require": {
+        "irazasyed/telegram-bot-sdk": "^2.0",
+        "vlucas/phpdotenv": "^2.4",
+        "nojacko/email-validator": "~1.0",
+        "smarty/smarty": "~3.1",
+        "phpmailer/phpmailer": "^6.0",
+        "firebase/php-jwt": "^5.0",
+        "verot/class.upload.php": "dev-master",
+        "milon/barcode": "^5.3",
+        "symfony/console": "^3.3",
+        "maximebf/debugbar": "1.*",
+        "mk-j/php_xlsxwriter": "0.37",
+        "dompdf/dompdf": "^0.8.2",
+        "ext-json": "*",
+        "ext-curl": "*",
+        "ext-bcmath": "*",
+        "ext-pdo": "*",
+        "ext-dom": "*"
+    }
+}

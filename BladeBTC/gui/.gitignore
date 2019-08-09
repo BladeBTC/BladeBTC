@@ -1,0 +1,13 @@
+/.idea/
+/vendor/
+.env
+app/PDF/templates_c/*.php
+app/Email/templates_c/*.php
+composer.lock
+/dist/img/profiles/*
+/dist/img/products/*
+!/dist/img/profiles/.gitkeep
+!/dist/img/profiles/avatar.png
+!/dist/img/products/.gitkeep
+!/downloads/temp/.gitkeep
+/downloads/temp/*

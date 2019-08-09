@@ -1,0 +1,48 @@
+#!/usr/bin/env php
+/** @noinspection PhpUndefinedClassInspection */<?php
+require __DIR__ . '/vendor/autoload.php';
+
+$dotenv = new Dotenv\Dotenv(__DIR__.'/');
+$dotenv->load();
+
+date_default_timezone_set('America/Montreal');
+
+use BladeBTC\GUI\Commands\Database\Dump;
+use BladeBTC\GUI\Commands\Database\Import;
+use BladeBTC\GUI\Commands\Groups\ListGroup;
+use BladeBTC\GUI\Commands\Models\CreateModel;
+use BladeBTC\GUI\Commands\Modules\CreateModule;
+use BladeBTC\GUI\Commands\Modules\RegisterModules;
+use BladeBTC\GUI\Commands\Rbac\AssignmentRbac;
+use BladeBTC\GUI\Commands\Rbac\AssignRbac;
+use BladeBTC\GUI\Commands\Rbac\CreateRbac;
+use BladeBTC\GUI\Commands\Rbac\DeassignRbac;
+use BladeBTC\GUI\Commands\Rbac\ListRbac;
+use Symfony\Component\Console\Application;
+
+/** @var $application - New application */
+$application = new Application("CMS - Console", "1.2.1");
+
+/** Module */
+$application->add(new CreateModule());
+$application->add(new RegisterModules());
+
+/** Model */
+$application->add(new CreateModel());
+
+/** RBAC */
+$application->add(new CreateRbac());
+$application->add(new ListRbac());
+$application->add(new AssignRbac());
+$application->add(new DeassignRbac());
+$application->add(new AssignmentRbac());
+
+/** GROUP */
+$application->add(new ListGroup());
+
+/** DATABASE */
+$application->add(new Dump());
+$application->add(new Import());
+
+/** Run application */
+$application->run();
