@@ -68,8 +68,7 @@ class OutCommand extends Command
                 'one_time_keyboard' => false,
             ]);
 
-            $out_amount = trim(substr($this->update->getMessage()->getText(), 4));
-
+            $out_amount = trim(explode(" ", $this->update->getMessage()->getText())[1]);
 
             try {
 

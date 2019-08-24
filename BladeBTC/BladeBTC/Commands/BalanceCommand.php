@@ -72,9 +72,9 @@ class BalanceCommand extends Command
 			 */
 			$investment = Investment::getActiveInvestment($user->getTelegramId());
 			if (count($investment) > 0) {
-				$investment_data = "\n<b>|   Amount   |   Rate   |   End   |</b>\n";
+				$investment_data = "\n<b>Amount      |   Rate   |   End</b>\n";
 				foreach ($investment as $row) {
-					$investment_data .= "|" . $row->amount . "|" . InvestmentPlan::getValueByName('base_rate') . "%|" . $row->contract_end_date . "|\n";
+					$investment_data .= $row->amount . " |   " . InvestmentPlan::getValueByName('base_rate') . "%      |  " . $row->contract_end_date . "\n";
 				}
 			} else {
 				$investment_data = "No active investment, start now with just " . InvestmentPlan::getValueByName("minimum_invest") . " BTC";
@@ -85,29 +85,49 @@ class BalanceCommand extends Command
 			 * Response
 			 */
 			$this->replyWithMessage([
-				'text'         => "Your account balance:
-<b>" . Btc::Format($user->getBalance()) . "</b> BTC\n
-Total invested:
-<b>" . Btc::Format($user->getInvested()) . "</b> BTC\n
-Active investment:
-<b>" . Btc::Format(Investment::getActiveInvestmentTotal($user->getTelegramId())) . "</b> BTC\n
-Total profit:
-<b>" . Btc::Format($user->getProfit()) . "</b> BTC\n
-Total Payout:
-<b>" . Btc::Format($user->getPayout()) . "</b> BTC\n
-Total commission:
-<b>" . Btc::Format($user->getCommission()) . "</b> BTC\n
-Total deposit (confirmed):
-<b>" . Btc::Format($user->getLastConfirmed()) . "</b> BTC\n
-Total balance of deposit (Lower than minimum invest):
-<b>" . Btc::Format($user->getLastConfirmed() - $user->getInvested()) . "</b> BTC\n
-<b>Your investment:</b>
-" . $investment_data . "
-\nBase rate: <b>" . InvestmentPlan::getValueByName("base_rate") . "% per day for " . InvestmentPlan::getValueByName("contract_day") . " days</b>\n
-You may start another investment by pressing the \"Invest\" button. Your balance will grow according to the base rate.",
+				'text'         => "\xF0\x9F\x91\x80 <b>Overview</b> \xF0\x9F\x91\x80\n
+<b>Balance</b>
+" . Btc::Format($user->getBalance()) . " BTC ( $ " . Btc::FormatUSD($user->getBalance()) . " USD )\n
+<b>Invested</b>
+" . Btc::Format($user->getInvested()) . " BTC ( $ " . Btc::FormatUSD($user->getInvested()) . " USD )\n
+<b>Reinvested</b>
+" . Btc::Format($user->getReinvested()) . " BTC ( $ " . Btc::FormatUSD($user->getReinvested()) . " USD )\n
+<b>Profit</b>
+" . Btc::Format($user->getProfit()) . " BTC ( $ " . Btc::FormatUSD($user->getProfit()) . " USD )\n
+<b>Payout</b>
+" . Btc::Format($user->getPayout()) . " BTC ( $ " . Btc::FormatUSD($user->getPayout()) . " USD )\n
+<b>Commission</b>
+" . Btc::Format($user->getCommission()) . " BTC ( $ " . Btc::FormatUSD($user->getCommission()) . " USD )\n
+<b>Deposit (Confirmed)</b>
+" . Btc::Format($user->getLastConfirmed()) . " BTC ( $ " . Btc::FormatUSD($user->getLastConfirmed()) . " USD )\n
+<b>Deposit (Lower than minimum invest)</b>
+" . Btc::Format($user->getLastConfirmed() - $user->getInvested()) . " BTC ( $ " . Btc::FormatUSD($user->getLastConfirmed() - $user->getInvested()) . " USD )\n
+<b>Active investment</b>
+" . Btc::Format(Investment::getActiveInvestmentTotal($user->getTelegramId())) . " BTC ( $ " . Btc::FormatUSD(Investment::getActiveInvestmentTotal($user->getTelegramId())) . " USD )",
 				'reply_markup' => $reply_markup,
 				'parse_mode'   => 'HTML',
 			]);
+
+            /**
+             * Response
+             */
+            $this->replyWithMessage([
+                'text'         => "
+\xF0\x9F\x95\xA5 <b>Your investment</b> \xF0\x9F\x95\xA5
+" . $investment_data,
+                'reply_markup' => $reply_markup,
+                'parse_mode'   => 'HTML',
+            ]);
+
+
+            /**
+             * Response
+             */
+            $this->replyWithMessage([
+                'text'         => "You may start another investment by pressing the <b>Invest</b> button. Your balance will grow according to the base rate.",
+                'reply_markup' => $reply_markup,
+                'parse_mode'   => 'HTML',
+            ]);
 		}
 	}
 }

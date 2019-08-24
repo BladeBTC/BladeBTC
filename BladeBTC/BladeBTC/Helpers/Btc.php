@@ -41,4 +41,22 @@ class Btc
 	{
 		return number_format($amount, 8, ".", " ");
 	}
+
+    /**
+     * Format number as USD
+     *
+     * @param $amount - amount
+     *
+     * @return string
+     */
+    public static function FormatUSD($amount)
+    {
+        $url = "https://blockchain.info/stats?format=json";
+        $stats = json_decode(file_get_contents($url), true);
+        $btcValue = $stats['market_price_usd'];
+
+        $convertedCost = $btcValue * $amount;
+
+        return number_format($convertedCost, 2, ".", " ");
+    }
 }

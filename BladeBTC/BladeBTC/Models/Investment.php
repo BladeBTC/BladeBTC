@@ -3,6 +3,7 @@
 namespace BladeBTC\Models;
 
 
+use BladeBTC\Helpers\Btc;
 use BladeBTC\Helpers\Database;
 use Exception;
 
@@ -18,7 +19,7 @@ class Investment
      * Create investment in database
      *
      * @param $telegram_id - User telegram ID
-     * @param $amount      - Amount
+     * @param $amount - Amount
      *
      * @throws Exception
      */
@@ -157,23 +158,23 @@ class Investment
     }
 
 
-	/**
-	 * Give interest from contract
-	 *
-	 * @throws Exception
-	 */
-	public static function giveInterest()
-	{
+    /**
+     * Give interest from contract
+     *
+     * @throws Exception
+     */
+    public static function giveInterest()
+    {
 
-		$db = Database::get();
+        $db = Database::get();
 
-		try {
-			$db->beginTransaction();
-			$contracts = $db->query("SELECT * FROM `investment` WHERE contract_end_date > NOW()");
-			while ($contract = $contracts->fetchObject()) {
+        try {
+            $db->beginTransaction();
+            $contracts = $db->query("SELECT * FROM `investment` WHERE contract_end_date > NOW()");
+            while ($contract = $contracts->fetchObject()) {
 
-				$interest = (InvestmentPlan::getValueByName("base_rate") / (24 / InvestmentPlan::getValueByName("timer_time_hour"))) * $contract->amount / 100;
-				$db->query("   UPDATE
+                $interest = (InvestmentPlan::getValueByName("base_rate") / (24 / InvestmentPlan::getValueByName("timer_time_hour"))) * $contract->amount / 100;
+                $db->query("   UPDATE
                                               `users`
                                             SET 
                                               `profit` = `profit` + " . $db->quote($interest) . ",
@@ -205,14 +206,23 @@ class Investment
 									" . $db->quote("interest") . "
 									)");
 
-			}
-			$db->commit();
-		} catch (Exception $e) {
-			$db->rollBack();
-			throw new Exception($e->getMessage());
-		}
 
+                /**
+                 * Send user message - Notification of interest
+                 */
+                $apiToken = BotSetting::getValueByName('app_id');
+                $data = [
+                    'parse_mode' => 'HTML',
+                    'chat_id' => $contract->telegram_id,
+                    'text' => "\xF0\x9F\x98\x81 Congratulation! An amount of <b>" . Btc::Format($interest) . "</b> BTC ( $" . Btc::FormatUSD($interest) . " USD ) in interest was added to your balance. \xF0\x9F\x98\x81"
+                ];
+                file_get_contents("https://api.telegram.org/bot$apiToken/sendMessage?" . http_build_query($data));
 
-
+            }
+            $db->commit();
+        } catch (Exception $e) {
+            $db->rollBack();
+            throw new Exception($e->getMessage());
+        }
     }
 }

@@ -411,6 +411,7 @@ CREATE TABLE `users` (
   `telegram_id` int(25) DEFAULT NULL,
   `balance` double(15,8) NOT NULL DEFAULT 0.00000000,
   `invested` double(15,8) NOT NULL DEFAULT 0.00000000,
+  `reinvested` double(15,8) NOT NULL DEFAULT 0.00000000,
   `profit` double(15,8) NOT NULL DEFAULT 0.00000000,
   `commission` double(15,8) NOT NULL DEFAULT 0.00000000,
   `payout` double(15,8) NOT NULL DEFAULT 0.00000000,

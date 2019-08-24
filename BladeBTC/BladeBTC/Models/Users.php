@@ -123,6 +123,16 @@ class Users
     }
 
     /**
+     * Get account invested
+     *
+     * @return mixed
+     */
+    public function getReinvested()
+    {
+        return $this->_USER->reinvested;
+    }
+
+    /**
      * Get profit
      *
      * @return mixed
@@ -363,12 +373,12 @@ class Users
 
 
             /**
-             * Update invested
+             * Update reinvested
              */
             $this->_DB->query("   UPDATE
                                               `users`
                                             SET 
-                                              `invested` = `invested` + " . $this->_DB->quote($balance) . "
+                                              `reinvested` = `reinvested` + " . $this->_DB->quote($balance) . "
                                             WHERE
                                                 `telegram_id` = " . $this->getTelegramId() . "
                                             ");
