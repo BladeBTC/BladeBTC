@@ -544,7 +544,7 @@ check_database_version() {
         "select count(*) from information_schema.tables where \
             table_schema='telegram_bot' and table_name='version';") -eq 1 ]]; then
         echo -e "\e[92mChecking database compatibility. [DONE]\e[0m"
-		DB_VERSION=$(echo "SELECT `db_version` FROM `version` WHERE `id` = 1" | mysql telegram_bot -u ${DB_USER} -p${DB_PASS})
+		DB_VERSION=$(echo "SELECT db_version FROM version WHERE id = 1" | mysql telegram_bot -u ${DB_USER} -p${DB_PASS})
 		echo -e "\e[92mCurrent database version: $DB_VERSION\e[0m"
 		return 0
    else
