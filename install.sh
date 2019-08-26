@@ -540,7 +540,7 @@ check_database_version() {
 
    export $(egrep -v '^#' /var/www/bot/.env | xargs)
 
-   if [[ $(mysql -N -s -u root -p -e \
+   if [[ $(mysql -N -s -u ${DB_USER} -p${DB_PASS} -e \
         "select count(*) from information_schema.tables where \
             table_schema='telegram_bot' and table_name='version';") -eq 1 ]]; then
         echo -e "\e[92mChecking database compatibility. [DONE]\e[0m"
