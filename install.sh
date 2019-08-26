@@ -545,10 +545,10 @@ check_database_version() {
             table_schema='telegram_bot' and table_name='version';") -eq 1 ]]; then
         echo -e "\e[92mChecking database compatibility. [DONE]\e[0m"
 		DB_VERSION=$(echo "SELECT db_version FROM version WHERE id = 1" | mysql telegram_bot -u ${DB_USER} -p${DB_PASS})
-		echo -e "\e[92mCurrent database version: $DB_VERSION\e[0m"
+		echo -e "\e[92mCurrent database version is ${DB_VERSION}\e[0m"
 		return 0
    else
-          echo -e "\e[31mTable `version` does not exist!\e[0m"
+          echo -e "\e[31mTable version does not exist!\e[0m"
           echo -e "\e[31mYou need to install a clean version of this script before updating the bot.\e[0m"
           echo -e "\e[31mA new feature was added to the updater to allow users to update the bot and the database without needing to reinstall a new database each times.\e[0m"
           echo -e "\e[31mIf you install a clean version of the bot all next updates to the database structure will be automatically installed by the updater.\e[0m"
