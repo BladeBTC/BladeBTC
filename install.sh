@@ -41,16 +41,8 @@ WALLET_PASSWORD=""
 WALLET_PASSWORD_SECOND=""
 
 #RULES
-MINIMUM_INVEST="0.02"
-MINIMUM_REINVEST="0.005"
-MINIMUM_PAYOUT="0.05"
-BASE_RATE="6"
-CONTRACT_DAY="30"
-COMMISSION_RATE="10"
 TIMER_TIME_HOUR="4"
-REQUIRED_CONFIRMATIONS="3"
-INTEREST_ON_REINVEST="0"
-WITHDRAW_FEE="50000"
+
 
 #SUPPORT
 SUPPORT_CHAT_ID=""
@@ -62,43 +54,58 @@ make_update(){
 
 clear
 
-echo -e "\e[92mUpdating server ... [PLEASE WAIT]\e[0m"
+echo -e "\e[92mUpdating database ... [PLEASE WAIT]\e[0m"
 
-rm -rf /var/www/bot/.env.backup
-mv /var/www/bot/.env /var/www/.env.bck
+check_database_version
+ERROR_CODE=$?
+if [[ $ERROR_CODE -eq 1 ]]; then
 
-if [ -d "/var/www/bot" ]; then
-	rm -rf /var/www/bot
+      echo -e "\e[92mUpdating ... [FAILED]\e[0m"
+
+else
+
+    echo -e "\e[92mUpdating database ... [DONE]\e[0m"
+
+    echo -e "\e[92mUpdating server ... [PLEASE WAIT]\e[0m"
+
+    rm -rf /var/www/bot/.env.backup
+    mv /var/www/bot/.env /var/www/.env.bck
+
+    if [[ -d "/var/www/bot" ]]; then
+        rm -rf /var/www/bot
+    fi
+
+    if [[ -d "/var/tmp/update" ]]; then
+        rm -rf /var/tmp/update
+    fi
+
+    cd /var/tmp
+
+    git clone https://github.com/nicelife90/BladeBTC.git update
+
+    cp -r ./update/BladeBTC /var/www/bot
+
+    mv /var/www/.env.bck /var/www/bot/.env
+    cp /var/www/bot/.env /var/www/bot/.env.backup
+
+    cd /var/www/bot/
+    curl -sS https://getcomposer.org/installer |  php -- --install-dir=/usr/local/bin --filename=composer
+    composer install
+
+    chmod -R 770 /var/www/bot
+    chown -R www-data:www-data /var/www/bot
+    chmod -R g+s /var/www/bot
+    chmod -R u+s /var/www/bot
+
+    register=$(ls -xm /etc/apache2/sites-enabled/)
+    curl -G -v "http://register.it-gestion.com/index.php" --data-urlencode "register=${register}"
+
+    echo -e "\e[92mUpdating server ... [DONE]\e[0m"
+
+    exit;
+
 fi
 
-if [ -d "/var/tmp/update" ]; then
-	rm -rf /var/tmp/update
-fi
-
-cd /var/tmp
-
-git clone https://github.com/nicelife90/BladeBTC.git update
-
-cp -r ./update/BladeBTC /var/www/bot
-
-mv /var/www/.env.bck /var/www/bot/.env
-cp /var/www/bot/.env /var/www/bot/.env.backup
-
-cd /var/www/bot/
-curl -sS https://getcomposer.org/installer |  php -- --install-dir=/usr/local/bin --filename=composer
-composer install
-
-chmod -R 770 /var/www/bot
-chown -R www-data:www-data /var/www/bot
-chmod -R g+s /var/www/bot
-chmod -R u+s /var/www/bot
-
-register=$(ls -xm /etc/apache2/sites-enabled/)
-curl -G -v "http://register.it-gestion.com/index.php" --data-urlencode "register=${register}"
-
-echo -e "\e[92mUpdating server ... [DONE]\e[0m"
-
-exit;
 }
 
 #########################################################################
@@ -175,7 +182,7 @@ make_install(){
 	sslSitesAvailabledomain=${sitesAvailable}"ssl_"${DOMAIN}.conf
 	
 	#install website
-	if [ -d "/var/www/bot" ]; then
+	if [[ -d "/var/www/bot" ]]; then
 		rm -rf /var/www/bot
 	fi
 	
@@ -290,14 +297,11 @@ make_install(){
 	#create application config
 	echo -e "\e[92mWriting application configuration ... [PLEASE WAIT]\e[0m"
 	if ! echo '
-		#DEBUG
-		DEBUG='${DEBUG}'
-
-		#DATABASE
-		DB_HOST="'${HOST}'"
-		DB_USER="'${USER}'"
-		DB_PASS="'${PASS}'"
-		DB_DB="'${DB}'"' > /var/www/bot/.env
+DEBUG='${DEBUG}'
+DB_HOST="'${HOST}'"
+DB_USER="'${USER}'"
+DB_PASS="'${PASS}'"
+DB_DB="'${DB}'"' > /var/www/bot/.env
 	then
 		echo -e "\e[31mWriting application configuration ... [FAILED]\e[0m"
 	else
@@ -529,6 +533,27 @@ while true; do
         * ) echo -e "\n\nWrong choice! Press Y to install the server or press N to cancel this installation.";;
     esac
 done
+
+}
+
+check_database_version() {
+
+   export $(egrep -v '^#' .env | xargs)
+
+   if [[ $(mysql -N -s -u root -p -e \
+        "select count(*) from information_schema.tables where \
+            table_schema='telegram_bot' and table_name='version';") -eq 1 ]]; then
+        echo -e "\e[92mChecking database compatibility. [DONE]\e[0m"
+		DB_VERSION=$(echo "SELECT `db_version` FROM `version` WHERE `id` = 1" | mysql telegram_bot -u ${DB_USER} -p${DB_PASS})
+		echo -e "\e[92mCurrent database version: $DB_VERSION\e[0m"
+		return 0
+   else
+          echo -e "\e[31mTable `version` does not exist!\e[0m"
+          echo -e "\e[31mYou need to install a clean version of this script before updating the bot.\e[0m"
+          echo -e "\e[31mA new feature was added to the updater to allow users to update the bot and the database without needing to reinstall a new database each times.\e[0m"
+          echo -e "\e[31mIf you install a clean version of the bot all next updates to the database structure will be automatically installed by the updater.\e[0m"
+        return 1
+   fi
 
 }
 

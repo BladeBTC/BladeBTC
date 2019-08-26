@@ -396,6 +396,45 @@ LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
+--
+-- Structure de la table `version`
+--
+DROP TABLE IF EXISTS `version`;
+CREATE TABLE `version` (
+  `id` int(11) NOT NULL,
+  `db_version` int(3) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `version`
+--
+
+INSERT INTO `version` (`id`, `db_version`) VALUES
+(1, 1);
+
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `version`
+--
+ALTER TABLE `version`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `version`
+--
+ALTER TABLE `version`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+COMMIT;
+
+
 --
 -- Table structure for table `users`
 --
@@ -425,6 +464,8 @@ CREATE TABLE `users` (
   UNIQUE KEY `investment_address` (`investment_address`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+
 
 --
 -- Dumping data for table `users`
