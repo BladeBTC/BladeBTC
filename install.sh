@@ -538,7 +538,7 @@ done
 
 check_database_version() {
 
-   export $(egrep -v '^#' .env | xargs)
+   export $(egrep -v '^#' /var/www/bot/.env | xargs)
 
    if [[ $(mysql -N -s -u root -p -e \
         "select count(*) from information_schema.tables where \
