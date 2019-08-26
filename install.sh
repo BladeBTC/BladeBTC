@@ -60,8 +60,9 @@ check_database_version
 ERROR_CODE=$?
 if [[ $ERROR_CODE -eq 1 ]]; then
 
-      echo -e "\e[92mUpdating ... [FAILED]\e[0m"
-
+     echo -e "\e[31mUpdating ... [FAILED]\e[0m"
+	
+	exit;
 else
 
     echo -e "\e[92mUpdating database ... [DONE]\e[0m"
