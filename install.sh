@@ -90,7 +90,8 @@ else
 
     cd /var/www/bot/
     curl -sS https://getcomposer.org/installer |  php -- --install-dir=/usr/local/bin --filename=composer
-    composer install
+    export COMPOSER_ALLOW_SUPERUSER=1
+	composer install
 
     chmod -R 770 /var/www/bot
     chown -R www-data:www-data /var/www/bot
@@ -331,6 +332,7 @@ DB_DB="'${DB}'"' > /var/www/bot/.env
 	echo -e "\e[92mRunning composer install ... [PLEASE WAIT]\e[0m"
 	cd /var/www/bot/
 	curl -sS https://getcomposer.org/installer |  php -- --install-dir=/usr/local/bin --filename=composer
+	export COMPOSER_ALLOW_SUPERUSER=1
 	composer install
 	echo -e "\e[92mRunning composer install ... [DONE]\e[0m"
 	
