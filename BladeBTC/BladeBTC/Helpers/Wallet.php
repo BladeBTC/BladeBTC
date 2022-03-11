@@ -1,3 +1,4 @@
+
 <?php
 
 namespace BladeBTC\Helpers;
@@ -44,13 +45,13 @@ class Wallet
              */
             $wallet = BotSetting::getValueByName("wallet_id");
             $main_password = BotSetting::getValueByName("wallet_password");
-            $second_password = BotSetting::getValueByName("wallet_second_password");
+        
             $label = $telegram_user_id;
 
             /**
              * Request URL
              */
-            $url = "http://127.0.0.1:3000/merchant/$wallet/new_address?password=$main_password&second_password=$second_password&label=$label";
+            $url = "http://127.0.0.1:3000/merchant/$wallet/new_address?password=$main_password&label=$label";
 
             /**
              * Request
@@ -76,12 +77,12 @@ class Wallet
          */
         $wallet = BotSetting::getValueByName("wallet_id");
         $main_password = BotSetting::getValueByName("wallet_password");
-        $second_password = BotSetting::getValueByName("wallet_second_password");
+      
 
         /**
          * Request URL
          */
-        $url = "http://127.0.0.1:3000/merchant/$wallet/balance?password=$main_password&second_password=$second_password";
+        $url = "http://127.0.0.1:3000/merchant/$wallet/balance?password=$main_password";
 
         /**
          * Request
@@ -106,7 +107,7 @@ class Wallet
          */
         $wallet = BotSetting::getValueByName("wallet_id");
         $main_password = BotSetting::getValueByName("wallet_password");
-        $second_password = BotSetting::getValueByName("wallet_second_password");
+      
         $fee = InvestmentPlan::getValueByName("withdraw_fee");
 
         /**
@@ -117,7 +118,7 @@ class Wallet
         /**
          * Request URL
          */
-        $url = "http://127.0.0.1:3000/merchant/$wallet/payment?password=$main_password&second_password=$second_password&to=$to_wallet_address&amount=$send_amount_without_fee&fee=$fee";
+        $url = "http://127.0.0.1:3000/merchant/$wallet/payment?password=$main_password&to=$to_wallet_address&amount=$send_amount_without_fee&fee=$fee";
 
         $data = Curl::get($url);
 
@@ -138,12 +139,11 @@ class Wallet
          */
         $wallet = BotSetting::getValueByName("wallet_id");
         $main_password = BotSetting::getValueByName("wallet_password");
-        $second_password = BotSetting::getValueByName("wallet_second_password");
 
         /**
          * Request URL
          */
-        $url = "http://127.0.0.1:3000/merchant/$wallet/list?password=$main_password&second_password=$second_password";
+        $url = "http://127.0.0.1:3000/merchant/$wallet/list?password=$main_password";
 
         /**
          * Request
